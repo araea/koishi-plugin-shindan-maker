@@ -866,6 +866,7 @@ ${commandHtml}
       await removeShindanEffects(page, 'ef_shuffle');
 
       let buffer: Buffer;
+      let text: string;
       if (mode === 'image') {
         // 从页面中隐藏图像不需要的一些元素
         await page.evaluate(() => {
@@ -903,12 +904,10 @@ ${commandHtml}
           }) as Buffer;
         }
 
+      } else {
+        // 获取结果元素的文本内容
+        text = await page.$eval(RESULT_SELECTOR, (el) => el.textContent);
       }
-
-
-      // 获取结果元素的文本内容
-      const text = await page.$eval(RESULT_SELECTOR, (el) => el.textContent);
-
       // 关闭页面
       await page.close();
 
