@@ -1,10 +1,10 @@
 import { Context, Schema, Logger, h, Keys } from 'koishi'
 import { } from '@koishijs/plugin-help'
+import { } from '@koishijs/plugin-adapter-onebot'
 import crypto from 'crypto';
 import puppeteer, { Browser, Page } from "puppeteer-core";
 import find from 'puppeteer-finder'
 import { EventEmitter } from 'events';
-import { text } from 'stream/consumers';
 
 export const name = 'shindan-maker'
 // 数据库加载后插件才生效
@@ -589,7 +589,8 @@ async function registerKoishiCommands(ctx: Context, config: Config) {
       }
     })
   ctx.command('shindan/神断列表', '列出所有神断指令名')
-    .action(async ({ session }) => {
+    .option('text', '-t 文字版神断列表')
+    .action(async ({ session, options }) => {
       // 获取所有 shindanCommands
       const ShindanCommands = await ctx.model.get('shindan_commands', {})
       // 将 shindanCommands 按照字母顺序升序
@@ -598,13 +599,38 @@ async function registerKoishiCommands(ctx: Context, config: Config) {
       const CHUNK_SIZE_RATIO = 1 / 5
       const chunkSize = Math.ceil(sortedShindanCommands.length * CHUNK_SIZE_RATIO)
       // 将数组块分成指定大小的较小数组
-      const commandChunks = Array.from(
-        { length: Math.ceil(sortedShindanCommands.length / chunkSize) },
-        (_v, i) => sortedShindanCommands.slice(i * chunkSize, i * chunkSize + chunkSize)
-      )
+      const commandChunks = [];
+      for (let i = 0; i < sortedShindanCommands.length; i += chunkSize) {
+        commandChunks.push(sortedShindanCommands.slice(i, i + chunkSize));
+      }
+
       let startFrom = 1;
+      // 定义一个变量来存储当前的序号
+      let currentNumber = 1;
+      // let messages = [];
       // 循环遍历每个神断指令列表块
       for (const commandChunk of commandChunks) {
+        // 如果存在选项 -t，则发送文字版神断列表，以连续不中断的序号作为标记
+        if (options.text) {
+          // 生成文字版神断列表
+          const textContent = commandChunk.map((command, index) => `${currentNumber + index}. ${command.command}`).join('\n');
+          // 将文字消息添加到消息数组中，使用自定义消息节点的格式
+          // messages.push({
+          //   type: "node",
+          //   data: {
+          //     name: "神断列表",
+          //     uin: "10086",
+          //     content: textContent
+          //   }
+          // });
+          // 发送文字
+          await session.sendQueued(textContent, 1000);
+          // 更新当前的序号
+          currentNumber += commandChunk.length;
+          continue;
+        }
+        // 循环结束后，使用API发送合并转发消息，传入群号和消息数组
+        // await session.onebot.sendGroupForwardMsg(session.guildId, messages);
         // 生成块的 HTML 内容
         const htmlContent = generateHtmlContent(commandChunk, startFrom);
         // 从HTML内容生成图像缓冲区
@@ -613,6 +639,7 @@ async function registerKoishiCommands(ctx: Context, config: Config) {
         await session.sendQueued(h.image(imageBuffer, "image/png"), 1000)
         startFrom += commandChunk.length;
       }
+
     })
 
   // 辅助工具函数
