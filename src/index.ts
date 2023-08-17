@@ -904,10 +904,10 @@ ${commandHtml}
           }) as Buffer;
         }
 
-      } else {
-        // 获取结果元素的文本内容
-        text = await page.$eval(RESULT_SELECTOR, (el) => el.textContent);
       }
+      // 获取结果元素的文本内容
+      text = await page.$eval(RESULT_SELECTOR, (el) => el.textContent);
+
       // 关闭页面
       await page.close();
 
