@@ -32,6 +32,7 @@ export const usage = `## 🎮 使用
 
 - \`shindan\`：查看神断帮助信息。
 - \`shindan.列表 [batchCount:number]\`：查看神断列表，可以指定批次数，每批显示的神断数量（默认为 \`5\`）。
+- \`shindan.查看 [shindanCommand:text]\`：根据神断指令查看神断信息。
 - \`shindan.随机 [shindanName:text]\`：随机抽取一个神断，可以指定神断名，如果不指定则使用用户名（默认为 \`text\` 模式）。
 - \`shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]\`：添加一个神断到列表中，需要指定神断 ID，神断指令，和神断模式（默认为 \`image\` 模式）。
 - \`shindan.删除 <shindanCommand:string>\`：删除列表中的一个神断，需要指定神断指令。
@@ -187,6 +188,32 @@ export async function apply(ctx: Context, config: Config) {
     .action(async ({ session }) => {
       //
       await session.execute(`shindan -h`)
+      //
+    })
+  // ck*
+  ctx.command('shindan.查看 <shindanCommand:text>', '查看神断')
+    .action(async ({ session }, shindanCommand) => {
+      // 查看：
+      if (!shindanCommand) {
+        return `请提供必要参数 shindanCommand。
+
+指令格式：
+查看神断 <shindanCommand>
+
+指令示例：
+查看神断 今天是什么少女`
+      }
+      const existingShindan = shindans.find((shindan) => shindan.shindanCommand === shindanCommand);
+      if (!existingShindan) {
+        return `指定神断不存在。`
+      }
+      const { shindanId, shindanMode, shindanTitle } = existingShindan
+      return `神断 '${shindanCommand}' 信息如下：
+
+神断ID：${shindanId}
+神断标题：${shindanTitle}
+神断指令：${shindanCommand}
+神断模式：${shindanMode}`
       //
     })
   // sj*
@@ -380,6 +407,7 @@ export async function apply(ctx: Context, config: Config) {
           shindanId,
           shindanCommand,
           shindanMode,
+          shindanTitle,
         };
 
         shindans.push(newShindan);
@@ -465,6 +493,7 @@ export async function apply(ctx: Context, config: Config) {
       await session.send(`'${shindanCommand}' 已成功修改为 '${shindanNewCommand}'。
       
 神断ID：${shindan.shindanId}
+神断标题：${shindan.shindanTitle}
 神断指令：${shindanNewCommand}
 神断模式：${(shindanMode ? shindanMode : shindan.shindanMode)}`);
 
@@ -500,6 +529,7 @@ export async function apply(ctx: Context, config: Config) {
       return `设置神断 '${shindanCommand}' 成功。
       
 神断ID：${shindan.shindanId}
+神断标题：${shindan.shindanTitle}
 神断指令：${shindanCommand}
 神断模式：${shindanMode}`
       //

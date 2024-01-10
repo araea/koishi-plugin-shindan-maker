@@ -36,6 +36,7 @@ npm install koishi-plugin-shindan-maker
 
 - `shindan`：查看神断帮助信息。
 - `shindan.列表 [batchCount:number]`：查看神断列表，可以指定批次数，每批显示的神断数量（默认为 `5`）。
+- `shindan.查看 [shindanCommand:text]`：根据神断指令查看神断信息。
 - `shindan.随机 [shindanName:text]`：随机抽取一个神断，可以指定神断名，如果不指定则使用用户名（默认为 `text` 模式）。
 - `shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]`：添加一个神断到列表中，需要指定神断 ID，神断指令，和神断模式（默认为 `image` 模式）。
 - `shindan.删除 <shindanCommand:string>`：删除列表中的一个神断，需要指定神断指令。
