@@ -12,7 +12,6 @@ export const inject = ['puppeteer']
 export const name = 'shindan-maker'
 export const usage = `## 🎮 使用
 
-- 在你的 Koishi 配置文件中，添加 \`shindan-maker\` 到 \`plugins\` 数组中，并配置相关选项，如 \`shindanUrl\`，\`maxRetryCount\` 和 \`imageType\`。
 - 启动 Koishi，并确保你已经启动了 [puppeteer](https://koishi.chat/guide/plugins/puppeteer.html) 服务。
 - 发送 \`shindan\` 指令，查看神断帮助信息。
 - 发送 \`shindan.列表\` 指令，查看已有的神断列表。
