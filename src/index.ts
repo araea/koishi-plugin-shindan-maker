@@ -227,15 +227,19 @@ export async function apply(ctx: Context, config: Config) {
         shindanName = username
       }
       // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
-      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
-      const matches = shindanName.match(userIdRegex);
+      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
+      let modifiedShindanName = shindanName;
+      let matches;
 
-      if (matches) {
-        const [, , name] = matches; // 提取 name 的值
+      while ((matches = userIdRegex.exec(shindanName)) !== null) {
+        const [, id, name] = matches;
         if (name) {
-          shindanName = name; // 将整个替换为 name 的值
+          modifiedShindanName = modifiedShindanName.replace(matches[0], name);
         }
       }
+
+      shindanName = modifiedShindanName;
+
       function getRandomShindan(shindans: Shindan[]): Shindan | null {
         if (shindans.length === 0) return null;
         const randomIndex = Math.floor(Math.random() * shindans.length);
@@ -569,15 +573,18 @@ export async function apply(ctx: Context, config: Config) {
         shindanMode = 'image'
       }
       // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
-      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
-      const matches = shindanName.match(userIdRegex);
+      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
+      let modifiedShindanName = shindanName;
+      let matches;
 
-      if (matches) {
-        const [, , name] = matches; // 提取 name 的值
+      while ((matches = userIdRegex.exec(shindanName)) !== null) {
+        const [, id, name] = matches;
         if (name) {
-          shindanName = name; // 将整个替换为 name 的值
+          modifiedShindanName = modifiedShindanName.replace(matches[0], name);
         }
       }
+
+      shindanName = modifiedShindanName;
       // 判断 mode 是否为 MakeShindanMode 类型
       if (!isMakeShindanMode(shindanMode)) {
         return `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`
