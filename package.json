@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-shindan-maker",
   "description": "获得 [shindanmaker](https://cn.shindanmaker.com/) 的占卜功能🔮，内置 270+ 占卜项，占卜结果以图片🖼️或文字📝形式发送。",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [

@@ -68,51 +68,47 @@ export async function apply(ctx: Context, config: Config) {
     shindanTitle?: string;
   }
 
+
   const filePath = path.join(__dirname, 'shindans.json');
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const shindans: Shindan[] = JSON.parse(fileContent); // shindans*
-  // 根据 shindanCommand 排序 shindans 数组
+  const fileContent = await fs.promises.readFile(filePath, 'utf-8');
+  const shindans: Shindan[] = JSON.parse(fileContent);
   shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
 
   const shindansDirPath = path.join(ctx.baseDir, 'data', 'shindanMaker');
   const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
 
-  // 检查目标文件夹和文件是否存在
-  const isShindansDirExists = fs.existsSync(shindansDirPath);
-  const isShindansFileExists = fs.existsSync(shindansFilePath);
-
-  // 如果目标文件夹和文件都不存在，则创建目标文件夹和文件
-  if (!isShindansDirExists && !isShindansFileExists) {
-    fs.mkdirSync(shindansDirPath, { recursive: true });
-
-    const dependencyShindansFilePath = path.join(__dirname, 'shindans.json');
-    fs.copyFileSync(dependencyShindansFilePath, shindansFilePath);
-  }
-
-  fs.cp(filePath, shindansFilePath, { recursive: true, force: false }, (err) => {
-    if (err) {
-      logger.error('复制 shindans.json 出错：' + err.message);
+  try {
+    await fs.promises.mkdir(shindansDirPath, { recursive: true });
+  } catch (err) {
+    if (err.code !== 'EEXIST') {
+      logger.error('创建目标文件夹出错：' + err.message);
       return;
     }
+  }
 
-    const targetFileContent = fs.readFileSync(shindansFilePath, 'utf-8');
-    const targetShindans: Shindan[] = JSON.parse(targetFileContent);
-
-    const mergedShindans = mergeShindans(shindans, targetShindans);
-
-    if (!areShindansEqual(targetShindans, mergedShindans)) {
-      fs.writeFileSync(shindansFilePath, JSON.stringify(mergedShindans, null, 2));
-
-      const addedShindans = getAddedShindans(targetShindans, mergedShindans);
-      const mergedShindanIds = mergedShindans.map((shindan) => shindan.shindanId);
-
-      const addedShindansInfo = addedShindans.map((shindan) => `${shindan.shindanId}: ${shindan.shindanCommand}`).join('\n');
-
-      if (addedShindans.length > 0) {
-        logger.success(`神断更新成功！以下是新增的神断: \n${addedShindansInfo}`);
-      }
+  let targetShindans: Shindan[] = [];
+  try {
+    const targetFileContent = await fs.promises.readFile(shindansFilePath, 'utf-8');
+    targetShindans = JSON.parse(targetFileContent);
+  } catch (err) {
+    if (err.code !== 'ENOENT') {
+      logger.error('读取目标文件出错：' + err.message);
+      return;
     }
-  });
+  }
+
+  const mergedShindans = mergeShindans(shindans, targetShindans);
+
+  if (!areShindansEqual(targetShindans, mergedShindans)) {
+    await fs.promises.writeFile(shindansFilePath, JSON.stringify(mergedShindans, null, 2));
+
+    const addedShindans = getAddedShindans(targetShindans, mergedShindans);
+    const addedShindansInfo = addedShindans.map((shindan) => `${shindan.shindanId}: ${shindan.shindanCommand}`).join('\n');
+
+    if (addedShindans.length > 0) {
+      logger.success(`神断更新成功！以下是新增的神断: \n${addedShindansInfo}`);
+    }
+  }
 
   function getAddedShindans(sourceShindans: Shindan[], targetShindans: Shindan[]): Shindan[] {
     const sourceShindanIds = new Set(sourceShindans.map((shindan) => shindan.shindanId));
@@ -133,10 +129,6 @@ export async function apply(ctx: Context, config: Config) {
   }
 
   function areShindansEqual(shindansA: Shindan[], shindansB: Shindan[]): boolean {
-    if (shindansA.length !== shindansB.length) {
-      return false;
-    }
-
     const shindanIdsA = new Set(shindansA.map((shindan) => shindan.shindanId));
     const shindanIdsB = new Set(shindansB.map((shindan) => shindan.shindanId));
 
@@ -152,6 +144,7 @@ export async function apply(ctx: Context, config: Config) {
 
     return true;
   }
+
   ctx.middleware(async (session, next) => {
     const { username, content } = session
     let isText = false;
