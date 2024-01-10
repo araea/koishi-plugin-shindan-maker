@@ -480,8 +480,9 @@ export async function apply(ctx: Context, config: Config) {
 修改神断 抽老婆 抽妻子 image
         `
       }
+
       // 判断 mode 是否为 MakeShindanMode 类型
-      if (!isMakeShindanMode(shindanMode)) {
+      if (shindanMode && !isMakeShindanMode(shindanMode)) {
         return `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`
       }
 
