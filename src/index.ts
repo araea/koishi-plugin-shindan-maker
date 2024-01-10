@@ -569,7 +569,7 @@ export async function apply(ctx: Context, config: Config) {
 指令示例：
 神断 1116736 小小学 image`
       }
-      if (isShindanIdValid(shindanId)) {
+      if (!isShindanIdValid(shindanId)) {
         return `shindanId 格式错误，请输入一个有效的 shindanId。`
       }
       if (!shindanName) {
