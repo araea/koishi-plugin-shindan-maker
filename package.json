@@ -1,21 +1,47 @@
 {
   "name": "koishi-plugin-shindan-maker",
-  "description": "",
-  "version": "0.0.1",
+  "description": "获得 [shindanmaker](https://cn.shindanmaker.com/) 的占卜功能🔮，内置 270+ 占卜项，占卜结果以图片🖼️或文字📝形式发送。",
+  "version": "1.4.1",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
     "lib",
     "dist"
   ],
+  "koishi": {
+    "service": {
+      "required": [
+        "puppeteer"
+      ]
+    }
+  },
   "license": "MIT",
+  "author": "Nawyjx <3373167460@qq.com>",
+  "homepage": "https://www.npmjs.com/package/koishi-plugin-shindan-maker?activeTab=readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/araea/koishi-plugin-shindan-maker.git"
+  },
   "scripts": {},
   "keywords": [
-    "chatbot",
     "koishi",
-    "plugin"
+    "plugin",
+    "chatbot",
+    "shindan",
+    "shindan-maker",
+    "shindanmaker",
+    "fortune telling",
+    "占卜",
+    "神断"
   ],
   "peerDependencies": {
     "koishi": "4.15.6"
+  },
+  "dependencies": {
+    "jsdom": "^23.2.0",
+    "koishi-plugin-puppeteer": "^3.7.3"
+  },
+  "devDependencies": {
+    "koishi-plugin-puppeteer": "^3.7.3"
   }
 }
