@@ -198,7 +198,7 @@ export async function apply(ctx: Context, config: Config) {
         return `请提供必要参数 shindanCommand。
 
 指令格式：
-查看神断 <shindanCommand>
+查看神断 \<shindanCommand\>
 
 指令示例：
 查看神断 今天是什么少女`
@@ -372,7 +372,7 @@ export async function apply(ctx: Context, config: Config) {
         await session.send(`参数缺失，请提供 shindanId 或 shindanCommand。
 
 指令格式：
-添加神断 <shindanId> <shindanCommand> [shindanMode]
+添加神断 \<shindanId\> \<shindanCommand\> [shindanMode]
 
 使用示例：
 添加神断 1116736 OC生成器 image
@@ -431,7 +431,7 @@ export async function apply(ctx: Context, config: Config) {
         return `请提供有效的 shindanCommand 参数。
         
 指令格式：
-删除神断 <shindanCommand>
+删除神断 \<shindanCommand\>
 
 指令示例：
 删除神断 抽老婆`
@@ -460,11 +460,11 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('shindan.修改 <shindanCommand:string> <shindanNewCommand:string> [shindanMode:string]', '修改神断')
     .action(async ({ session }, shindanCommand, shindanNewCommand, shindanMode: MakeShindanMode) => {
       // 修改：检查参数 shindanMode 直接可以改 因为只是改指令名或模式
-      if (!shindanCommand || !shindanNewCommand || !shindanMode) {
+      if (!shindanCommand || !shindanNewCommand) {
         return `缺少参数，请提供 shindanCommand shindanNewCommand。
 
 指令格式：
-修改神断 <shindanCommand> <shindanNewCommand> [shindanMode]
+修改神断 \<shindanCommand\> \<shindanNewCommand\> [shindanMode]
 
 指令示例：
 修改神断 抽老婆 抽妻子 image
@@ -506,7 +506,7 @@ export async function apply(ctx: Context, config: Config) {
         return `缺少参数，请提供 shindanCommand shindanMode
 
 指令格式：
-设置神断 <shindanCommand> <shindanMode>
+设置神断 \<shindanCommand\> \<shindanMode\>
 
 指令示例：
 设置神断 卖萌 text`
@@ -543,7 +543,7 @@ export async function apply(ctx: Context, config: Config) {
         return `请提供必要的参数 shindanId。
         
 指令格式：
-神断 <shindanId> [shindanName] [shindanMode]
+神断 \<shindanId\> [shindanName] [shindanMode]
 
 指令示例：
 神断 1116736 小小学 image`
