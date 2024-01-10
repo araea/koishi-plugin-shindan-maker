@@ -730,20 +730,22 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   
   </html>`
 
+        console.log(h.unescape(html))
         const page = await ctx.puppeteer.page();
         await page.setViewport({
           width: 750, height: 100,
         });
-        await page.setContent(h.unescape(html), { waitUntil: 'load' });
-        hasChart ? await sleep(2000) : ''
-        const imgBuffer = await page.screenshot({
-          fullPage: true,
-          type: imageType,
-        });
+        await page.setContent(html, { waitUntil: 'load' });
+        hasChart ? await sleep(2000) : '';
+
+        // 找到 title_and_result 元素并截图
+        const titleAndResultElement = await page.$('#title_and_result');
+        const imgBuffer = await titleAndResultElement.screenshot({ type: imageType });
 
         await page.close();
 
-        return h.image(imgBuffer, 'image/png')
+        return h.image(imgBuffer, 'image/png');
+
       }
 
       //
