@@ -730,7 +730,6 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   
   </html>`
 
-        console.log(h.unescape(html))
         const page = await ctx.puppeteer.page();
         await page.setViewport({
           width: 750, height: 100,
