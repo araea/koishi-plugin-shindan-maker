@@ -226,6 +226,16 @@ export async function apply(ctx: Context, config: Config) {
       if (!shindanName) {
         shindanName = username
       }
+      // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
+      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
+      const matches = shindanName.match(userIdRegex);
+
+      if (matches) {
+        const [, , name] = matches; // 提取 name 的值
+        if (name) {
+          shindanName = name; // 将整个替换为 name 的值
+        }
+      }
       function getRandomShindan(shindans: Shindan[]): Shindan | null {
         if (shindans.length === 0) return null;
         const randomIndex = Math.floor(Math.random() * shindans.length);
@@ -556,6 +566,16 @@ export async function apply(ctx: Context, config: Config) {
       }
       if (!shindanMode) {
         shindanMode = 'image'
+      }
+      // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
+      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
+      const matches = shindanName.match(userIdRegex);
+
+      if (matches) {
+        const [, , name] = matches; // 提取 name 的值
+        if (name) {
+          shindanName = name; // 将整个替换为 name 的值
+        }
       }
       // 判断 mode 是否为 MakeShindanMode 类型
       if (!isMakeShindanMode(shindanMode)) {
