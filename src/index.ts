@@ -260,124 +260,130 @@ export async function apply(ctx: Context, config: Config) {
     if (isNaN(batchCount) || batchCount <= 0) {
       return '批次数必须是一个大于 0 的数字';
     }
+
     const totalShindans = shindans.length;
     const batchSize = Math.floor(totalShindans / batchCount); // 每批处理的数量
-    const remainingShindans = totalShindans % batchCount; // 剩余的数量
-    // const screenshotBuffers = [];
     let serialNumber = 1; // 序号变量
+    let tableRows = [];
 
-    let start = 0;
-    for (let batch = 0; batch < batchCount; batch++) {
-      let end = start + batchSize;
-      if (batch < remainingShindans) {
-        end++; // 调整最后一批的数量
+    const tableStyle = `
+      <style>
+      body {
+        margin: 0;
+        zoom: 200%;
       }
+      .list {
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        overflow: scroll;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        height: min-content;
+        border: 1px solid #ddd;
+      }
+      th,
+      td {
+        text-align: left;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-right: 5px;
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+      }
+      tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+      .line1 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: max-content;
+      }
+      .line2 {
+        display: flex;
+        flex-direction: row;
+        width: max-content;
+      }
+      .id {
+        color: #444444;
+        font-size: x-small;
+        background-color: #f8f8f8;
+        padding-left: 3px;
+        padding-right: 3px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        border-radius: 5px;
+        border-color: #dee2e6;
+        border-style: solid;
+        border-width: 1px;
+        margin-left: 5px;
+      }
+      .command {
+        color: #444444;
+        margin-left: 5px;
+      }
+      .title {
+        color: #6c757d;
+        font-size: xx-small;
+        margin-left: 10px;
+      }
+      </style>
+    `;
 
-      const batchShindans = shindans.slice(start, end);
+    const generateTable = (rows) => {
+      return `
+        <html>
+          <head>
+            ${tableStyle}
+          </head>
+          <body>
+            <div class="list">
+              <table>
+                ${rows.join('\n')}
+              </table>
+            </div>
+          </body>
+        </html>
+      `;
+    };
 
-      const html = `
-      <html>
-        <head>
-          <style>
-          body {
-            margin: 0;
-            zoom: 200%;
-          }
-          .list {
-            display: flex;
-            flex-direction: column;
-            width: max-content;
-            overflow: scroll;
-          }
-          table {
-            border-collapse: collapse;
-            border-spacing: 0;
-            width: 100%;
-            height: min-content;
-            border: 1px solid #ddd;
-          }
-          th,
-          td {
-            text-align: left;
-            padding-top: 3px;
-            padding-bottom: 3px;
-            padding-right: 5px;
-            display: flex;
-            flex-direction: column;
-            width: max-content;
-          }
-          tr:nth-child(even) {
-            background-color: #f5f5f5;
-          }
-          .line1 {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            width: max-content;
-          }
-          .line2 {
-            display: flex;
-            flex-direction: row;
-            width: max-content;
-          }
-          .id {
-            color: #444444;
-            font-size: x-small;
-            background-color: #f8f8f8;
-            padding-left: 3px;
-            padding-right: 3px;
-            padding-top: 1px;
-            padding-bottom: 1px;
-            border-radius: 5px;
-            border-color: #dee2e6;
-            border-style: solid;
-            border-width: 1px;
-            margin-left: 5px;
-          }
-          .command {
-            color: #444444;
-            margin-left: 5px;
-          }
-          .title {
-            color: #6c757d;
-            font-size: xx-small;
-            margin-left: 10px;
-          }
-          </style>
-        </head>
-        <body>
-          <div class="list">
-            <table>
-              ${batchShindans.map(shindan => `
-              <tr>
-                <td>
-                  <div class="line1">
-                    <div class="id">${shindan.shindanId}</div>
-                    <div class="command">${serialNumber++}. ${shindan.shindanCommand}</div>
-                  </div>
-                  <div class="line2">
-                    <div class="title">${shindan.shindanTitle}</div>
-                  </div>
-                </td>
-              </tr>
-              `).join('')}
-            </table>
-          </div>
-        </body>
-      </html>`;
+    const page = await ctx.puppeteer.page();
+    await page.setViewport({ width: 100, height: 100 });
 
-      const page = await ctx.puppeteer.page();
-      await page.setViewport({ width: 100, height: 100 });
-      await page.setContent(html, { waitUntil: 'load' });
-      const imgBuffer = await page.screenshot({ fullPage: true, type: imageType });
-      await session.send(h.image(imgBuffer, 'image/png'))
-      // screenshotBuffers.push(imgBuffer);
-      await page.close();
+    for (let i = 1; i <= totalShindans; i++) {
+      const shindan = shindans[i - 1];
+      const row = `
+        <tr>
+          <td>
+            <div class="line1">
+              <div class="id">${shindan.shindanId}</div>
+              <div class="command">${serialNumber++}. ${shindan.shindanCommand}</div>
+            </div>
+            <div class="line2">
+              <div class="title">${shindan.shindanTitle}</div>
+            </div>
+          </td>
+        </tr>
+      `;
+      tableRows.push(row);
+
+      if (i % batchSize === 0 || i === totalShindans) {
+        const html = generateTable(tableRows);
+        await page.setContent(html, { waitUntil: 'load' });
+        const imgBuffer = await page.screenshot({ fullPage: true, type: imageType });
+        await session.send(h.image(imgBuffer, 'image/png'));
+        tableRows = [];
+      }
     }
 
-    // const mergedBuffer = Buffer.concat(screenshotBuffers);
-    // return h.image(mergedBuffer, 'image/png');
+    await page.close();
   });
+
   // tj*
   ctx.command('shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]', '添加神断')
     .action(async ({ session }, shindanId, shindanCommand, shindanMode: MakeShindanMode = 'image') => {
@@ -744,7 +750,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     })
 
   function isShindanIdValid(shindanId: string): boolean {
-    return isNaN(Number(shindanId));
+    return !isNaN(Number(shindanId));
   }
   function isMakeShindanMode(shindanMode: unknown): shindanMode is MakeShindanMode {
     return shindanMode === 'image' || shindanMode === 'text';
