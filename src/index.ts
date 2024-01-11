@@ -771,8 +771,6 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const imgBuffer = await titleAndResultElement.screenshot({ type: imageType });
 
         await page.close();
-
-        await updateShindanRank(guildId, userId, username)
         return h.image(imgBuffer, 'image/png');
 
       }
