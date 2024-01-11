@@ -139,8 +139,10 @@ export async function apply(ctx: Context, config: Config) {
   targetShindansData = targetShindansData.concat(missingShindans);
   writeJSONFile(shindansFilePath, targetShindansData);
 
-  // 打印添加的 shindan 对象
-  logger.success('添加的 shindan 对象：', missingShindans);
+  // 如果 missingShindans 数组不为空，则打印添加的 shindan 对象
+  if (missingShindans.length > 0) {
+    logger.success('添加的 shindan 对象：', missingShindans);
+  }
 
   const fileContent = await fs.promises.readFile(shindansFilePath, 'utf-8');
   const shindans: Shindan[] = JSON.parse(fileContent);
