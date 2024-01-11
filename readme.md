@@ -30,6 +30,7 @@ npm install koishi-plugin-shindan-maker
 - `shindanUrl`：神断网的 URL，可选前缀有 `en`，`kr`，`cn`，`th`，或者无前缀（默认为 `en`）。
 - `maxRetryCount`：最大重试次数，当请求神断网失败时，会尝试重新请求，直到达到最大重试次数（默认为 `3`）。
 - `imageType`：图片模式生成的图片类型，可选值有 `png`，`jpeg`，`webp`（默认为 `png`）。
+- `defaultMaxDisplayCount`：排行榜默认显示的人数，默认为 `20`。
 
 ## 📝 命令
 

@@ -21,12 +21,6 @@ export const usage = `## 🎮 使用
 - 你可以使用 \`-t\` 或 \`-i\` 参数，指定生成的神断结果是文本模式还是图片模式。
 - 你可以使用 \`shindan.添加\`，\`shindan.删除\`，\`shindan.修改\` 和 \`shindan.设置\` 指令，管理你的神断列表。
 
-## ⚙️ 配置项
-
-- \`shindanUrl\`：神断网的 URL，可选前缀有 \`en\`，\`kr\`，\`cn\`，\`th\`，或者无前缀（默认为 \`en\`）。
-- \`maxRetryCount\`：最大重试次数，当请求神断网失败时，会尝试重新请求，直到达到最大重试次数（默认为 \`3\`）。
-- \`imageType\`：图片模式生成的图片类型，可选值有 \`png\`，\`jpeg\`，\`webp\`（默认为 \`png\`）。
-
 ## 📝 命令
 
 - \`shindan\`：查看神断帮助信息。
@@ -45,6 +39,7 @@ export interface Config {
   shindanUrl: string
   imageType: any
   maxRetryCount: number
+  defaultMaxDisplayCount: number
 }
 
 // config
@@ -52,7 +47,9 @@ export const Config: Schema<Config> = Schema.object({
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
   maxRetryCount: Schema.number()
     .min(1).default(3).description(`最大重试次数。`),
-  imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`)
+  imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
+  defaultMaxDisplayCount: Schema.number()
+    .min(0).default(20).description('排行榜默认显示的人数，默认值为 20。'),
 })
 
 type MakeShindanMode = "image" | "text";
@@ -79,7 +76,7 @@ export async function apply(ctx: Context, config: Config) {
     shindanCount: 'integer'
   }, { primary: 'id', autoInc: true })
 
-  const { shindanUrl, maxRetryCount, imageType } = config
+  const { shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount } = config
 
   interface Shindan {
     shindanId: string;
@@ -204,23 +201,25 @@ export async function apply(ctx: Context, config: Config) {
       //
     })
   // phb*
-  ctx.command('shindan.排行榜', '神断次数排行榜')
-    .action(async ({ session }) => {
-      //
+  ctx.command('shindan.排行榜 [number:number]', '神断次数排行榜')
+    .action(async ({ session }, number: number) => {
+      const maxNumber = number || defaultMaxDisplayCount; // 获取参数中的最大人数，如果没有提供参数，则默认为 defaultMaxDisplayCount
+
+      if (typeof maxNumber !== 'number' || maxNumber <= 0) {
+        throw new Error('参数 number 必须为正整数');
+      }
+
       const shindanUsers = await ctx.database.get('shindan_rank', {});
 
-      // 先根据 shindanCount 将 shindanUsers 中的元素降序排序
-      shindanUsers.sort((a: shindanRank, b: shindanRank) => b.shindanCount - a.shindanCount);
+      shindanUsers.sort((a, b) => b.shindanCount - a.shindanCount);
 
-      // 遍历 shindanUsers 将每个元素的 username 和 shindanCount 写成 `${index}. ${username}：${shindanCount} 次` 这样的字符串添加到一个字符串数组里
-      const rankStrings: string[] = shindanUsers.map((user: shindanRank, index: number) => `${index + 1}. ${user.username}：${user.shindanCount} 次`);
+      const limitedUsers = shindanUsers.slice(0, maxNumber); // 仅保留排行榜中的前 maxNumber 个用户
 
-      // 将字符串数组 .join('\n') 作为排行榜显示
-      return `神断次数排行榜：
+      const rankStrings: string[] = limitedUsers.map((user, index: number) => `${index + 1}. ${user.username}：${user.shindanCount} 次`);
 
-${rankStrings.join('\n')}`
-      //
-    })
+      return `神断次数排行榜：\n\n${rankStrings.join('\n')}`;
+    });
+
   // ck*
   ctx.command('shindan.查看 <shindanCommand:text>', '查看神断')
     .action(async ({ session }, shindanCommand) => {
