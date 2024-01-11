@@ -424,7 +424,7 @@ export async function apply(ctx: Context, config: Config) {
 
         shindans.push(newShindan);
 
-        fs.writeFileSync(filePath, JSON.stringify(shindans, null, 2), 'utf-8');
+        fs.writeFileSync(shindansFilePath, JSON.stringify(shindans, null, 2), 'utf-8');
 
         return `神断 '${shindanCommand}' 添加成功。
 
@@ -460,7 +460,7 @@ export async function apply(ctx: Context, config: Config) {
       shindans.splice(index, 1);
 
       const updatedContent = JSON.stringify(shindans, null, 2);
-      fs.writeFileSync(filePath, updatedContent, 'utf-8');
+      fs.writeFileSync(shindansFilePath, updatedContent, 'utf-8');
 
       return `神断 '${shindanCommand}' 删除成功。
 
@@ -501,7 +501,7 @@ export async function apply(ctx: Context, config: Config) {
         shindan.shindanMode = shindanMode;
       }
       const updatedContent = JSON.stringify(shindans, null, 2);
-      fs.writeFileSync(filePath, updatedContent, 'utf-8');
+      fs.writeFileSync(shindansFilePath, updatedContent, 'utf-8');
 
       await session.send(`'${shindanCommand}' 已成功修改为 '${shindanNewCommand}'。
       
@@ -538,7 +538,7 @@ export async function apply(ctx: Context, config: Config) {
       const shindan = shindans[shindanIndex];
       shindan.shindanMode = shindanMode;
       const updatedContent = JSON.stringify(shindans, null, 2);
-      fs.writeFileSync(filePath, updatedContent, 'utf-8');
+      fs.writeFileSync(shindansFilePath, updatedContent, 'utf-8');
       return `设置神断 '${shindanCommand}' 成功。
       
 神断ID：${shindan.shindanId}
