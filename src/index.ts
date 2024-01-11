@@ -68,14 +68,14 @@ export async function apply(ctx: Context, config: Config) {
     shindanTitle?: string;
   }
 
-
   const filePath = path.join(__dirname, 'shindans.json');
-  const fileContent = await fs.promises.readFile(filePath, 'utf-8');
+  const shindansDirPath = path.join(ctx.baseDir, 'data', 'shindanMaker');
+  const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
+  const fileContent = await fs.promises.readFile(shindansFilePath, 'utf-8');
   const shindans: Shindan[] = JSON.parse(fileContent);
   shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
 
-  const shindansDirPath = path.join(ctx.baseDir, 'data', 'shindanMaker');
-  const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
+
 
   try {
     await fs.promises.mkdir(shindansDirPath, { recursive: true });
@@ -86,23 +86,23 @@ export async function apply(ctx: Context, config: Config) {
     }
   }
 
-  let targetShindans: Shindan[] = [];
+  let originalShindans: Shindan[] = [];
   try {
-    const targetFileContent = await fs.promises.readFile(shindansFilePath, 'utf-8');
-    targetShindans = JSON.parse(targetFileContent);
+    const targetFileContent = await fs.promises.readFile(filePath, 'utf-8');
+    originalShindans = JSON.parse(targetFileContent);
   } catch (err) {
     if (err.code !== 'ENOENT') {
-      logger.error('读取目标文件出错：' + err.message);
+      logger.error('读取原始文件出错：' + err.message);
       return;
     }
   }
 
-  const mergedShindans = mergeShindans(shindans, targetShindans);
+  const mergedShindans = mergeShindans(shindans, originalShindans);
 
-  if (!areShindansEqual(targetShindans, mergedShindans)) {
+  if (!areShindansEqual(originalShindans, mergedShindans)) {
     await fs.promises.writeFile(shindansFilePath, JSON.stringify(mergedShindans, null, 2));
 
-    const addedShindans = getAddedShindans(targetShindans, mergedShindans);
+    const addedShindans = getAddedShindans(originalShindans, mergedShindans);
     const addedShindansInfo = addedShindans.map((shindan) => `${shindan.shindanId}: ${shindan.shindanCommand}`).join('\n');
 
     if (addedShindans.length > 0) {
@@ -110,14 +110,14 @@ export async function apply(ctx: Context, config: Config) {
     }
   }
 
-  function getAddedShindans(sourceShindans: Shindan[], targetShindans: Shindan[]): Shindan[] {
+  function getAddedShindans(sourceShindans: Shindan[], originalShindans: Shindan[]): Shindan[] {
     const sourceShindanIds = new Set(sourceShindans.map((shindan) => shindan.shindanId));
-    return targetShindans.filter((shindan) => !sourceShindanIds.has(shindan.shindanId));
+    return originalShindans.filter((shindan) => !sourceShindanIds.has(shindan.shindanId));
   }
 
-  function mergeShindans(sourceShindans: Shindan[], targetShindans: Shindan[]): Shindan[] {
-    const targetShindanIds = new Set(targetShindans.map((shindan) => shindan.shindanId));
-    const mergedShindans = [...targetShindans];
+  function mergeShindans(sourceShindans: Shindan[], originalShindans: Shindan[]): Shindan[] {
+    const targetShindanIds = new Set(originalShindans.map((shindan) => shindan.shindanId));
+    const mergedShindans = [...originalShindans];
 
     for (const sourceShindan of sourceShindans) {
       if (!targetShindanIds.has(sourceShindan.shindanId)) {
