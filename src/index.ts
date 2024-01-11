@@ -185,6 +185,7 @@ export async function apply(ctx: Context, config: Config) {
       await session.execute(`shindan -h`)
       //
     })
+  //tj*
   ctx.command('shindan.统计', '查看神断次数')
     .action(async ({ session }) => {
       //
@@ -200,6 +201,7 @@ export async function apply(ctx: Context, config: Config) {
 
       //
     })
+  // phb*
   ctx.command('shindan.排行榜', '神断次数排行榜')
     .action(async ({ session }) => {
       //
