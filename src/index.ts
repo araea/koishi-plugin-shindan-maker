@@ -169,7 +169,6 @@ export async function apply(ctx: Context, config: Config) {
       } else if (isImage) {
         shindanMode = 'image'
       }
-      await updateShindanRank(guildId, userId, username)
       await session.execute(`shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`)
     } else {
       return next()
@@ -780,6 +779,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const imgBuffer = await titleAndResultElement.screenshot({ type: imageType });
 
         await page.close();
+        await updateShindanRank(guildId, userId, username)
         return h.image(imgBuffer, 'image/png');
 
       }
