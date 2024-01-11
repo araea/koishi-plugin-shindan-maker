@@ -806,16 +806,22 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
       //
     })
 
-  async function updateShindanRank(guildId: string, userId: string, username: string) {
+  async function updateShindanRank(guildId: string | null, userId: string, username: string) {
+    if (!guildId) {
+      // 在这里为私聊场景赋予一个默认的 guildId，比如 "privateChatGuildId"
+      guildId = "privateChatGuildId";
+    }
+
     // 判断是否存在，不存在则创建
-    const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId })
+    const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId });
     if (shindanUser.length === 0) {
-      await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 1 })
+      await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 1 });
     } else {
       // 存在就 + 1 
-      await ctx.database.set('shindan_rank', { guildId, userId }, { username, shindanCount: shindanUser[0].shindanCount + 1 })
+      await ctx.database.set('shindan_rank', { guildId, userId }, { username, shindanCount: shindanUser[0].shindanCount + 1 });
     }
   }
+
 
 
   function isShindanIdValid(shindanId: string): boolean {
