@@ -68,82 +68,56 @@ export async function apply(ctx: Context, config: Config) {
     shindanTitle?: string;
   }
 
+  // 检查文件/文件夹是否存在，如果不存在则创建
+  function ensureDirExists(dirPath: string) {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  }
+
+  // 读取 JSON 文件
+  function readJSONFile(filePath: string) {
+    if (fs.existsSync(filePath)) {
+      const data = fs.readFileSync(filePath, 'utf-8');
+      return JSON.parse(data);
+    }
+    return [];
+  }
+
+  // 写入 JSON 文件
+  function writeJSONFile(filePath: string, data: any) {
+    const jsonData = JSON.stringify(data, null, 2);
+    fs.writeFileSync(filePath, jsonData, 'utf-8');
+  }
+
+  // 主要逻辑
   const filePath = path.join(__dirname, 'shindans.json');
   const shindansDirPath = path.join(ctx.baseDir, 'data', 'shindanMaker');
   const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
+
+  ensureDirExists(shindansDirPath);
+  ensureDirExists(shindansFilePath);
+
+  // 读取文件中的数据
+  const shindansData = readJSONFile(filePath);
+  let targetShindansData = readJSONFile(shindansFilePath);
+
+  // 查找缺失的 shindanId
+  const missingShindans = shindansData.filter((shindan: any) => {
+    return !targetShindansData.some((targetShindan: any) => targetShindan.shindanId === shindan.shindanId);
+  });
+
+  // 将缺失的 shindan 对象添加到目标文件中
+  targetShindansData = targetShindansData.concat(missingShindans);
+  writeJSONFile(shindansFilePath, targetShindansData);
+
+  // 打印添加的 shindan 对象
+  logger.success('添加的 shindan 对象：', missingShindans);
+
   const fileContent = await fs.promises.readFile(shindansFilePath, 'utf-8');
   const shindans: Shindan[] = JSON.parse(fileContent);
   shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
 
-
-
-  try {
-    await fs.promises.mkdir(shindansDirPath, { recursive: true });
-  } catch (err) {
-    if (err.code !== 'EEXIST') {
-      logger.error('创建目标文件夹出错：' + err.message);
-      return;
-    }
-  }
-
-  let originalShindans: Shindan[] = [];
-  try {
-    const targetFileContent = await fs.promises.readFile(filePath, 'utf-8');
-    originalShindans = JSON.parse(targetFileContent);
-  } catch (err) {
-    if (err.code !== 'ENOENT') {
-      logger.error('读取原始文件出错：' + err.message);
-      return;
-    }
-  }
-
-  const mergedShindans = mergeShindans(shindans, originalShindans);
-
-  if (!areShindansEqual(originalShindans, mergedShindans)) {
-    await fs.promises.writeFile(shindansFilePath, JSON.stringify(mergedShindans, null, 2));
-
-    const addedShindans = getAddedShindans(originalShindans, mergedShindans);
-    const addedShindansInfo = addedShindans.map((shindan) => `${shindan.shindanId}: ${shindan.shindanCommand}`).join('\n');
-
-    if (addedShindans.length > 0) {
-      logger.success(`神断更新成功！以下是新增的神断: \n${addedShindansInfo}`);
-    }
-  }
-
-  function getAddedShindans(sourceShindans: Shindan[], originalShindans: Shindan[]): Shindan[] {
-    const sourceShindanIds = new Set(sourceShindans.map((shindan) => shindan.shindanId));
-    return originalShindans.filter((shindan) => !sourceShindanIds.has(shindan.shindanId));
-  }
-
-  function mergeShindans(sourceShindans: Shindan[], originalShindans: Shindan[]): Shindan[] {
-    const targetShindanIds = new Set(originalShindans.map((shindan) => shindan.shindanId));
-    const mergedShindans = [...originalShindans];
-
-    for (const sourceShindan of sourceShindans) {
-      if (!targetShindanIds.has(sourceShindan.shindanId)) {
-        mergedShindans.push(sourceShindan);
-      }
-    }
-
-    return mergedShindans;
-  }
-
-  function areShindansEqual(shindansA: Shindan[], shindansB: Shindan[]): boolean {
-    const shindanIdsA = new Set(shindansA.map((shindan) => shindan.shindanId));
-    const shindanIdsB = new Set(shindansB.map((shindan) => shindan.shindanId));
-
-    if (shindanIdsA.size !== shindanIdsB.size) {
-      return false;
-    }
-
-    for (const shindanId of shindanIdsA) {
-      if (!shindanIdsB.has(shindanId)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
 
   ctx.middleware(async (session, next) => {
     const { username, content } = session
