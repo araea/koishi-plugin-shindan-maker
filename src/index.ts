@@ -783,8 +783,10 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId })
     if (shindanUser.length === 0) {
       await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 1 })
+    } else {
+      // 存在就 + 1 
+      await ctx.database.set('shindan_rank', { guildId, userId }, { username, shindanCount: shindanUser[0].shindanCount + 1 })
     }
-    await ctx.database.set('shindan_rank', { guildId, userId }, { username, shindanCount: shindanUser[0].shindanCount + 1 })
   }
 
 
