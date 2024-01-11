@@ -96,7 +96,15 @@ export async function apply(ctx: Context, config: Config) {
   const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
 
   ensureDirExists(shindansDirPath);
-  ensureDirExists(shindansFilePath);
+  
+  // 判断文件是否存在，如果不存在则创建
+  function ensureFileExists(filePath: string) {
+    if (!fs.existsSync(filePath)) {
+      fs.writeFileSync(filePath, '[]', 'utf-8');
+    }
+  }
+
+  ensureFileExists(shindansFilePath);
 
   // 读取文件中的数据
   const shindansData = readJSONFile(filePath);
