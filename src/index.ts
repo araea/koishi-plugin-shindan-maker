@@ -26,6 +26,8 @@ export const usage = `## 🎮 使用
 - \`shindan\`：查看神断帮助信息。
 - \`shindan.列表 [batchCount:number]\`：查看神断列表，可以指定批次数，每批显示的神断数量（默认为 \`5\`）。
 - \`shindan.查看 [shindanCommand:text]\`：根据神断指令查看神断信息。
+- \`shindan.排行榜 [number:number]\`：查看神断次数排行榜，number 参数为排行榜显示人数，默认为 \`20\`。
+- \`shindan.统计 [targerUser:text]\`：查看指定用户的神断统计信息。
 - \`shindan.随机 [shindanName:text]\`：随机抽取一个神断，可以指定神断名，如果不指定则使用用户名（默认为 \`text\` 模式）。
 - \`shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]\`：添加一个神断到列表中，需要指定神断 ID，神断指令，和神断模式（默认为 \`image\` 模式）。
 - \`shindan.删除 <shindanCommand:string>\`：删除列表中的一个神断，需要指定神断指令。
@@ -184,18 +186,35 @@ export async function apply(ctx: Context, config: Config) {
       //
     })
   //tj*
-  ctx.command('shindan.统计', '查看神断次数')
-    .action(async ({ session }) => {
+  ctx.command('shindan.统计 [targetUser:text]', '查看统计信息')
+    .action(async ({ session }, targetUser) => {
       //
-      const { guildId, userId, username } = session
+      let { guildId, userId, username } = session
+      if (targetUser) {
+        const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
+        const match = targetUser.match(userIdRegex);
+        userId = match?.[1] ?? userId;
+        username = match?.[2] ?? username;
+      }
       const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId })
       if (shindanUser.length === 0) {
         await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 0 })
         return `统计对象：${username} 
-神断次数：0 次。`
+
+该统计对象无神断记录。`
       }
+      const guildUsers = await ctx.database.get('shindan_rank', { guildId })
+      // 根据 shindanCount 降序排序
+      guildUsers.sort((a, b) => b.shindanCount - a.shindanCount);
+
+      // 获取指定 userId 的排名信息
+      const userIndex = guildUsers.findIndex(user => user.userId === userId);
+      const userRank = userIndex === -1 ? undefined : userIndex + 1; // 用户排名，第一名是1，没有找到用户则为 undefined
+
       return `统计对象：${username}
-神断次数：${shindanUser[0].shindanCount} 次。`
+
+神断次数：${shindanUser[0].shindanCount} 次。
+排名：第 ${userRank} 名。`
 
       //
     })
