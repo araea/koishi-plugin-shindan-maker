@@ -85,7 +85,7 @@ export async function apply(ctx: Context, config: Config) {
     shindanId: string;
     shindanCommand: string;
     shindanMode: string;
-    shindanTitle?: string;
+    shindanTitle: string;
   }
 
   // 检查文件/文件夹是否存在，如果不存在则创建
@@ -443,8 +443,7 @@ ${rankStrings.join('\n')}`
 
       if (existingShindan) {
         // 获取该 shindan 的 shindanCommand 和 shindanMode
-        const { shindanCommand, shindanMode } = existingShindan;
-        const shindanTitle = await getShindanTitle(shindanId)
+        const { shindanCommand, shindanTitle, shindanMode } = existingShindan;
         return `神断 '${shindanId}' 已存在。
 
 神断ID：${shindanId}
@@ -452,8 +451,17 @@ ${rankStrings.join('\n')}`
 神断指令：${shindanCommand}
 神断模式：${shindanMode}`
       } else {
-        // 检查是否有效
-        const shindanTitle = await getShindanTitle(shindanId)
+        let shindanTitle: string
+        try {
+          shindanTitle = await getShindanTitle(shindanId);
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            return `添加失败：该 shindanId 页面 404。`
+          } else {
+            logger.error('发生错误：', error);
+          }
+        }
+
         const newShindan: Shindan = {
           shindanId,
           shindanCommand,
