@@ -57,7 +57,27 @@ export const Config: Schema<Config> = Schema.object({
 
 type MakeShindanMode = "image" | "text";
 
+declare module 'koishi' {
+  interface Tables {
+    shindan_rank: shindanRank
+  }
+}
+export interface shindanRank {
+  id: number
+  guildId: string
+  userId: string
+  username: string
+  shindanCount: number
+}
+
 export async function apply(ctx: Context, config: Config) {
+  ctx.model.extend('shindan_rank', {
+    id: 'unsigned',
+    guildId: 'string',
+    userId: 'string',
+    username: 'string',
+    shindanCount: 'integer'
+  }, { primary: 'id', autoInc: true })
 
   const { shindanUrl, maxRetryCount, imageType } = config
 
@@ -96,7 +116,7 @@ export async function apply(ctx: Context, config: Config) {
   const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
 
   ensureDirExists(shindansDirPath);
-  
+
   // 判断文件是否存在，如果不存在则创建
   function ensureFileExists(filePath: string) {
     if (!fs.existsSync(filePath)) {
@@ -126,9 +146,9 @@ export async function apply(ctx: Context, config: Config) {
   const shindans: Shindan[] = JSON.parse(fileContent);
   shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
 
-
+  // zjj*
   ctx.middleware(async (session, next) => {
-    const { username, content } = session
+    const { guildId, userId, username, content } = session
     let isText = false;
     let isImage = false;
     let modifiedContent = content;
@@ -150,6 +170,7 @@ export async function apply(ctx: Context, config: Config) {
       } else if (isImage) {
         shindanMode = 'image'
       }
+      await updateShindanRank(guildId, userId, username)
       await session.execute(`shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`)
     } else {
       return next()
@@ -162,6 +183,38 @@ export async function apply(ctx: Context, config: Config) {
     .action(async ({ session }) => {
       //
       await session.execute(`shindan -h`)
+      //
+    })
+  ctx.command('shindan.统计', '查看神断次数')
+    .action(async ({ session }) => {
+      //
+      const { guildId, userId, username } = session
+      const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId })
+      if (shindanUser.length === 0) {
+        await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 0 })
+        return `统计对象：${username} 
+神断次数：0 次。`
+      }
+      return `统计对象：${username}
+神断次数：${shindanUser[0].shindanCount} 次。`
+
+      //
+    })
+  ctx.command('shindan.排行榜', '神断次数排行榜')
+    .action(async ({ session }) => {
+      //
+      const shindanUsers = await ctx.database.get('shindan_rank', {});
+
+      // 先根据 shindanCount 将 shindanUsers 中的元素降序排序
+      shindanUsers.sort((a: shindanRank, b: shindanRank) => b.shindanCount - a.shindanCount);
+
+      // 遍历 shindanUsers 将每个元素的 username 和 shindanCount 写成 `${index}. ${username}：${shindanCount} 次` 这样的字符串添加到一个字符串数组里
+      const rankStrings: string[] = shindanUsers.map((user: shindanRank, index: number) => `${index + 1}. ${user.username}：${user.shindanCount} 次`);
+
+      // 将字符串数组 .join('\n') 作为排行榜显示
+      return `神断次数排行榜：
+
+${rankStrings.join('\n')}`
       //
     })
   // ck*
@@ -533,7 +586,7 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]', '自定义神断')
     .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
       // 检查shindanId shindanMode
-      const { username } = session
+      const { guildId, userId, username } = session
       if (!shindanId) {
         return `请提供必要的参数 shindanId。
         
@@ -717,12 +770,23 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
 
         await page.close();
 
+        await updateShindanRank(guildId, userId, username)
         return h.image(imgBuffer, 'image/png');
 
       }
 
       //
     })
+
+  async function updateShindanRank(guildId: string, userId: string, username: string) {
+    // 判断是否存在，不存在则创建
+    const shindanUser = await ctx.database.get('shindan_rank', { guildId, userId })
+    if (shindanUser.length === 0) {
+      await ctx.database.create('shindan_rank', { guildId, userId, username, shindanCount: 1 })
+    }
+    await ctx.database.set('shindan_rank', { guildId, userId }, { username, shindanCount: shindanUser[0].shindanCount + 1 })
+  }
+
 
   function isShindanIdValid(shindanId: string): boolean {
     return !isNaN(Number(shindanId));
