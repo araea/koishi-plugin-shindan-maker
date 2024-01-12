@@ -163,32 +163,32 @@ export async function apply(ctx: Context, config: Config) {
 
     function extractCommandAndShindanName(content: string): { command: string; shindanName: string } {
       // 匹配 <at> 标签的正则表达式
-      const atTagRegex = /<at id='[^']+'(?: name='[^']+')?\/>/g;
-
+      const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
+    
       // 删除开始的 <at> 标签
-      const frontAtTagRegex = /^<at id='[^']+'(?: name='[^']+')?\/>\s*/;
+      const frontAtTagRegex = /^<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>\s*/;
       content = content.replace(frontAtTagRegex, '');
-
+    
       // 使用正则表达式找到所有的 <at> 标签
       const atTags = content.match(atTagRegex);
-
+    
       // 移除所有的 <at> 标签得到可能的命令和shindanName
       let commandAndShindan = content.replace(atTagRegex, '').trim();
-
+    
       // 分割可能的命令和shindanName
       let splitIndex = commandAndShindan.indexOf(' ');
       let command = commandAndShindan;
       let shindanName = '';
-
+    
       // 如果存在空格，则分割命令和shindanName
       if (splitIndex !== -1) {
         command = commandAndShindan.substring(0, splitIndex);
         shindanName = commandAndShindan.substring(splitIndex + 1).trim();
       }
-
+    
       // 如果存在 <at> 标签，则 shindanName 为这些标签加上之前分割的shindanName（如果有的话）
       shindanName = (atTags ? atTags.join(' ') : '') + (shindanName ? ' ' + shindanName : '');
-
+    
       return { command, shindanName };
     }
 
