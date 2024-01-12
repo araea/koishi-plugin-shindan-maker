@@ -160,10 +160,44 @@ export async function apply(ctx: Context, config: Config) {
       isImage = true;
       modifiedContent = content.replace('-i', '');
     }
-    const firstSpaceIndex = modifiedContent.indexOf(' ')
-    const command = firstSpaceIndex === -1 ? modifiedContent : modifiedContent.slice(0, firstSpaceIndex)
-    const shindanName = firstSpaceIndex === -1 ? username : modifiedContent.slice(firstSpaceIndex + 1)
-    const shindan = shindans.find(s => s.shindanCommand === command)
+
+    function extractCommandAndShindanName(content: string): { command: string; shindanName: string } {
+      // 匹配 <at> 标签的正则表达式
+      const atTagRegex = /<at id='[^']+'(?: name='[^']+')?\/>/g;
+
+      // 删除开始的 <at> 标签
+      const frontAtTagRegex = /^<at id='[^']+'(?: name='[^']+')?\/>\s*/;
+      content = content.replace(frontAtTagRegex, '');
+
+      // 使用正则表达式找到所有的 <at> 标签
+      const atTags = content.match(atTagRegex);
+
+      // 移除所有的 <at> 标签得到可能的命令和shindanName
+      let commandAndShindan = content.replace(atTagRegex, '').trim();
+
+      // 分割可能的命令和shindanName
+      let splitIndex = commandAndShindan.indexOf(' ');
+      let command = commandAndShindan;
+      let shindanName = '';
+
+      // 如果存在空格，则分割命令和shindanName
+      if (splitIndex !== -1) {
+        command = commandAndShindan.substring(0, splitIndex);
+        shindanName = commandAndShindan.substring(splitIndex + 1).trim();
+      }
+
+      // 如果存在 <at> 标签，则 shindanName 为这些标签加上之前分割的shindanName（如果有的话）
+      shindanName = (atTags ? atTags.join(' ') : '') + (shindanName ? ' ' + shindanName : '');
+
+      return { command, shindanName };
+    }
+
+    const result = extractCommandAndShindanName(modifiedContent)
+
+    const command = result.command
+    const shindanName = result.shindanName
+    const shindan = shindans.find(s => s.shindanCommand === command);
+
     if (shindan) {
       let { shindanId, shindanMode } = shindan
       if (isText) {
