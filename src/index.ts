@@ -43,6 +43,7 @@ export interface Config {
   maxRetryCount: number
   defaultMaxDisplayCount: number
   isRandomDivineCommandVisible
+  shouldMiddlewareInterruptAfterDivineDirective
 }
 
 // config
@@ -50,8 +51,9 @@ export const Config: Schema<Config> = Schema.object({
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
   maxRetryCount: Schema.number().min(1).default(3).description(`最大重试次数。`),
   imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
-  isRandomDivineCommandVisible: Schema.boolean().default(false).description(`随机神断的时候是否显示神断指令名。`),
-  defaultMaxDisplayCount: Schema.number().min(0).default(20).description('排行榜默认显示的人数，默认值为 20。'),
+  isRandomDivineCommandVisible: Schema.boolean().default(false).description(`随机神断的时候是否显示神断指令名，默认为 \`false\`。`),
+  defaultMaxDisplayCount: Schema.number().min(0).default(20).description(`排行榜默认显示的人数，默认值为 \`20\`。`),
+  shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean().default(true).description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`)
 })
 
 type MakeShindanMode = "image" | "text";
@@ -78,7 +80,7 @@ export async function apply(ctx: Context, config: Config) {
     shindanCount: 'integer'
   }, { primary: 'id', autoInc: true })
 
-  const { shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount, isRandomDivineCommandVisible } = config
+  const { shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount, isRandomDivineCommandVisible, shouldMiddlewareInterruptAfterDivineDirective } = config
 
   interface Shindan {
     shindanId: string;
@@ -164,31 +166,31 @@ export async function apply(ctx: Context, config: Config) {
     function extractCommandAndShindanName(content: string): { command: string; shindanName: string } {
       // 匹配 <at> 标签的正则表达式
       const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
-    
+
       // 删除开始的 <at> 标签
       const frontAtTagRegex = /^<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>\s*/;
       content = content.replace(frontAtTagRegex, '');
-    
+
       // 使用正则表达式找到所有的 <at> 标签
       const atTags = content.match(atTagRegex);
-    
+
       // 移除所有的 <at> 标签得到可能的命令和shindanName
       let commandAndShindan = content.replace(atTagRegex, '').trim();
-    
+
       // 分割可能的命令和shindanName
       let splitIndex = commandAndShindan.indexOf(' ');
       let command = commandAndShindan;
       let shindanName = '';
-    
+
       // 如果存在空格，则分割命令和shindanName
       if (splitIndex !== -1) {
         command = commandAndShindan.substring(0, splitIndex);
         shindanName = commandAndShindan.substring(splitIndex + 1).trim();
       }
-    
+
       // 如果存在 <at> 标签，则 shindanName 为这些标签加上之前分割的shindanName（如果有的话）
       shindanName = (atTags ? atTags.join(' ') : '') + (shindanName ? ' ' + shindanName : '');
-    
+
       return { command, shindanName };
     }
 
@@ -206,8 +208,9 @@ export async function apply(ctx: Context, config: Config) {
         shindanMode = 'image'
       }
       await session.execute(`shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`)
+      shouldMiddlewareInterruptAfterDivineDirective ? '' : await next()
     } else {
-      return next()
+      await next()
     }
   })
 
