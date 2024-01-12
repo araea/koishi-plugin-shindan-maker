@@ -42,16 +42,16 @@ export interface Config {
   imageType: any
   maxRetryCount: number
   defaultMaxDisplayCount: number
+  isRandomDivineCommandVisible
 }
 
 // config
 export const Config: Schema<Config> = Schema.object({
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
-  maxRetryCount: Schema.number()
-    .min(1).default(3).description(`最大重试次数。`),
+  maxRetryCount: Schema.number().min(1).default(3).description(`最大重试次数。`),
   imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
-  defaultMaxDisplayCount: Schema.number()
-    .min(0).default(20).description('排行榜默认显示的人数，默认值为 20。'),
+  isRandomDivineCommandVisible: Schema.boolean().default(false).description(`随机神断的时候是否显示神断指令名。`),
+  defaultMaxDisplayCount: Schema.number().min(0).default(20).description('排行榜默认显示的人数，默认值为 20。'),
 })
 
 type MakeShindanMode = "image" | "text";
@@ -78,7 +78,7 @@ export async function apply(ctx: Context, config: Config) {
     shindanCount: 'integer'
   }, { primary: 'id', autoInc: true })
 
-  const { shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount } = config
+  const { shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount, isRandomDivineCommandVisible } = config
 
   interface Shindan {
     shindanId: string;
@@ -294,12 +294,13 @@ export async function apply(ctx: Context, config: Config) {
         return shindans[randomIndex];
       }
       const randomShindan = getRandomShindan(shindans);
-      let { shindanId, shindanMode } = randomShindan;
+      let { shindanId, shindanMode, shindanCommand } = randomShindan;
       if (options.text) {
         shindanMode = 'text'
       } else if (options.image) {
         shindanMode = 'image'
       }
+      isRandomDivineCommandVisible ? await session.send(`神断指令：${shindanCommand}`) : ''
       await session.execute(`shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`)
       //
     })
