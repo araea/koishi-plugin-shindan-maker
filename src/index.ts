@@ -51,7 +51,7 @@ export const Config: Schema<Config> = Schema.object({
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
   maxRetryCount: Schema.number().min(1).default(3).description(`最大重试次数。`),
   imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
-  isRandomDivineCommandVisible: Schema.boolean().default(false).description(`随机神断的时候是否显示神断指令名，默认为 \`false\`。`),
+  isRandomDivineCommandVisible: Schema.boolean().default(true).description(`随机神断的时候是否显示神断指令名，默认为 \`true\`。`),
   defaultMaxDisplayCount: Schema.number().min(0).default(20).description(`排行榜默认显示的人数，默认值为 \`20\`。`),
   shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean().default(true).description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`)
 })
@@ -815,11 +815,13 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   </head>
   
   <body>
-    <div id="main-container">
-      <div id="main"> <span id="shindan_after" class="d-none">default</span>
-        ${h.unescape(titleAndResultString)}
+  <div className="container">
+    <div className="vertical">
+      <div className="canvas">
+          <Canvas draw={draw}>
       </div>
     </div>
+  </div>
   </body>
   
   </html>`
