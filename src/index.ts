@@ -493,6 +493,13 @@ export async function apply(ctx: Context, config: Config) {
         return `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`
       }
 
+      // 根据 shindanCommand 检查 shindans 中是否已存在该 shindanCommand
+      const existingShindanCommand = shindans.find((shindan) => shindan.shindanCommand === shindanCommand);
+
+      if (existingShindanCommand) {
+        return `添加失败：神断指令 '${shindanCommand}' 重复。`;
+      }
+
       // 根据 shindanId 检查 shindans 中是否已存在该 shindanId
       const existingShindan = shindans.find((shindan) => shindan.shindanId === shindanId);
 
