@@ -191,13 +191,16 @@ export async function apply(ctx: Context, config: Config) {
       // 如果存在 <at> 标签，则 shindanName 为这些标签加上之前分割的shindanName（如果有的话）
       shindanName = (atTags ? atTags.join(' ') : '') + (shindanName ? ' ' + shindanName : '');
 
+      if (!shindanName) {
+        shindanName = username
+      }
+
       return { command, shindanName };
     }
 
     const result = extractCommandAndShindanName(modifiedContent)
 
-    const command = result.command
-    const shindanName = result.shindanName
+    const { command, shindanName } = result
     const shindan = shindans.find(s => s.shindanCommand === command);
 
     if (shindan) {
@@ -867,7 +870,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     }
   }
 
-
+  // hs*
 
   function isShindanIdValid(shindanId: string): boolean {
     return !isNaN(Number(shindanId));
