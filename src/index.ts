@@ -815,11 +815,9 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   </head>
   
   <body>
-  <div className="container">
-    <div className="vertical">
-      <div className="canvas">
-          <Canvas draw={draw}>
-      </div>
+  <div id="main-container">
+    <div id="main"> <span id="shindan_after" class="d-none">default</span>
+     ${h.unescape(titleAndResultString)}
     </div>
   </div>
   </body>
