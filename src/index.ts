@@ -264,7 +264,7 @@ export async function apply(ctx: Context, config: Config) {
       const maxNumber = number || defaultMaxDisplayCount; // 获取参数中的最大人数，如果没有提供参数，则默认为 defaultMaxDisplayCount
 
       if (typeof maxNumber !== 'number' || maxNumber <= 0) {
-        throw new Error('参数 number 必须为正整数');
+        return '参数 number 必须为正整数'
       }
 
       const shindanUsers = await ctx.database.get('shindan_rank', {});
