@@ -402,6 +402,12 @@
     "shindanTitle": "來一句帶感的臺詞 "
   },
   {
+    "shindanId": "1191352",
+    "shindanCommand": "来一句劲道的最终台词吧",
+    "shindanMode": "image",
+    "shindanTitle": "来一句劲道的最终台词吧 "
+  },
+  {
     "shindanId": "1064580",
     "shindanCommand": "令咒图标",
     "shindanMode": "image",
@@ -766,6 +772,12 @@
     "shindanCommand": "三字自我",
     "shindanMode": "image",
     "shindanTitle": "あなたの正体を『三文字で』表します "
+  },
+  {
+    "shindanId": "1189732",
+    "shindanCommand": "散落一地的心声",
+    "shindanMode": "image",
+    "shindanTitle": "散落一地的心声。 "
   },
   {
     "shindanId": "1190840",
@@ -1476,6 +1488,12 @@
     "shindanTitle": "あなたは原神世界に生まれ落ちました "
   },
   {
+    "shindanId": "1183660",
+    "shindanCommand": "在角落遇到的三个字",
+    "shindanMode": "image",
+    "shindanTitle": "在角落遇到的三个字。 "
+  },
+  {
     "shindanId": "316802",
     "shindanCommand": "召唤的英灵",
     "shindanMode": "image",
@@ -1602,6 +1620,12 @@
     "shindanTitle": "圖/文。三梗系列 "
   },
   {
+    "shindanId": "1157240",
+    "shindanCommand": "fgo从者化",
+    "shindanMode": "image",
+    "shindanTitle": "fgo从者化 "
+  },
+  {
     "shindanId": "863622",
     "shindanCommand": "H时的呻吟",
     "shindanMode": "image",
@@ -1644,21 +1668,57 @@
     "shindanTitle": "SM测试 "
   },
   {
-    "shindanId": "1183660",
-    "shindanCommand": "在角落遇到的三个字",
+    "shindanId": "1189616",
+    "shindanCommand": "为我写一首诗",
     "shindanMode": "image",
-    "shindanTitle": "在角落遇到的三个字。 "
+    "shindanTitle": "为你写一首诗 "
   },
   {
-    "shindanId": "1191352",
-    "shindanCommand": "来一句劲道的最终台词吧",
+    "shindanId": "1189474",
+    "shindanCommand": "以我为主题的香水",
     "shindanMode": "image",
-    "shindanTitle": "来一句劲道的最终台词吧 "
+    "shindanTitle": "以你为主题的香水 "
   },
   {
-    "shindanId": "1157240",
-    "shindanCommand": "fgo从者化",
+    "shindanId": "1191716",
+    "shindanCommand": "在FGO成为了这样的从者",
     "shindanMode": "image",
-    "shindanTitle": "fgo从者化 "
+    "shindanTitle": "在FGO成为了这样的从者 "
+  },
+  {
+    "shindanId": "1186057",
+    "shindanCommand": "每日随机骰子卡牌小游戏角色卡",
+    "shindanMode": "image",
+    "shindanTitle": "纯雪自用的骰子卡牌小游戏角色卡随机器——每日版 "
+  },
+  {
+    "shindanId": "1189540",
+    "shindanCommand": "修真oc楠阳界人族初始设定抽取",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•人族初始设定抽取 —（已制作完成） "
+  },
+  {
+    "shindanId": "1190103",
+    "shindanCommand": "修真oc楠阳界妖族初始设定抽取",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•妖族初始设定抽取 —（已制作完成） "
+  },
+  {
+    "shindanId": "829668",
+    "shindanCommand": "我的幻境",
+    "shindanMode": "image",
+    "shindanTitle": "你的幻境 "
+  },
+  {
+    "shindanId": "933189",
+    "shindanCommand": "我在陌生而又熟悉的世界中会是怎样的人",
+    "shindanMode": "image",
+    "shindanTitle": "你在陌生而又熟悉的世界中会是怎样的人 "
+  },
+  {
+    "shindanId": "1191558",
+    "shindanCommand": "我和某个黑箱LSS角色困在了不XXX就不能出去的房间",
+    "shindanMode": "image",
+    "shindanTitle": "【黑箱LSS】你和某个人困在了不XXX就不能出去的房间。 "
   }
 ]
