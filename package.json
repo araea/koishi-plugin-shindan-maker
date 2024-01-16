@@ -41,6 +41,7 @@
     "koishi-plugin-puppeteer": "^3.7.3"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.6",
     "koishi-plugin-puppeteer": "^3.7.3"
   }
 }
