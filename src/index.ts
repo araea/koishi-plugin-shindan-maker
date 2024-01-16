@@ -39,9 +39,9 @@ const logger = new Logger(`shindanMaker`)
 
 export interface Config {
   shindanUrl: string
-  imageType: any
   maxRetryCount: number
   defaultMaxDisplayCount: number
+  imageType: any
   isRandomDivineCommandVisible: boolean
   shouldMiddlewareInterruptAfterDivineDirective: boolean
   isOfficialShindanSyncEnabled: boolean
@@ -49,13 +49,13 @@ export interface Config {
 
 // config
 export const Config: Schema<Config> = Schema.object({
-  isOfficialShindanSyncEnabled: Schema.boolean().default(true).description(`是否与插件内置神断保持同步，关闭后，将不会再为你新增任何神断，默认为 \`true\`。`),
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
   maxRetryCount: Schema.number().min(1).default(3).description(`最大重试次数。`),
+  defaultMaxDisplayCount: Schema.number().min(0).default(20).description(`排行榜默认显示的人数，默认值为 \`20\`。`),
   imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
   isRandomDivineCommandVisible: Schema.boolean().default(true).description(`随机神断的时候是否显示神断指令名，默认为 \`true\`。`),
-  defaultMaxDisplayCount: Schema.number().min(0).default(20).description(`排行榜默认显示的人数，默认值为 \`20\`。`),
-  shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean().default(true).description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`)
+  shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean().default(true).description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`),
+  isOfficialShindanSyncEnabled: Schema.boolean().default(true).description(`是否与插件内置神断保持同步，关闭后，将不会再为你新增任何神断，默认为 \`true\`。`),
 })
 
 type MakeShindanMode = "image" | "text";
