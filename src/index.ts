@@ -41,7 +41,7 @@ export interface Config {
   shindanUrl: string
   maxRetryCount: number
   defaultMaxDisplayCount: number
-  imageType: any
+  imageType: "png" | "jpeg" | "webp"
   isRandomDivineCommandVisible: boolean
   shouldMiddlewareInterruptAfterDivineDirective: boolean
   isOfficialShindanSyncEnabled: boolean
