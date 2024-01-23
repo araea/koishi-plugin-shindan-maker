@@ -486,6 +486,12 @@
     "shindanTitle": "隨機數值（雷達圖） "
   },
   {
+    "shindanId": "1186057",
+    "shindanCommand": "每日随机骰子卡牌小游戏角色卡",
+    "shindanMode": "image",
+    "shindanTitle": "纯雪自用的骰子卡牌小游戏角色卡随机器——每日版 "
+  },
+  {
     "shindanId": "837833",
     "shindanCommand": "每日台词",
     "shindanMode": "image",
@@ -900,6 +906,12 @@
     "shindanTitle": "看看你的替身是什么样的 "
   },
   {
+    "shindanId": "1189616",
+    "shindanCommand": "为我写一首诗",
+    "shindanMode": "image",
+    "shindanTitle": "为你写一首诗 "
+  },
+  {
     "shindanId": "829339",
     "shindanCommand": "未被打碎的过去",
     "shindanMode": "image",
@@ -1000,6 +1012,12 @@
     "shindanCommand": "我的怪物猎人世界OC",
     "shindanMode": "image",
     "shindanTitle": "怪物猎人世界里你的OC "
+  },
+  {
+    "shindanId": "829668",
+    "shindanCommand": "我的幻境",
+    "shindanMode": "image",
+    "shindanTitle": "你的幻境 "
   },
   {
     "shindanId": "1169928",
@@ -1248,6 +1266,12 @@
     "shindanTitle": "你OC的童年是什么样的？ "
   },
   {
+    "shindanId": "1191558",
+    "shindanCommand": "我和某个黑箱LSS角色困在了不XXX就不能出去的房间",
+    "shindanMode": "image",
+    "shindanTitle": "【黑箱LSS】你和某个人困在了不XXX就不能出去的房间。 "
+  },
+  {
     "shindanId": "828727",
     "shindanCommand": "我会成为怎样的美少女偶像呢",
     "shindanMode": "image",
@@ -1350,6 +1374,12 @@
     "shindanTitle": "在魔法世界的能力或武器 "
   },
   {
+    "shindanId": "933189",
+    "shindanCommand": "我在陌生而又熟悉的世界中会是怎样的人",
+    "shindanMode": "image",
+    "shindanTitle": "你在陌生而又熟悉的世界中会是怎样的人 "
+  },
+  {
     "shindanId": "27587",
     "shindanCommand": "我最喜欢的人",
     "shindanMode": "image",
@@ -1410,6 +1440,18 @@
     "shindanTitle": "岔皮大爆炸 "
   },
   {
+    "shindanId": "1189540",
+    "shindanCommand": "修真oc楠阳界人族初始设定抽取",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•人族初始设定抽取 —（已制作完成） "
+  },
+  {
+    "shindanId": "1190103",
+    "shindanCommand": "修真oc楠阳界妖族初始设定抽取",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•妖族初始设定抽取 —（已制作完成） "
+  },
+  {
     "shindanId": "1132629",
     "shindanCommand": "阎魔之目",
     "shindanMode": "image",
@@ -1426,6 +1468,12 @@
     "shindanCommand": "一句话创作",
     "shindanMode": "image",
     "shindanTitle": "CP向一句話創作圖文 "
+  },
+  {
+    "shindanId": "1189474",
+    "shindanCommand": "以我为主题的香水",
+    "shindanMode": "image",
+    "shindanTitle": "以你为主题的香水 "
   },
   {
     "shindanId": "896449",
@@ -1492,6 +1540,12 @@
     "shindanCommand": "在角落遇到的三个字",
     "shindanMode": "image",
     "shindanTitle": "在角落遇到的三个字。 "
+  },
+  {
+    "shindanId": "1191716",
+    "shindanCommand": "在FGO成为了这样的从者",
+    "shindanMode": "image",
+    "shindanTitle": "在FGO成为了这样的从者 "
   },
   {
     "shindanId": "316802",
@@ -1668,57 +1722,9 @@
     "shindanTitle": "SM测试 "
   },
   {
-    "shindanId": "1189616",
-    "shindanCommand": "为我写一首诗",
+    "shindanId": "860471",
+    "shindanCommand": "我在碧蓝航线中是怎样的船",
     "shindanMode": "image",
-    "shindanTitle": "为你写一首诗 "
-  },
-  {
-    "shindanId": "1189474",
-    "shindanCommand": "以我为主题的香水",
-    "shindanMode": "image",
-    "shindanTitle": "以你为主题的香水 "
-  },
-  {
-    "shindanId": "1191716",
-    "shindanCommand": "在FGO成为了这样的从者",
-    "shindanMode": "image",
-    "shindanTitle": "在FGO成为了这样的从者 "
-  },
-  {
-    "shindanId": "1186057",
-    "shindanCommand": "每日随机骰子卡牌小游戏角色卡",
-    "shindanMode": "image",
-    "shindanTitle": "纯雪自用的骰子卡牌小游戏角色卡随机器——每日版 "
-  },
-  {
-    "shindanId": "1189540",
-    "shindanCommand": "修真oc楠阳界人族初始设定抽取",
-    "shindanMode": "image",
-    "shindanTitle": "（修真oc）楠阳界•人族初始设定抽取 —（已制作完成） "
-  },
-  {
-    "shindanId": "1190103",
-    "shindanCommand": "修真oc楠阳界妖族初始设定抽取",
-    "shindanMode": "image",
-    "shindanTitle": "（修真oc）楠阳界•妖族初始设定抽取 —（已制作完成） "
-  },
-  {
-    "shindanId": "829668",
-    "shindanCommand": "我的幻境",
-    "shindanMode": "image",
-    "shindanTitle": "你的幻境 "
-  },
-  {
-    "shindanId": "933189",
-    "shindanCommand": "我在陌生而又熟悉的世界中会是怎样的人",
-    "shindanMode": "image",
-    "shindanTitle": "你在陌生而又熟悉的世界中会是怎样的人 "
-  },
-  {
-    "shindanId": "1191558",
-    "shindanCommand": "我和某个黑箱LSS角色困在了不XXX就不能出去的房间",
-    "shindanMode": "image",
-    "shindanTitle": "【黑箱LSS】你和某个人困在了不XXX就不能出去的房间。 "
+    "shindanTitle": "看看你在碧蓝航线中是怎样的船 "
   }
 ]

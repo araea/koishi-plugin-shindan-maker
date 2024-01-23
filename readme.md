@@ -32,7 +32,8 @@ npm install koishi-plugin-shindan-maker
 - `maxRetryCount`：最大重试次数，当请求神断网失败时，会尝试重新请求，直到达到最大重试次数（默认为 `3`）。
 - `imageType`：图片模式生成的图片类型，可选值有 `png`，`jpeg`，`webp`（默认为 `png`）。
 - `isRandomDivineCommandVisible`：随机神断的时候是否显示神断指令名，默认为 `true`。
-- `defaultMaxDisplayCount`：排行榜默认显示的人数，默认为 `20`。
+- `defaultMaxDisplayCount`：排行榜默认显示的人数，默认为 `10`。
+- `defaultShindansBatchCount`：发送神断列表默认的批次数，最大值为 `10`，默认为 `5`。
 - `shouldMiddlewareInterruptAfterDivineDirective`：中间件是否在获取神断指令之后中断，默认为 `true`。
 
 ## 📝 命令

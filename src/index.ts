@@ -41,6 +41,7 @@ export interface Config {
   shindanUrl: string
   maxRetryCount: number
   defaultMaxDisplayCount: number
+  defaultShindansBatchCount: number
   imageType: "png" | "jpeg" | "webp"
   isRandomDivineCommandVisible: boolean
   shouldMiddlewareInterruptAfterDivineDirective: boolean
@@ -52,6 +53,7 @@ export const Config: Schema<Config> = Schema.object({
   shindanUrl: Schema.string().default('en.shindanmaker').description(`神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`),
   maxRetryCount: Schema.number().min(1).default(3).description(`最大重试次数。`),
   defaultMaxDisplayCount: Schema.number().min(0).default(20).description(`排行榜默认显示的人数，默认值为 \`20\`。`),
+  defaultShindansBatchCount: Schema.number().min(1).max(10).default(5).description(`发送神断列表默认的批次数，最大值为 \`10\`，默认为 \`5\`。`),
   imageType: Schema.union(['png', 'jpeg', 'webp']).default('png').description(`图片类型。`),
   isRandomDivineCommandVisible: Schema.boolean().default(true).description(`随机神断的时候是否显示神断指令名，默认为 \`true\`。`),
   shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean().default(true).description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`),
@@ -85,7 +87,7 @@ export async function apply(ctx: Context, config: Config) {
 
   const {
     shindanUrl, maxRetryCount, imageType, defaultMaxDisplayCount, isRandomDivineCommandVisible,
-    shouldMiddlewareInterruptAfterDivineDirective, isOfficialShindanSyncEnabled
+    shouldMiddlewareInterruptAfterDivineDirective, isOfficialShindanSyncEnabled, defaultShindansBatchCount
   } = config
 
   interface Shindan {
@@ -279,7 +281,7 @@ export async function apply(ctx: Context, config: Config) {
       const maxNumber = number || defaultMaxDisplayCount; // 获取参数中的最大人数，如果没有提供参数，则默认为 defaultMaxDisplayCount
 
       if (typeof maxNumber !== 'number' || maxNumber <= 0) {
-        return '参数 number 必须为正整数';
+        return '参数 number 必须为正整数！';
       }
 
       const shindanUsers = await ctx.database.get('shindan_rank', {});
@@ -361,11 +363,11 @@ export async function apply(ctx: Context, config: Config) {
       //
     })
   // lb*
-  ctx.command('shindan.列表 [batchCount:number]', '神断列表').action(async ({session}, batchCount = 5) => {
+  ctx.command('shindan.列表 [batchCount:number]', '神断列表').action(async ({session}, batchCount = defaultShindansBatchCount) => {
     if (isNaN(batchCount) || batchCount <= 0) {
-      return '批次数必须是一个大于 0 的数字';
+      return '批次数必须是一个大于 0 的数字！';
     }
-
+    if (batchCount > 10) return `批次数超出范围，最大值为 10。`
     const totalShindans = shindans.length;
     const batchSize = Math.floor(totalShindans / batchCount); // 每批处理的数量
     let serialNumber = 1; // 序号变量
