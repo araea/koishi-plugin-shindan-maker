@@ -1356,6 +1356,12 @@
     "shindanTitle": "你CP的关系 "
   },
   {
+    "shindanId": "860471",
+    "shindanCommand": "我在碧蓝航线中是怎样的船",
+    "shindanMode": "image",
+    "shindanTitle": "看看你在碧蓝航线中是怎样的船 "
+  },
+  {
     "shindanId": "1079854",
     "shindanCommand": "我在空中花园已经不当人了",
     "shindanMode": "image",
@@ -1716,9 +1722,9 @@
     "shindanTitle": "SM测试 "
   },
   {
-    "shindanId": "860471",
-    "shindanCommand": "我在碧蓝航线中是怎样的船",
+    "shindanId": "1194760",
+    "shindanCommand": "大陆酒店",
     "shindanMode": "image",
-    "shindanTitle": "看看你在碧蓝航线中是怎样的船 "
+    "shindanTitle": "大陆酒店 "
   }
 ]
