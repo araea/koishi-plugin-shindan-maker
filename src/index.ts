@@ -70,7 +70,7 @@ declare module 'koishi' {
 
 export interface shindanRank {
   id: number
-  guildId: string
+  channelId: string
   userId: string
   username: string
   shindanCount: number
@@ -79,7 +79,7 @@ export interface shindanRank {
 export async function apply(ctx: Context, config: Config) {
   ctx.model.extend('shindan_rank', {
     id: 'unsigned',
-    guildId: 'string',
+    channelId: 'string',
     userId: 'string',
     username: 'string',
     shindanCount: 'integer'
@@ -246,21 +246,21 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('shindan.统计 [targetUser:text]', '查看统计信息')
     .action(async ({session}, targetUser) => {
       //
-      let {guildId, userId, username} = session
+      let {channelId, userId, username} = session
       if (targetUser) {
         const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
         const match = targetUser.match(userIdRegex);
         userId = match?.[1] ?? userId;
         username = match?.[2] ?? username;
       }
-      const shindanUser = await ctx.database.get('shindan_rank', {guildId, userId})
+      const shindanUser = await ctx.database.get('shindan_rank', {channelId, userId})
       if (shindanUser.length === 0) {
-        await ctx.database.create('shindan_rank', {guildId, userId, username, shindanCount: 0})
+        await ctx.database.create('shindan_rank', {channelId, userId, username, shindanCount: 0})
         return `统计对象：${username}
 
 该统计对象无神断记录。`
       }
-      const guildUsers = await ctx.database.get('shindan_rank', {guildId})
+      const guildUsers = await ctx.database.get('shindan_rank', {channelId})
       // 根据 shindanCount 降序排序
       guildUsers.sort((a, b) => b.shindanCount - a.shindanCount);
 
@@ -678,7 +678,7 @@ export async function apply(ctx: Context, config: Config) {
   ctx.command('shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]', '自定义神断')
     .action(async ({session}, shindanId, shindanName?, shindanMode?) => {
       // 检查shindanId shindanMode
-      const {guildId, userId, username} = session
+      const {channelId, userId, username} = session
       if (!shindanId) {
         return `请提供必要的参数 shindanId。
 
@@ -863,7 +863,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const imgBuffer = await titleAndResultElement.screenshot({type: imageType});
 
         await page.close();
-        await updateShindanRank(guildId, userId, username)
+        await updateShindanRank(channelId, userId, username)
         return h.image(imgBuffer, 'image/png');
 
       }
@@ -871,19 +871,19 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
       //
     })
 
-  async function updateShindanRank(guildId: string | null, userId: string, username: string) {
-    if (!guildId) {
-      // 在这里为私聊场景赋予一个默认的 guildId，比如 "privateChatGuildId"
-      guildId = "privateChatGuildId";
+  async function updateShindanRank(channelId: string | null, userId: string, username: string) {
+    if (!channelId) {
+      // 在这里为私聊场景赋予一个默认的 channelId，比如 "privateChatGuildId"
+      channelId = "privateChatGuildId";
     }
 
     // 判断是否存在，不存在则创建
-    const shindanUser = await ctx.database.get('shindan_rank', {guildId, userId});
+    const shindanUser = await ctx.database.get('shindan_rank', {channelId, userId});
     if (shindanUser.length === 0) {
-      await ctx.database.create('shindan_rank', {guildId, userId, username, shindanCount: 1});
+      await ctx.database.create('shindan_rank', {channelId, userId, username, shindanCount: 1});
     } else {
       // 存在就 + 1
-      await ctx.database.set('shindan_rank', {guildId, userId}, {
+      await ctx.database.set('shindan_rank', {channelId, userId}, {
         username,
         shindanCount: shindanUser[0].shindanCount + 1
       });
