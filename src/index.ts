@@ -854,19 +854,19 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
           }
         }
         const hasChart = postResponse.data.includes("chart.js");
-
         const needScript = `${h.unescape(scriptString)}
-  <script src="https://dkhhsjgarvlsj.cloudfront.net/public/js/app.js?id=54344e833cba8e7031dc8738d5b4502e"
+  <script src="app.js"
     defer></script>
-  <script src="https://dkhhsjgarvlsj.cloudfront.net/public/js/chart.js?id=70d18405b84dcf0cdc534eea21f4c23c"
+  <script src="chart.js"
     defer></script>`
 
         const html = `
   <html lang="zh">
 
   <head>
-    <link rel="stylesheet"
-      href="https://dkhhsjgarvlsj.cloudfront.net/public/css/app.css?id=ef4ab887060ae6109de7f9c74d05aa6c"><title>神断渲染页面</title>
+<link rel="stylesheet" type="text/css" href="app.css">
+
+      <title>神断渲染页面</title>
   ${hasChart ? h.unescape(needScript) : ''}
   </head>
 
@@ -881,6 +881,8 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   </html>`
 
         const page = await ctx.puppeteer.page();
+        const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
+        await page.goto('file://' + filePath);
         await page.setViewport({
           width: 750, height: 100,
         });
