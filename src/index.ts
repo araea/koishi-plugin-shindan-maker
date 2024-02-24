@@ -857,11 +857,11 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const needScript = `${h.unescape(scriptString)}
   <script src="app.js"
     defer></script>
-  <script src="chart.js"
-    defer></script>`
+    <script src="chartJs.js"
+            defer=""></script>`
 
         const html = `
-  <html lang="zh">
+  <html lang="en">
 
   <head>
 <link rel="stylesheet" type="text/css" href="app.css">
@@ -884,11 +884,10 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const filePath = path.join(__dirname, 'emptyHtml.html').replace(/\\/g, '/');
         await page.goto('file://' + filePath);
         await page.setViewport({
-          width: 750, height: 100,
+          width: 750, height: 100, deviceScaleFactor: 1
         });
         await page.setContent(html, {waitUntil: 'load'});
         hasChart ? await sleep(2000) : '';
-
         // 找到 title_and_result 元素并截图
         const titleAndResultElement = await page.$('#title_and_result');
         const imgBuffer = await titleAndResultElement.screenshot({type: imageType});
