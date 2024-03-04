@@ -149,7 +149,7 @@ export async function apply(ctx: Context, config: Config) {
   }
 
   // 主要逻辑
-  const filePath = path.join(__dirname, 'shindans.json');
+  const filePath = path.join(__dirname, 'assets', 'shindans.json');
   const shindansDirPath = path.join(ctx.baseDir, 'data', 'shindanMaker');
   const shindansFilePath = path.join(shindansDirPath, 'shindans.json');
 
@@ -855,16 +855,16 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         }
         const hasChart = postResponse.data.includes("chart.js");
         const needScript = `${h.unescape(scriptString)}
-  <script src="app.js"
+  <script src="./assets/app.js"
     defer></script>
-    <script src="chartJs.js"
+    <script src="./assets/chartJs.js"
             defer=""></script>`
 
         const html = `
   <html lang="en">
 
   <head>
-<link rel="stylesheet" type="text/css" href="app.css">
+<link rel="stylesheet" type="text/css" href="./assets/app.css">
 
       <title>神断渲染页面</title>
   ${hasChart ? h.unescape(needScript) : ''}
