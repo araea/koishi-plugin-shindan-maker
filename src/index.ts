@@ -517,6 +517,7 @@ export async function apply(ctx: Context, config: Config) {
     }
 
     await page.close();
+    await context.close();
   });
 
   // tj*
@@ -897,6 +898,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         const imgBuffer = await titleAndResultElement.screenshot({type: imageType});
 
         await page.close();
+        await context.close();
         await updateShindanRank(channelId, userId, username)
         return h.image(imgBuffer, 'image/png');
 
