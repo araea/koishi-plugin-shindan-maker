@@ -208,7 +208,9 @@ export async function apply(ctx: Context, config: Config) {
       modifiedContent = content.replace('-i', '');
     }
 
-    function extractCommandAndShindanName(content: string): { command: string; shindanName: string } {
+  async  function extractCommandAndShindanName(content: string): Promise<{ command: string; shindanName: string }> {
+      content = await replaceAtTags(session, content)
+
       // 匹配 <at> 标签的正则表达式
       const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
 
@@ -243,7 +245,7 @@ export async function apply(ctx: Context, config: Config) {
       return {command, shindanName};
     }
 
-    const result = extractCommandAndShindanName(modifiedContent)
+    const result = await extractCommandAndShindanName(modifiedContent)
 
     const {command, shindanName} = result
     const shindan = shindans.find(s => s.shindanCommand === command);
@@ -277,6 +279,7 @@ export async function apply(ctx: Context, config: Config) {
       //
       let {channelId, userId, username} = session
       if (targetUser) {
+        targetUser = await replaceAtTags(session, targetUser)
         const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
         const match = targetUser.match(userIdRegex);
         userId = match?.[1] ?? userId;
@@ -927,6 +930,28 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
   }
 
   // hs*
+  async function replaceAtTags(session, content: string): Promise<string> {
+    // 正则表达式用于匹配 at 标签
+    const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
+
+    // 匹配所有 at 标签
+    let match;
+    while ((match = atRegex.exec(content)) !== null) {
+      const userId = match[1];
+      const name = match[2];
+
+      // 如果 name 不存在，根据 userId 获取相应的 name
+      if (!name) {
+        const guildMember = await session.bot.getGuildMember(session.guildId, userId);
+
+        // 替换原始的 at 标签
+        const newAtTag = `<at id="${userId}" name="${guildMember.name}"/>`;
+        content = content.replace(match[0], newAtTag);
+      }
+    }
+
+    return content;
+  }
 
   function isShindanIdValid(shindanId: string): boolean {
     return !isNaN(Number(shindanId));
