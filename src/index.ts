@@ -1198,7 +1198,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
             })
             .join('\n');
           const imageBuffer = await ctx.markdownToImage.convertToImage(modifiedMessage);
-          [messageId] = session.send(h.image(imageBuffer, `image/${config.imageType}`));
+          [messageId] = await session.send(h.image(imageBuffer, `image/${config.imageType}`));
         }
       } else {
         if (config.shouldPrefixUsernameInMessageSending && isAt) {
