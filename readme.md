@@ -63,7 +63,7 @@ npm install koishi-plugin-shindan-maker
 
 ### 神断列表设置
 
-- `defaultShindansBatchCount`：发送神断列表默认的批次数。最大值为 `10`，默认为 `5`。
+- `defaultShindansBatchCount`：发送神断列表默认的批次数。最大值为 `10`，默认为 `4`。
 
 ### 中间件设置
 

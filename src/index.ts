@@ -106,7 +106,7 @@ export const Config: Schema<Config> = Schema.intersect([
 
   }).description('排行榜设置'),
   Schema.object({
-    defaultShindansBatchCount: Schema.number().min(1).max(10).default(5).description(`发送神断列表默认的批次数，最大值为 \`10\`，默认为 \`5\`。`),
+    defaultShindansBatchCount: Schema.number().min(1).max(10).default(4).description(`（QQ官方机器人请调整至4及以下）发送神断列表默认的批次数，最大值为 \`10\`，默认为 \`4\`。`),
 
   }).description('神断列表设置'),
   Schema.object({
