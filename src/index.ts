@@ -1319,7 +1319,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     return {targetUserRecord, targetUserId};
   }
 
-  async function replaceAtTags(session, content: string): Promise<string> {
+  async function replaceAtTags(session, content: string, isQQ = false): Promise<string> {
     // 正则表达式用于匹配 at 标签
     const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
 
@@ -1331,11 +1331,17 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
 
       // 如果 name 不存在，根据 userId 获取相应的 name
       if (!name) {
-        const guildMember = await session.bot.getGuildMember(session.guildId, userId);
+        if (isQQ) {
+          const newAtTag = `<at id="${userId}" name="请在神断指令后面加上你的名字吧~ 例如：我爱你 徐佳瑶"/>`;
+          content = content.replace(match[0], newAtTag);
+        } else {
+          const guildMember = await session.bot.getGuildMember(session.guildId, userId);
 
-        // 替换原始的 at 标签
-        const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
-        content = content.replace(match[0], newAtTag);
+          // 替换原始的 at 标签
+          const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
+          content = content.replace(match[0], newAtTag);
+        }
+
       }
     }
 
