@@ -246,7 +246,7 @@ export async function apply(ctx: Context, config: Config) {
     }
 
     async function extractCommandAndShindanName(content: string): Promise<{ command: string; shindanName: string }> {
-      content = await replaceAtTags(session, content)
+      content = await replaceAtTags(session, content, isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq');
 
       // 匹配 <at> 标签的正则表达式
       const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
