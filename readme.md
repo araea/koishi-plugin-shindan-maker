@@ -100,6 +100,14 @@ npm install koishi-plugin-shindan-maker
 * [nonebot-plugin-shindanmaker](https://github.com/noneplugin/nonebot-plugin-shindan) - 功能实现的参考来源。
 * [神断网](https://en.shindanmaker.com/) - 提供了各种有趣的测试和生成器。
 
-## 📄 License
+## 🐱 QQ 群
+
+- 956758505
+
+## ✨ License
 
 MIT License © 2024
+
+希望您喜欢这款插件！ 💫
+
+如有任何问题或建议，欢迎联系我哈~ 🎈

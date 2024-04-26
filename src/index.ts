@@ -42,6 +42,10 @@ export const usage = `## 🎮 使用
 - \`shindan.删除 <shindanCommand:string>\`：删除列表中的一个神断，需指定神断指令。
 - \`shindan.修改 <shindanCommand:string> <shindanNewCommand:string> [shindanMode:string]\`：修改列表中的一个神断，需指定原神断指令、新神断指令和神断模式（默认为原神断模式）。
 - \`shindan.设置 <shindanCommand:string> <shindanMode:string>\`：设置列表中的一个神断的模式，需指定神断指令和神断模式。
+
+## 🐱 QQ 群
+
+- 956758505
 `
 const logger = new Logger(`shindanMaker`)
 
