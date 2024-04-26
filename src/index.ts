@@ -131,7 +131,6 @@ declare module 'koishi' {
 // jk*
 export interface ShindanRank {
   id: number
-  channelId: string
   userId: string
   username: string
   shindanCount: number
@@ -142,7 +141,6 @@ export async function apply(ctx: Context, config: Config) {
   // tzb*
   ctx.model.extend('shindan_rank', {
     id: 'unsigned',
-    channelId: 'string',
     userId: 'string',
     username: 'string',
     shindanCount: 'integer'
@@ -233,7 +231,8 @@ export async function apply(ctx: Context, config: Config) {
 
   // zjj*
   ctx.middleware(async (session, next) => {
-    const {username, content} = session
+    let {username, content} = session
+    username = await getSessionUserName(session)
     let isText = false;
     let isImage = false;
     let modifiedContent = content;
@@ -246,7 +245,7 @@ export async function apply(ctx: Context, config: Config) {
     }
 
     async function extractCommandAndShindanName(content: string): Promise<{ command: string; shindanName: string }> {
-      content = await replaceAtTags(session, content, isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq');
+      content = await replaceAtTags(session, content);
 
       // 匹配 <at> 标签的正则表达式
       const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
@@ -258,7 +257,7 @@ export async function apply(ctx: Context, config: Config) {
       // 使用正则表达式找到所有的 <at> 标签
       const atTags = content.match(atTagRegex);
 
-      // 移除所有的 <at> 标签得到可能的命令和shindanName
+      // 移除所有的 <at> 标签得到可能的命令和 shindanName
       let commandAndShindan = content.replace(atTagRegex, '').trim();
 
       // 分割可能的命令和shindanName
@@ -326,7 +325,7 @@ export async function apply(ctx: Context, config: Config) {
       if (targetUserRecord.length === 0) {
         return await sendMessage(session, `该统计对象无神断记录。`, `改名 神断统计 随机神断`)
       }
-      const guildUsers = await ctx.database.get('shindan_rank', {channelId})
+      const guildUsers = await ctx.database.get('shindan_rank', {})
       // 根据 shindanCount 降序排序
       guildUsers.sort((a, b) => b.shindanCount - a.shindanCount);
 
@@ -958,7 +957,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
 
         await page.close();
         await context.close();
-        await updateShindanRank(channelId, userId, username)
+        await updateShindanRank(userId, username)
         await sendMessage(session, h.image(imgBuffer, `image/${imageType}`), ``, 2, false)
         if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
           await sendMessage(session, `🎉 占卜完成！`, `神断列表 神断排行榜 改名 神断统计 随机神断`)
@@ -1004,19 +1003,14 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     });
 
   // hs*
-  async function updateShindanRank(channelId: string | null, userId: string, username: string) {
-    if (!channelId) {
-      // 在这里为私聊场景赋予一个默认的 channelId，比如 "privateChatGuildId"
-      channelId = "privateChatGuildId";
-    }
-
+  async function updateShindanRank(userId: string, username: string) {
     // 判断是否存在，不存在则创建
-    const shindanUser = await ctx.database.get('shindan_rank', {channelId, userId});
+    const shindanUser = await ctx.database.get('shindan_rank', {userId});
     if (shindanUser.length === 0) {
-      await ctx.database.create('shindan_rank', {channelId, userId, username, shindanCount: 1});
+      await ctx.database.create('shindan_rank', {userId, username, shindanCount: 1});
     } else {
       // 存在就 + 1
-      await ctx.database.set('shindan_rank', {channelId, userId}, {
+      await ctx.database.set('shindan_rank', {userId}, {
         username,
         shindanCount: shindanUser[0].shindanCount + 1
       });
@@ -1319,7 +1313,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
     return {targetUserRecord, targetUserId};
   }
 
-  async function replaceAtTags(session, content: string, isQQ = false): Promise<string> {
+  async function replaceAtTags(session, content: string): Promise<string> {
     // 正则表达式用于匹配 at 标签
     const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
 
@@ -1331,8 +1325,8 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
 
       // 如果 name 不存在，根据 userId 获取相应的 name
       if (!name) {
-        if (isQQ) {
-          const newAtTag = `<at id="${userId}" name="请在神断指令后面加上你的名字吧~ 例如：我爱你 徐佳瑶"/>`;
+        if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
+          const newAtTag = `<at id="${userId}" name="请在神断指令后面加上你的名字吧~ 例如：我爱你 小小神尊"/>`;
           content = content.replace(match[0], newAtTag);
         } else {
           const guildMember = await session.bot.getGuildMember(session.guildId, userId);
