@@ -1714,5 +1714,11 @@
     "shindanCommand": "我是什么魅魔",
     "shindanMode": "image",
     "shindanTitle": "测一测你是什么类型的魅魔～♡ "
+  },
+  {
+    "shindanId": "1203714",
+    "shindanCommand": "女骑士生成器",
+    "shindanMode": "image",
+    "shindanTitle": "女骑士生成器 "
   }
 ]
