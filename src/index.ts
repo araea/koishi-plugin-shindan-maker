@@ -960,7 +960,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
         await updateShindanRank(userId, username)
         await sendMessage(session, h.image(imgBuffer, `image/${imageType}`), ``, 2, false)
         if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === 'qq') {
-          await sendMessage(session, `🎉 占卜完成！`, `神断列表 神断排行榜 改名 神断统计 随机神断`)
+          await sendMessage(session, `🎉 占卜完成！`, `神断列表 神断次数排行榜 改名 神断统计 随机神断`)
         }
 
       }
