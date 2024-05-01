@@ -990,6 +990,9 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
           return await sendMessage(session, `新的名字已经存在，请重新输入。`, `改名 随机神断`)
         }
       }
+      if (newPlayerName.includes("@everyone")) {
+        return await sendMessage(session, `【@${username}】\n新的玩家名字不合法，请重新输入。`, `改名 随机神断`)
+      }
       const userRecord = await ctx.database.get('shindan_rank', {userId});
       if (userRecord.length === 0) {
         await ctx.database.create('shindan_rank', {
