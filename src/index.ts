@@ -1332,7 +1332,16 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
           const newAtTag = `<at id="${userId}" name="请在神断指令后面加上你的名字吧~ 例如：我爱你 小小神尊"/>`;
           content = content.replace(match[0], newAtTag);
         } else {
-          const guildMember = await session.bot.getGuildMember(session.guildId, userId);
+          let guildMember;
+          try {
+            guildMember = await session.bot.getGuildMember(session.guildId, userId);
+          } catch (error) {
+            guildMember = {
+              user: {
+                name: '未知用户',
+              },
+            };
+          }
 
           // 替换原始的 at 标签
           const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
