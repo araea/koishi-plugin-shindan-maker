@@ -832,9 +832,9 @@ export async function apply(ctx: Context, config: Config) {
 
       const payload = new URLSearchParams();
       payload.append('_token', tokenValue);
-      payload.append('hiddenName', '_hiddenName');
+      payload.append('randname', '用户M');
       payload.append('type', typeValue);
-      payload.append('shindanName', shindanName);
+      payload.append('user_input_value_1', shindanName);
       payload.append('shindan_token', shindanTokenValue);
 
       const postResponse = await retry(() => axios.post(url, payload.toString(), {
