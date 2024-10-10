@@ -821,8 +821,8 @@ export async function apply(ctx: Context, config: Config) {
       const tokenInput = form.querySelector<HTMLInputElement>('input[name="_token"]');
       const tokenValue = tokenInput.value;
 
-      const hiddenNameInput = form.querySelector<HTMLInputElement>('input[name="hiddenName"]');
-      const hiddenNameValue = hiddenNameInput.value;
+      // const hiddenNameInput = form.querySelector<HTMLInputElement>('input[name="hiddenName"]');
+      // const hiddenNameValue = hiddenNameInput.value;
 
       const typeInput = form.querySelector<HTMLInputElement>('input[name="type"]');
       const typeValue = typeInput.value;
@@ -832,7 +832,7 @@ export async function apply(ctx: Context, config: Config) {
 
       const payload = new URLSearchParams();
       payload.append('_token', tokenValue);
-      payload.append('hiddenName', hiddenNameValue);
+      payload.append('hiddenName', '_hiddenName');
       payload.append('type', typeValue);
       payload.append('shindanName', shindanName);
       payload.append('shindan_token', shindanTokenValue);
