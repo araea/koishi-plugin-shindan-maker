@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-shindan-maker",
-  "description": "Koishi 的 [ShindanMaker](https://en.shindanmaker.com/) 占卜插件。内置 270+ 占卜项。",
-  "version": "2.2.2",
+  "description": "Koishi 的 ShindanMaker 占卜插件。内置 270+ 占卜项。",
+  "version": "2.2.3",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
