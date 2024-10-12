@@ -13,37 +13,21 @@ export const inject = {
   optional: ['markdownToImage'],
 }
 export const name = 'shindan-maker'
-export const usage = `## 🎮 使用
+export const usage = `## 使用
 
-- 启动 Koishi，并确保你已经启动了 [puppeteer](https://koishi.chat/guide/plugins/puppeteer.html) 服务。
-- 发送 \`shindan\` 指令，查看神断帮助信息。
-- 发送 \`shindan.列表\` 指令，查看已有的神断列表。
-- 发送神断列表中的任意一个神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
-- 你也可以使用 \`shindan.随机\` 指令，随机抽取一个神断。
-- 你还可以使用 \`shindan.自定义\` 指令，输入一个神断网上的神断 ID，自定义生成一个神断结果。
-- 你可以使用 \`-t\` 或 \`-i\` 参数，指定生成的神断结果是文本模式还是图片模式。
-- 你可以使用 \`shindan.添加\`，\`shindan.删除\`，\`shindan.修改\` 和 \`shindan.设置\` 指令，管理你的神断列表。
+1. 安装 \`puppeteer\` 服务。
+2. 设置指令别名。
+3. 发送 \`shindan.列表\` 查看神断指令列表。
+4. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
+5. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
 
-## 📝 神断命令
+## 致谢
 
-### 查看信息
-- \`shindan\`：查看神断帮助信息。
-- \`shindan.列表 [batchCount:number]\`：查看神断列表，可指定批次数和每批显示的神断数量（默认为 \`5\`）。
+* [Koishi](https://koishi.chat/)
+* [nonebot-plugin-shindanmaker](https://github.com/noneplugin/nonebot-plugin-shindan)
+* [ShindanMaker](https://en.shindanmaker.com/)
 
-### 神断操作
-- \`shindan.查看 [shindanCommand:text]\`：根据神断指令查看神断信息。
-- \`shindan.排行榜 [number:number]\`：查看神断次数排行榜，number 参数为排行榜显示人数，默认为 \`20\`。
-- \`shindan.统计 [targetUser:text]\`：查看指定用户的神断统计信息。
-- \`shindan.随机 [shindanName:text]\`：随机抽取一个神断，可指定神断名，若不指定则使用用户名（默认为 \`text\` 模式）。
-- \`shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]\`：自定义生成一个神断结果，需指定神断 ID，可指定神断名，若不指定则使用用户名，可指定神断模式（默认为 \`image\` 模式）。
-
-### 神断管理
-- \`shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]\`：添加一个神断到列表中，需指定神断 ID、神断指令和神断模式（默认为 \`image\` 模式）。
-- \`shindan.删除 <shindanCommand:string>\`：删除列表中的一个神断，需指定神断指令。
-- \`shindan.修改 <shindanCommand:string> <shindanNewCommand:string> [shindanMode:string]\`：修改列表中的一个神断，需指定原神断指令、新神断指令和神断模式（默认为原神断模式）。
-- \`shindan.设置 <shindanCommand:string> <shindanMode:string>\`：设置列表中的一个神断的模式，需指定神断指令和神断模式。
-
-## 🐱 QQ 群
+## QQ 群
 
 - 956758505
 `
