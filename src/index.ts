@@ -800,33 +800,27 @@ export async function apply(ctx: Context, config: Config) {
       const sessionCookie = cookies.find((cookie: string) => cookie.startsWith('_session='));
       const sessionValue = sessionCookie.split('=')[1].split(';')[0];
 
+      const defaultHeaders = {
+        ...headers,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Cookie': `_session=${sessionValue};`,
+      };
+
       const form = dom.window.document.querySelector<HTMLFormElement>('form#shindanForm');
 
-      const tokenInput = form.querySelector<HTMLInputElement>('input[name="_token"]');
-      const tokenValue = tokenInput.value;
+      const tokenValue = form?.querySelector<HTMLInputElement>('input[name="_token"]')?.value ?? '';
+      const typeValue = form?.querySelector<HTMLInputElement>('input[name="type"]')?.value ?? '';
+      const randnameValue = form?.querySelector<HTMLInputElement>('input[name="randname"]')?.value ?? '';
 
-      // const hiddenNameInput = form.querySelector<HTMLInputElement>('input[name="hiddenName"]');
-      // const hiddenNameValue = hiddenNameInput.value;
-
-      const typeInput = form.querySelector<HTMLInputElement>('input[name="type"]');
-      const typeValue = typeInput.value;
-
-      const shindanTokenInput = form.querySelector<HTMLInputElement>('input[name="shindan_token"]');
-      const shindanTokenValue = shindanTokenInput.value;
-
-      const payload = new URLSearchParams();
-      payload.append('_token', tokenValue);
-      payload.append('randname', '用户M');
-      payload.append('type', typeValue);
-      payload.append('user_input_value_1', shindanName);
-      payload.append('shindan_token', shindanTokenValue);
+      const payload = new URLSearchParams({
+        _token: tokenValue,
+        randname: randnameValue,
+        type: typeValue,
+        user_input_value_1: shindanName,
+      });
 
       const postResponse = await retry(() => axios.post(url, payload.toString(), {
-        headers: {
-          ...headers,
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Cookie': `_session=${sessionValue};`,
-        },
+        headers: defaultHeaders,
       }));
 
       const postDom = new JSDOM(postResponse.data);
@@ -917,7 +911,7 @@ ${(shindanImageUrl) ? h.image(shindanImageUrl) : ''}`
 
   <body>
   <div id="main-container">
-    <div id="main"> <span id="shindan_after" class="d-none">default</span>
+    <div id="main">
      ${h.unescape(titleAndResultString)}
     </div>
   </div>
