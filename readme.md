@@ -1,7 +1,7 @@
 # koishi-plugin-shindan-maker
 
-[<img alt="github" src="https://img.shields.io/badge/github-araea/shindan_maker-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/araea/shindan-maker)
-[<img alt="npm" src="https://img.shields.io/npm/v/koishi-plugin-shindan-maker.svg?style=for-the-badge&color=fc8d62&logo=npm" height="20">](https://crates.io/crates/shindan-maker)
+[<img alt="github" src="https://img.shields.io/badge/github-araea/shindan_maker-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/araea/koishi-plugin-shindan-maker)
+[<img alt="npm" src="https://img.shields.io/npm/v/koishi-plugin-shindan-maker.svg?style=for-the-badge&color=fc8d62&logo=npm" height="20">](https://www.npmjs.com/package/koishi-plugin-shindan-maker)
 
 Koishi 的 [ShindanMaker](https://en.shindanmaker.com/) 占卜插件。内置 270+ 占卜项。
 
