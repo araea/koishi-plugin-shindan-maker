@@ -21,7 +21,7 @@ Koishi 的 [ShindanMaker](https://en.shindanmaker.com/) 占卜插件。内置 69
 
 ## QQ 群
 
-- 956758505
+* 956758505
 
 <br>
 
