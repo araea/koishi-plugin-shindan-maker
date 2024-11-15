@@ -1,1724 +1,4148 @@
 [
   {
-    "shindanId": "26988",
-    "shindanCommand": "傲娇程度测定",
+    "shindanId": "1116350",
+    "shindanCommand": "0-100",
     "shindanMode": "image",
-    "shindanTitle": "傲嬌 "
+    "shindanTitle": "占卜你的○○度2"
   },
   {
-    "shindanId": "443593",
-    "shindanCommand": "本命武器测定",
+    "shindanId": "1185144",
+    "shindanCommand": "48系偶像",
     "shindanMode": "image",
-    "shindanTitle": "测试你的本命武器 "
-  },
-  {
-    "shindanId": "919572",
-    "shindanCommand": "猜猜我的性癖",
-    "shindanMode": "image",
-    "shindanTitle": "小小的黄文元素生成器 "
-  },
-  {
-    "shindanId": "1090381",
-    "shindanCommand": "查收魅魔档案",
-    "shindanMode": "image",
-    "shindanTitle": "请查收你的魅☆魔档案 "
-  },
-  {
-    "shindanId": "24963",
-    "shindanCommand": "成为一本书吧",
-    "shindanMode": "image",
-    "shindanTitle": "不要猶豫！成為一本書吧！(認真ver.0.1) "
-  },
-  {
-    "shindanId": "833360",
-    "shindanCommand": "宠物培养",
-    "shindanMode": "image",
-    "shindanTitle": "來飼養一只○○吧！ "
-  },
-  {
-    "shindanId": "1075116",
-    "shindanCommand": "抽二次元妻",
-    "shindanMode": "image",
-    "shindanTitle": "あなたの二次元での嫁ヒロイン "
-  },
-  {
-    "shindanId": "361845",
-    "shindanCommand": "抽高达",
-    "shindanMode": "image",
-    "shindanTitle": "マイ・ガンダム診断 "
-  },
-  {
-    "shindanId": "400813",
-    "shindanCommand": "抽舰娘",
-    "shindanMode": "image",
-    "shindanTitle": "【艦これ】あなたの嫁になる艦娘は？ "
-  },
-  {
-    "shindanId": "876174",
-    "shindanCommand": "抽老公",
-    "shindanMode": "image",
-    "shindanTitle": "あなたっぽい主人公キャラ "
-  },
-  {
-    "shindanId": "1000507",
-    "shindanCommand": "抽老公2",
-    "shindanMode": "image",
-    "shindanTitle": "あなたに似ているジャンプ主人公診断！ "
-  },
-  {
-    "shindanId": "1150687",
-    "shindanCommand": "抽老婆",
-    "shindanMode": "image",
-    "shindanTitle": "抽老婆 "
-  },
-  {
-    "shindanId": "1150888",
-    "shindanCommand": "抽能量属性",
-    "shindanMode": "image",
-    "shindanTitle": "能量属性 "
-  },
-  {
-    "shindanId": "1150610",
-    "shindanCommand": "抽女神异闻录老婆",
-    "shindanMode": "image",
-    "shindanTitle": "抽取女神异闻录老婆 "
-  },
-  {
-    "shindanId": "1135573",
-    "shindanCommand": "抽数码兽抉择者人物卡",
-    "shindanMode": "image",
-    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（变动版） "
-  },
-  {
-    "shindanId": "1150872",
-    "shindanCommand": "抽塔罗",
-    "shindanMode": "image",
-    "shindanTitle": "Persona5塔罗 "
-  },
-  {
-    "shindanId": "1044378",
-    "shindanCommand": "抽台湾地名",
-    "shindanMode": "image",
-    "shindanTitle": "地名抽抽 "
-  },
-  {
-    "shindanId": "1110781",
-    "shindanCommand": "抽特殊能力",
-    "shindanMode": "image",
-    "shindanTitle": "你的特殊能力是什么？ "
-  },
-  {
-    "shindanId": "541545",
-    "shindanCommand": "抽星武",
-    "shindanMode": "image",
-    "shindanTitle": "《永恒之轮》！看看您驾驶哪一部星武装机！ "
-  },
-  {
-    "shindanId": "1099408",
-    "shindanCommand": "抽元素",
-    "shindanMode": "image",
-    "shindanTitle": "Atom-Element "
-  },
-  {
-    "shindanId": "1163454",
-    "shindanCommand": "抽原神",
-    "shindanMode": "image",
-    "shindanTitle": "测试你是原神中的谁 "
-  },
-  {
-    "shindanId": "1163576",
-    "shindanCommand": "抽原神简易版",
-    "shindanMode": "image",
-    "shindanTitle": "测试你是原神形象简易版 "
-  },
-  {
-    "shindanId": "1142582",
-    "shindanCommand": "抽主人",
-    "shindanMode": "image",
-    "shindanTitle": "あなたが行ったらハマるホスト "
-  },
-  {
-    "shindanId": "1150686",
-    "shindanCommand": "抽P3老婆",
-    "shindanMode": "image",
-    "shindanTitle": "你的P3老婆 "
-  },
-  {
-    "shindanId": "1150609",
-    "shindanCommand": "抽P4老婆",
-    "shindanMode": "image",
-    "shindanTitle": "抽取P4老婆 "
-  },
-  {
-    "shindanId": "1150594",
-    "shindanCommand": "抽P5老婆",
-    "shindanMode": "image",
-    "shindanTitle": "抽P5老婆 "
-  },
-  {
-    "shindanId": "1083312",
-    "shindanCommand": "穿越到二次世界大战的我会是什么将军呢",
-    "shindanMode": "image",
-    "shindanTitle": "穿越到二次世界大战的你会是什么样将军呢？ "
-  },
-  {
-    "shindanId": "738291",
-    "shindanCommand": "穿越异世界状态版面",
-    "shindanMode": "image",
-    "shindanTitle": "穿越轉生到異世界的狀態版面(升級豪華版) "
-  },
-  {
-    "shindanId": "1109819",
-    "shindanCommand": "创作用句",
-    "shindanMode": "image",
-    "shindanTitle": "创作用句2/2 "
-  },
-  {
-    "shindanId": "1194760",
-    "shindanCommand": "大陆酒店",
-    "shindanMode": "image",
-    "shindanTitle": "大陆酒店 "
-  },
-  {
-    "shindanId": "832039",
-    "shindanCommand": "当我变成了战术人形",
-    "shindanMode": "image",
-    "shindanTitle": "當你變成了戰術人形☆ "
-  },
-  {
-    "shindanId": "1129921",
-    "shindanCommand": "道诡人生",
-    "shindanMode": "image",
-    "shindanTitle": "道诡人生 "
-  },
-  {
-    "shindanId": "850187",
-    "shindanCommand": "第二人格测定",
-    "shindanMode": "image",
-    "shindanTitle": "如果你有第二人格，那麼他會是什麼模樣？ "
-  },
-  {
-    "shindanId": "318410",
-    "shindanCommand": "动漫角色测定",
-    "shindanMode": "image",
-    "shindanTitle": "动漫角色测试 "
-  },
-  {
-    "shindanId": "162924",
-    "shindanCommand": "动漫中的我的样子",
-    "shindanMode": "image",
-    "shindanTitle": "测试你在动漫里面的样子 "
-  },
-  {
-    "shindanId": "851659",
-    "shindanCommand": "二次元人设生成器",
-    "shindanMode": "image",
-    "shindanTitle": "indie二次元人设生成器 "
-  },
-  {
-    "shindanId": "528555",
-    "shindanCommand": "反派角色类型测定",
-    "shindanMode": "image",
-    "shindanTitle": "测试你会成为什么样的反派角色 "
-  },
-  {
-    "shindanId": "845842",
-    "shindanCommand": "概括我的一生",
-    "shindanMode": "image",
-    "shindanTitle": "用三句话概括CP "
-  },
-  {
-    "shindanId": "1093459",
-    "shindanCommand": "高考成绩生成器",
-    "shindanMode": "image",
-    "shindanTitle": "高考成绩生成器 "
-  },
-  {
-    "shindanId": "1172452",
-    "shindanCommand": "告白成功率",
-    "shindanMode": "image",
-    "shindanTitle": "あなたの告白成功率は～? "
-  },
-  {
-    "shindanId": "1150916",
-    "shindanCommand": "哥们考试",
-    "shindanMode": "image",
-    "shindanTitle": "哥们考试 "
-  },
-  {
-    "shindanId": "20263",
-    "shindanCommand": "古代姓名字号",
-    "shindanMode": "image",
-    "shindanTitle": "你在古代的姓名字號 "
-  },
-  {
-    "shindanId": "1097999",
-    "shindanCommand": "关于我转学到如恩学院这件事",
-    "shindanMode": "image",
-    "shindanTitle": "关于你转学到如恩学院这件事 "
-  },
-  {
-    "shindanId": "1157184",
-    "shindanCommand": "罐头人设",
-    "shindanMode": "image",
-    "shindanTitle": "罐头人设发癫生成器 "
-  },
-  {
-    "shindanId": "1104123",
-    "shindanCommand": "韩娱9人男团",
-    "shindanMode": "image",
-    "shindanTitle": "假如你打造了一个韩娱9人男团 "
-  },
-  {
-    "shindanId": "383328",
-    "shindanCommand": "互动命题",
-    "shindanMode": "image",
-    "shindanTitle": "互動命題(*´ﾟ∀ﾟ)从(ﾟωﾟ｀*) "
-  },
-  {
-    "shindanId": "384482",
-    "shindanCommand": "互动脑洞关键词",
-    "shindanMode": "image",
-    "shindanTitle": "互動命題(*´ﾟ∀ﾟ)从(ﾟωﾟ｀*)CP腦洞關鍵字 "
-  },
-  {
-    "shindanId": "829594",
-    "shindanCommand": "会杀死我的东西",
-    "shindanMode": "image",
-    "shindanTitle": "会杀死你的东西 "
-  },
-  {
-    "shindanId": "832219",
-    "shindanCommand": "绘画关键词",
-    "shindanMode": "image",
-    "shindanTitle": "每日繪畫關鍵詞生成器(我流) "
-  },
-  {
-    "shindanId": "957935",
-    "shindanCommand": "霍格沃茨毕业生",
-    "shindanMode": "image",
-    "shindanTitle": "霍格沃茨毕业生的生平与谎言 "
-  },
-  {
-    "shindanId": "944833",
-    "shindanCommand": "霍格沃兹聊天室",
-    "shindanMode": "image",
-    "shindanTitle": "霍格華茲聊天室 "
-  },
-  {
-    "shindanId": "828228",
-    "shindanCommand": "假面骑士生成器",
-    "shindanMode": "image",
-    "shindanTitle": "假面骑士生成器 "
-  },
-  {
-    "shindanId": "1098388",
-    "shindanCommand": "假如我闯入了ABO世界的内娱",
-    "shindanMode": "image",
-    "shindanTitle": "假如你闯入了ABO世界的内娱 "
-  },
-  {
-    "shindanId": "87845",
-    "shindanCommand": "剑与魔法世界",
-    "shindanMode": "image",
-    "shindanTitle": "少年！亮兵器吧！ "
-  },
-  {
-    "shindanId": "940214",
-    "shindanCommand": "角之旅",
-    "shindanMode": "image",
-    "shindanTitle": "✦角之旅✧ "
-  },
-  {
-    "shindanId": "1150537",
-    "shindanCommand": "今日任斗",
-    "shindanMode": "image",
-    "shindanTitle": "今日任斗Main是？ "
-  },
-  {
-    "shindanId": "1077564",
-    "shindanCommand": "今天穿什么胖次",
-    "shindanMode": "image",
-    "shindanTitle": "今天穿的什么颜色的胖次 "
-  },
-  {
-    "shindanId": "1126051",
-    "shindanCommand": "今天的可蕾也最喜欢了",
-    "shindanMode": "image",
-    "shindanTitle": "今天的也最喜歡了 可蕾版本 "
-  },
-  {
-    "shindanId": "1061975",
-    "shindanCommand": "今天画画用什么人设",
-    "shindanMode": "image",
-    "shindanTitle": "画画用人设生成器 "
-  },
-  {
-    "shindanId": "1062077",
-    "shindanCommand": "今天是什么宝可梦",
-    "shindanMode": "image",
-    "shindanTitle": "☆宝可梦图鉴☆ "
-  },
-  {
-    "shindanId": "1062001",
-    "shindanCommand": "今天是什么多娜多娜人材",
-    "shindanMode": "image",
-    "shindanTitle": "☆多娜多娜人材属性☆ "
-  },
-  {
-    "shindanId": "1152099",
-    "shindanCommand": "今天是什么欧派",
-    "shindanMode": "image",
-    "shindanTitle": "今天的欧派是什么样 "
-  },
-  {
-    "shindanId": "162207",
-    "shindanCommand": "今天是什么少女",
-    "shindanMode": "image",
-    "shindanTitle": "你的二次元少女化形象 "
-  },
-  {
-    "shindanId": "1060224",
-    "shindanCommand": "今天是什么誓灵",
-    "shindanMode": "image",
-    "shindanTitle": "生成专属于你的誓灵 "
-  },
-  {
-    "shindanId": "1168322",
-    "shindanCommand": "今天是什么糖果",
-    "shindanMode": "image",
-    "shindanTitle": "今天的你是什麼樣的糖果呢？ "
-  },
-  {
-    "shindanId": "820217",
-    "shindanCommand": "来梗",
-    "shindanMode": "image",
-    "shindanTitle": "♣我有梗，你有笔吗♣ "
-  },
-  {
-    "shindanId": "1135729",
-    "shindanCommand": "来一句带感的台词",
-    "shindanMode": "image",
-    "shindanTitle": "來一句帶感的臺詞 "
-  },
-  {
-    "shindanId": "1191352",
-    "shindanCommand": "来一句劲道的最终台词吧",
-    "shindanMode": "image",
-    "shindanTitle": "来一句劲道的最终台词吧 "
-  },
-  {
-    "shindanId": "1064580",
-    "shindanCommand": "令咒图标",
-    "shindanMode": "image",
-    "shindanTitle": "♏️あなたの令呪風アイコン作るったー♋️(3画修正＆気ままに増量中) "
-  },
-  {
-    "shindanId": "1059404",
-    "shindanCommand": "马娘相性",
-    "shindanMode": "image",
-    "shindanTitle": "貴方と相性のいいウマ娘は？ "
-  },
-  {
-    "shindanId": "360578",
-    "shindanCommand": "卖萌",
-    "shindanMode": "text",
-    "shindanTitle": "顔文字作るよ(  ﾟдﾟ ) "
-  },
-  {
-    "shindanId": "22206",
-    "shindanCommand": "每日二次元的我",
-    "shindanMode": "image",
-    "shindanTitle": "二次元的你是？ "
-  },
-  {
-    "shindanId": "877212",
-    "shindanCommand": "每日哥谭十连抽",
-    "shindanMode": "image",
-    "shindanTitle": "哥谭的超幸运十连抽！ "
-  },
-  {
-    "shindanId": "1171473",
-    "shindanCommand": "每日歌词",
-    "shindanMode": "image",
-    "shindanTitle": "屬於你的一句歌詞 "
-  },
-  {
-    "shindanId": "1088007",
-    "shindanCommand": "每日哈利波特魔法人生",
-    "shindanMode": "image",
-    "shindanTitle": "体验哈利波特魔法人生（2.0新版） "
-  },
-  {
-    "shindanId": "1031149",
-    "shindanCommand": "每日黄梗",
-    "shindanMode": "image",
-    "shindanTitle": "每日的梗之類的(全R18) "
-  },
-  {
-    "shindanId": "870843",
-    "shindanCommand": "每日拷问女奥特曼",
-    "shindanMode": "image",
-    "shindanTitle": "【R-18】被拷问的女奥特曼是…… "
-  },
-  {
-    "shindanId": "1142797",
-    "shindanCommand": "每日奇幻人设生成",
-    "shindanMode": "image",
-    "shindanTitle": "奇幻人设生成 "
-  },
-  {
-    "shindanId": "898330",
-    "shindanCommand": "每日三关键词",
-    "shindanMode": "image",
-    "shindanTitle": "CP每日三个关键词 "
-  },
-  {
-    "shindanId": "486338",
-    "shindanCommand": "每日三题生成",
-    "shindanMode": "image",
-    "shindanTitle": "每日三题生成 "
-  },
-  {
-    "shindanId": "1073636",
-    "shindanCommand": "每日随机数值",
-    "shindanMode": "image",
-    "shindanTitle": "隨機數值（雷達圖） "
-  },
-  {
-    "shindanId": "1186057",
-    "shindanCommand": "每日随机骰子卡牌小游戏角色卡",
-    "shindanMode": "image",
-    "shindanTitle": "纯雪自用的骰子卡牌小游戏角色卡随机器——每日版 "
-  },
-  {
-    "shindanId": "837833",
-    "shindanCommand": "每日台词",
-    "shindanMode": "image",
-    "shindanTitle": "來畫單格漫畫吧！ "
-  },
-  {
-    "shindanId": "1133418",
-    "shindanCommand": "每日新班级座位表",
-    "shindanMode": "image",
-    "shindanTitle": "SAMPLE : CHART函数 TABLE图表 "
-  },
-  {
-    "shindanId": "555143",
-    "shindanCommand": "每日异世界属性面板",
-    "shindanMode": "image",
-    "shindanTitle": "如果你穿越/重生到異世界,你的屬性面板會是? "
-  },
-  {
-    "shindanId": "1151175",
-    "shindanCommand": "每日运势",
-    "shindanMode": "image",
-    "shindanTitle": "小波奇牌2023每日运势 "
-  },
-  {
-    "shindanId": "394047",
-    "shindanCommand": "每日重口",
-    "shindanMode": "image",
-    "shindanTitle": "重口PLAY测试（无R18G内容只到R18） "
-  },
-  {
-    "shindanId": "832081",
-    "shindanCommand": "每日专属魔药",
-    "shindanMode": "image",
-    "shindanTitle": "製作你的專屬魔藥☆ "
-  },
-  {
-    "shindanId": "829767",
-    "shindanCommand": "每日cp故事",
-    "shindanMode": "image",
-    "shindanTitle": "每日cp限定开头和限定结尾 "
-  },
-  {
-    "shindanId": "807196",
-    "shindanCommand": "每日CP互动",
-    "shindanMode": "image",
-    "shindanTitle": "每日CP Paro題材 "
-  },
-  {
-    "shindanId": "807174",
-    "shindanCommand": "每日CP互动题材",
-    "shindanMode": "image",
-    "shindanTitle": "每日CP互動題材 "
-  },
-  {
-    "shindanId": "1075782",
-    "shindanCommand": "每日OC十连",
-    "shindanMode": "image",
-    "shindanTitle": "OC十连池 "
-  },
-  {
-    "shindanId": "759939",
-    "shindanCommand": "梦病塔永夜之医疗塔",
-    "shindanMode": "image",
-    "shindanTitle": "✦夢病塔✧ "
-  },
-  {
-    "shindanId": "1121982",
-    "shindanCommand": "敏感度诊断",
-    "shindanMode": "image",
-    "shindanTitle": "正义t爆！！ "
-  },
-  {
-    "shindanId": "905435",
-    "shindanCommand": "明日方舟干员生成",
-    "shindanMode": "image",
-    "shindanTitle": "明日方舟干员生成 "
-  },
-  {
-    "shindanId": "897114",
-    "shindanCommand": "明日方舟角色生成",
-    "shindanMode": "image",
-    "shindanTitle": "明日方舟角色生成器 "
-  },
-  {
-    "shindanId": "830216",
-    "shindanCommand": "命中注定的男朋友",
-    "shindanMode": "image",
-    "shindanTitle": "你命中注定的男朋友是什么样的！👨🎤 "
-  },
-  {
-    "shindanId": "940824",
-    "shindanCommand": "魔法人生",
-    "shindanMode": "image",
-    "shindanTitle": "魔法人生：我在霍格沃兹读书时发生的两三事 "
-  },
-  {
-    "shindanId": "913532",
-    "shindanCommand": "魔法世界中的职业属性",
-    "shindanMode": "image",
-    "shindanTitle": "如果你在魔法世界里，你会拥有什么样的职业属性和魔法资质？ "
-  },
-  {
-    "shindanId": "1122723",
-    "shindanCommand": "某天做的梦",
-    "shindanMode": "image",
-    "shindanTitle": "某天做的夢（測試） "
-  },
-  {
-    "shindanId": "843854",
-    "shindanCommand": "墓志铭地狱风味",
-    "shindanMode": "image",
-    "shindanTitle": "墓志铭 "
-  },
-  {
-    "shindanId": "28733",
-    "shindanCommand": "哪里不对劲怎么办",
-    "shindanMode": "image",
-    "shindanTitle": "哪裡不對勁 "
-  },
-  {
-    "shindanId": "22074",
-    "shindanCommand": "男版的自己",
-    "shindanMode": "image",
-    "shindanTitle": "男版的自己!! "
-  },
-  {
-    "shindanId": "22295",
-    "shindanCommand": "男版的自己2",
-    "shindanMode": "image",
-    "shindanTitle": "男版的自己2 "
-  },
-  {
-    "shindanId": "1103980",
-    "shindanCommand": "内娱9人女团",
-    "shindanMode": "image",
-    "shindanTitle": "假如你打造了一个内娱9人女团 "
-  },
-  {
-    "shindanId": "635902",
-    "shindanCommand": "娘化穿越异世界",
-    "shindanMode": "image",
-    "shindanTitle": "娘化穿越到异世界ver4.2 "
-  },
-  {
-    "shindanId": "637918",
-    "shindanCommand": "娘化穿越异世界正经版",
-    "shindanMode": "image",
-    "shindanTitle": "娘化穿越到异世界（正经）VER2 "
-  },
-  {
-    "shindanId": "22157",
-    "shindanCommand": "女版的自己",
-    "shindanMode": "image",
-    "shindanTitle": "女版的自己 "
-  },
-  {
-    "shindanId": "637294",
-    "shindanCommand": "女性人设生成",
-    "shindanMode": "image",
-    "shindanTitle": "人设生成器（女性限定） "
-  },
-  {
-    "shindanId": "942140",
-    "shindanCommand": "配色生成",
-    "shindanMode": "image",
-    "shindanTitle": "配色生成机器 "
-  },
-  {
-    "shindanId": "28047",
-    "shindanCommand": "平行宇宙中的我",
-    "shindanMode": "image",
-    "shindanTitle": "平行宇宙中的另一个你，此刻在做什么 ？ "
-  },
-  {
-    "shindanId": "790659",
-    "shindanCommand": "奇妙的角色生成器",
-    "shindanMode": "image",
-    "shindanTitle": "奇妙的角色生成器 "
-  },
-  {
-    "shindanId": "790673",
-    "shindanCommand": "奇妙的教会生成器",
-    "shindanMode": "image",
-    "shindanTitle": "【自用世界观】奇妙的教会生成器 "
-  },
-  {
-    "shindanId": "790800",
-    "shindanCommand": "奇妙的乱睡角色生成器",
-    "shindanMode": "image",
-    "shindanTitle": "【自用世界观】奇妙的乱睡角色生成器 "
-  },
-  {
-    "shindanId": "790825",
-    "shindanCommand": "奇妙的配色环",
-    "shindanMode": "image",
-    "shindanTitle": "奇妙的配色环 "
-  },
-  {
-    "shindanId": "1051544",
-    "shindanCommand": "奇异少年诱捕装置2",
-    "shindanMode": "image",
-    "shindanTitle": "奇异少年诱捕装置2 "
-  },
-  {
-    "shindanId": "995775",
-    "shindanCommand": "奇异少年抓捕装置1",
-    "shindanMode": "image",
-    "shindanTitle": "奇异少年抓捕装置1 "
-  },
-  {
-    "shindanId": "995787",
-    "shindanCommand": "奇异少年抓捕装置3",
-    "shindanMode": "image",
-    "shindanTitle": "奇异少年抓捕装置3 "
-  },
-  {
-    "shindanId": "1155175",
-    "shindanCommand": "清河春日幻境之旅",
-    "shindanMode": "image",
-    "shindanTitle": "清河春日幻境之旅 "
-  },
-  {
-    "shindanId": "827798",
-    "shindanCommand": "人格面具属性测定",
-    "shindanMode": "image",
-    "shindanTitle": "測試你的人格面具（Persona）屬性 "
-  },
-  {
-    "shindanId": "731066",
-    "shindanCommand": "人格特质分布之九型人格",
-    "shindanMode": "image",
-    "shindanTitle": "你的人格特質分布（九型人格） "
-  },
-  {
-    "shindanId": "1183682",
-    "shindanCommand": "人偶记忆碎片",
-    "shindanMode": "image",
-    "shindanTitle": "人偶记忆碎片 "
-  },
-  {
-    "shindanId": "917962",
-    "shindanCommand": "人设生成",
-    "shindanMode": "image",
-    "shindanTitle": "人设生成器 "
-  },
-  {
-    "shindanId": "976056",
-    "shindanCommand": "人设生成器2",
-    "shindanMode": "image",
-    "shindanTitle": "测试你的人设-2.0！ "
-  },
-  {
-    "shindanId": "26637",
-    "shindanCommand": "人造少女",
-    "shindanMode": "image",
-    "shindanTitle": "-人造少女- "
-  },
-  {
-    "shindanId": "926484",
-    "shindanCommand": "肉文梗生成器",
-    "shindanMode": "image",
-    "shindanTitle": "頗糟糕的肉文梗產生器 "
-  },
-  {
-    "shindanId": "638952",
-    "shindanCommand": "如果变成触手怪的话",
-    "shindanMode": "image",
-    "shindanTitle": "如果变成触手怪的话！（有污） "
-  },
-  {
-    "shindanId": "1150319",
-    "shindanCommand": "如果我成为魔王",
-    "shindanMode": "image",
-    "shindanTitle": "【ハイスペックＡＩ】あなたが『魔王になったら』どんな感じなのか？ "
-  },
-  {
-    "shindanId": "1059228",
-    "shindanCommand": "如果我是一只马娘",
-    "shindanMode": "image",
-    "shindanTitle": "如果你是一隻馬娘 "
-  },
-  {
-    "shindanId": "1190840",
-    "shindanCommand": "色彩",
-    "shindanMode": "image",
-    "shindanTitle": "一方苗圃 "
-  },
-  {
-    "shindanId": "905558",
-    "shindanCommand": "色色的魔物娘",
-    "shindanMode": "image",
-    "shindanTitle": "你的魔物娘 "
-  },
-  {
-    "shindanId": "1099294",
-    "shindanCommand": "色色互动话题",
-    "shindanMode": "image",
-    "shindanTitle": "色色的cp互动题目大赏 "
-  },
-  {
-    "shindanId": "1079091",
-    "shindanCommand": "色色十连",
-    "shindanMode": "image",
-    "shindanTitle": "【R18創作靈感】色色的10連特選卡片池 "
-  },
-  {
-    "shindanId": "1186164",
-    "shindanCommand": "森罗重铸",
-    "shindanMode": "image",
-    "shindanTitle": "森罗重铸 "
-  },
-  {
-    "shindanId": "35290",
-    "shindanCommand": "身为古代人的我",
-    "shindanMode": "image",
-    "shindanTitle": "古代的身分 "
-  },
-  {
-    "shindanId": "827223",
-    "shindanCommand": "神袛身份",
-    "shindanMode": "image",
-    "shindanTitle": "你是一位怎样的神祇 "
-  },
-  {
-    "shindanId": "1110841",
-    "shindanCommand": "神级动漫",
-    "shindanMode": "image",
-    "shindanTitle": "あなたが選ぶ神アニメはこれだ！！ "
-  },
-  {
-    "shindanId": "829014",
-    "shindanCommand": "神明创造我的十日",
-    "shindanMode": "image",
-    "shindanTitle": "神明创造你的十日 "
-  },
-  {
-    "shindanId": "27865",
-    "shindanCommand": "时间占比测定",
-    "shindanMode": "image",
-    "shindanTitle": "一生中某件事占時間 "
-  },
-  {
-    "shindanId": "830443",
-    "shindanCommand": "世间万物化成的我",
-    "shindanMode": "image",
-    "shindanTitle": "如果你是世间万物化成的 "
-  },
-  {
-    "shindanId": "21431",
-    "shindanCommand": "适合待在我身边的执事与女仆",
-    "shindanMode": "image",
-    "shindanTitle": "適合待在您身邊的執事與女僕是？ "
-  },
-  {
-    "shindanId": "1007603",
-    "shindanCommand": "属于我的龙与地下城冒险之证",
-    "shindanMode": "image",
-    "shindanTitle": "屬於你的龍與地下城(DND)冒險者之證 "
-  },
-  {
-    "shindanId": "827937",
-    "shindanCommand": "属于我的神秘故事",
-    "shindanMode": "image",
-    "shindanTitle": "属于你的神必故事 "
-  },
-  {
-    "shindanId": "792129",
-    "shindanCommand": "私欲外貌设定",
-    "shindanMode": "image",
-    "shindanTitle": "充满制作者私欲的随机外貌设定 "
-  },
-  {
-    "shindanId": "834482",
-    "shindanCommand": "死前眼底映照",
-    "shindanMode": "image",
-    "shindanTitle": "你死之前的眼底映照着些什么呢？ "
-  },
-  {
-    "shindanId": "1135663",
-    "shindanCommand": "死前映像",
-    "shindanMode": "image",
-    "shindanTitle": "因為什麼而死，死前眼前浮現了什麼 "
-  },
-  {
-    "shindanId": "556031",
-    "shindanCommand": "饲养宠物的正确方法",
-    "shindanMode": "image",
-    "shindanTitle": "正确饲养你的方法！ "
-  },
-  {
-    "shindanId": "572991",
-    "shindanCommand": "随机调色板",
-    "shindanMode": "image",
-    "shindanTitle": "ランダムカラーパレット "
-  },
-  {
-    "shindanId": "522194",
-    "shindanCommand": "替身属性测定",
-    "shindanMode": "image",
-    "shindanTitle": "看看你的替身是什么样的 "
-  },
-  {
-    "shindanId": "1189616",
-    "shindanCommand": "为我写一首诗",
-    "shindanMode": "image",
-    "shindanTitle": "为你写一首诗 "
-  },
-  {
-    "shindanId": "829339",
-    "shindanCommand": "未被打碎的过去",
-    "shindanMode": "image",
-    "shindanTitle": "你的过去 "
-  },
-  {
-    "shindanId": "16164",
-    "shindanCommand": "未开发的必杀技测定",
-    "shindanMode": "image",
-    "shindanTitle": "测试你的潜能 "
-  },
-  {
-    "shindanId": "28206",
-    "shindanCommand": "未来的另一半",
-    "shindanMode": "image",
-    "shindanTitle": "你未來的另一半 "
-  },
-  {
-    "shindanId": "827537",
-    "shindanCommand": "我爱的人是谁",
-    "shindanMode": "image",
-    "shindanTitle": "测试你爱的人是谁？ "
-  },
-  {
-    "shindanId": "829511",
-    "shindanCommand": "我爱你",
-    "shindanMode": "image",
-    "shindanTitle": "你的爱是怎样的？ "
-  },
-  {
-    "shindanId": "1092787",
-    "shindanCommand": "我被葬入无畏机甲的角色",
-    "shindanMode": "image",
-    "shindanTitle": "角色被葬入无畏机甲 "
-  },
-  {
-    "shindanId": "1092608",
-    "shindanCommand": "我成为星际战士的战斗力",
-    "shindanMode": "image",
-    "shindanTitle": "角色成为星际战士的战斗力 "
-  },
-  {
-    "shindanId": "1126910",
-    "shindanCommand": "我穿越到执剑之刻里的设定",
-    "shindanMode": "image",
-    "shindanTitle": "假設你穿越到執劍之刻裡的設定（會更新） "
-  },
-  {
-    "shindanId": "1058945",
-    "shindanCommand": "我的表里人格一致吗",
-    "shindanMode": "image",
-    "shindanTitle": "你的表裏人格一致嗎? "
-  },
-  {
-    "shindanId": "464514",
-    "shindanCommand": "我的超能力测试",
-    "shindanMode": "image",
-    "shindanTitle": "超能力測試 "
-  },
-  {
-    "shindanId": "288809",
-    "shindanCommand": "我的二次元男性设定",
-    "shindanMode": "image",
-    "shindanTitle": "你的二次元男性設定 "
-  },
-  {
-    "shindanId": "210287",
-    "shindanCommand": "我的二次元少女形象",
-    "shindanMode": "image",
-    "shindanTitle": "测测乃的二次元少女形象（加强版） "
-  },
-  {
-    "shindanId": "1070601",
-    "shindanCommand": "我的粉丝构成",
-    "shindanMode": "image",
-    "shindanTitle": "粉丝构成测试 "
-  },
-  {
-    "shindanId": "1089994",
-    "shindanCommand": "我的个人属性",
-    "shindanMode": "image",
-    "shindanTitle": "个人属性 "
-  },
-  {
-    "shindanId": "1130619",
-    "shindanCommand": "我的故事",
-    "shindanMode": "image",
-    "shindanTitle": "你CP的故事里... "
-  },
-  {
-    "shindanId": "1142562",
-    "shindanCommand": "我的怪物猎人崛起OC",
-    "shindanMode": "image",
-    "shindanTitle": "怪物猎人崛起里你的OC "
-  },
-  {
-    "shindanId": "1137909",
-    "shindanCommand": "我的怪物猎人世界OC",
-    "shindanMode": "image",
-    "shindanTitle": "怪物猎人世界里你的OC "
-  },
-  {
-    "shindanId": "829668",
-    "shindanCommand": "我的幻境",
-    "shindanMode": "image",
-    "shindanTitle": "你的幻境 "
-  },
-  {
-    "shindanId": "1169928",
-    "shindanCommand": "我的激战2OC",
-    "shindanMode": "image",
-    "shindanTitle": "激战2里你的OC "
-  },
-  {
-    "shindanId": "1062457",
-    "shindanCommand": "我的架空世界角色",
-    "shindanMode": "image",
-    "shindanTitle": "如果你是架空世界中的角色 "
-  },
-  {
-    "shindanId": "1084644",
-    "shindanCommand": "我的角之国某学院学生档案",
-    "shindanMode": "image",
-    "shindanTitle": "角之国某学院学生（自己填写的）档案 "
-  },
-  {
-    "shindanId": "1160229",
-    "shindanCommand": "我的垃圾站幻想人设",
-    "shindanMode": "image",
-    "shindanTitle": "垃圾站里的幻想人设生成器/一日一刷新 "
-  },
-  {
-    "shindanId": "1090825",
-    "shindanCommand": "我的恋爱观",
-    "shindanMode": "image",
-    "shindanTitle": "恋爱观 "
-  },
-  {
-    "shindanId": "686074",
-    "shindanCommand": "我的魔禁tf测试",
-    "shindanMode": "image",
-    "shindanTitle": "魔禁tf测试-能力测验结果咯 "
-  },
-  {
-    "shindanId": "1115622",
-    "shindanCommand": "我的墓碑前会有什么",
-    "shindanMode": "image",
-    "shindanTitle": "你的墓碑前会有什么？ "
-  },
-  {
-    "shindanId": "35205",
-    "shindanCommand": "我的拟人动物",
-    "shindanMode": "image",
-    "shindanTitle": "你的擬人動物代表 "
-  },
-  {
-    "shindanId": "23346",
-    "shindanCommand": "我的仆人",
-    "shindanMode": "image",
-    "shindanTitle": "我的僕人v1.0 "
-  },
-  {
-    "shindanId": "1102872",
-    "shindanCommand": "我的冉群属性",
-    "shindanMode": "image",
-    "shindanTitle": "测试你的冉群属性 "
-  },
-  {
-    "shindanId": "1102874",
-    "shindanCommand": "我的冉群属性2",
-    "shindanMode": "image",
-    "shindanTitle": "测试你的冉群属性2 "
-  },
-  {
-    "shindanId": "1051455",
-    "shindanCommand": "我的色色文梗单人女性向",
-    "shindanMode": "image",
-    "shindanTitle": "盘点那些色色的文梗【微重口预警】（单人-女性向） "
-  },
-  {
-    "shindanId": "1139845",
-    "shindanCommand": "我的十二月女团",
-    "shindanMode": "image",
-    "shindanTitle": "with十二月 "
-  },
-  {
-    "shindanId": "1167846",
-    "shindanCommand": "我的噬神者OC",
-    "shindanMode": "image",
-    "shindanTitle": "噬神者系列里你的OC "
-  },
-  {
-    "shindanId": "1167596",
-    "shindanCommand": "我的噬血代码OC",
-    "shindanMode": "image",
-    "shindanTitle": "噬血代码里你的OC "
-  },
-  {
-    "shindanId": "1135572",
-    "shindanCommand": "我的数码兽抉择者",
-    "shindanMode": "image",
-    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（固定版） "
-  },
-  {
-    "shindanId": "1135578",
-    "shindanCommand": "我的数码兽抉择者女",
-    "shindanMode": "image",
-    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（固定版）（无VPN用） "
-  },
-  {
-    "shindanId": "905484",
-    "shindanCommand": "我的替身能力",
-    "shindanMode": "image",
-    "shindanTitle": "JOJO替身能力 "
-  },
-  {
-    "shindanId": "828438",
-    "shindanCommand": "我的外在与内在的成分",
-    "shindanMode": "image",
-    "shindanTitle": "你的外在與內在的成分是？ "
-  },
-  {
-    "shindanId": "1161422",
-    "shindanCommand": "我的卧龙OC",
-    "shindanMode": "image",
-    "shindanTitle": "卧龙里你的OC "
-  },
-  {
-    "shindanId": "1150177",
-    "shindanCommand": "我的无限流游戏男朋友",
-    "shindanMode": "image",
-    "shindanTitle": "请勿在无限流游戏里找男朋友！ "
-  },
-  {
-    "shindanId": "1060802",
-    "shindanCommand": "我的小小雷达图测定",
-    "shindanMode": "image",
-    "shindanTitle": "test111111111 "
-  },
-  {
-    "shindanId": "1130223",
-    "shindanCommand": "我的心之兽构成原因",
-    "shindanMode": "image",
-    "shindanTitle": "心之獸的構成原因 "
-  },
-  {
-    "shindanId": "1130217",
-    "shindanCommand": "我的心之兽素质",
-    "shindanMode": "image",
-    "shindanTitle": "心之獸的素質 "
-  },
-  {
-    "shindanId": "1149739",
-    "shindanCommand": "我的玄幻世界身份",
-    "shindanMode": "image",
-    "shindanTitle": "测测你的玄幻世界身份 "
-  },
-  {
-    "shindanId": "16073",
-    "shindanCommand": "我的野心",
-    "shindanMode": "image",
-    "shindanTitle": "测试你的野心beta1 "
-  },
-  {
-    "shindanId": "346290",
-    "shindanCommand": "我的英灵职阶",
-    "shindanMode": "image",
-    "shindanTitle": "在Fate中你会是哪个英灵的职阶 "
-  },
-  {
-    "shindanId": "1145946",
-    "shindanCommand": "我的欲望指数",
-    "shindanMode": "image",
-    "shindanTitle": "你的欲望指数(自用) "
-  },
-  {
-    "shindanId": "1150770",
-    "shindanCommand": "我的原神角色",
-    "shindanMode": "image",
-    "shindanTitle": "【原神／画像あり】全68種！2023年あなたと最も相性のいい原神キャラは！？ "
-  },
-  {
-    "shindanId": "17507",
-    "shindanCommand": "我的战斗力",
-    "shindanMode": "image",
-    "shindanTitle": "战斗力 "
-  },
-  {
-    "shindanId": "21973",
-    "shindanCommand": "我的主人",
-    "shindanMode": "image",
-    "shindanTitle": "我的主人v.1.0 "
-  },
-  {
-    "shindanId": "830408",
-    "shindanCommand": "我的追星结局",
-    "shindanMode": "image",
-    "shindanTitle": "预测你的追星结局 "
-  },
-  {
-    "shindanId": "35462",
-    "shindanCommand": "我的自传",
-    "shindanMode": "image",
-    "shindanTitle": "我的自傳 "
-  },
-  {
-    "shindanId": "24700",
-    "shindanCommand": "我的自传一生回忆",
-    "shindanMode": "image",
-    "shindanTitle": "你的自傳 "
-  },
-  {
-    "shindanId": "1169935",
-    "shindanCommand": "我的揍人学院学生证",
-    "shindanMode": "image",
-    "shindanTitle": "揍人学院学生证 "
-  },
-  {
-    "shindanId": "1144712",
-    "shindanCommand": "我的最终幻想14OC",
-    "shindanMode": "image",
-    "shindanTitle": "最终幻想14里你的OC "
-  },
-  {
-    "shindanId": "965601",
-    "shindanCommand": "我的JOJO老婆",
-    "shindanMode": "image",
-    "shindanTitle": "穿越到JOJO世界中谁会爱上你呢？你最终又会和谁在一起呢？ "
-  },
-  {
-    "shindanId": "624261",
-    "shindanCommand": "我的JOJO世界转生",
-    "shindanMode": "image",
-    "shindanTitle": "JOJO的世界，不去看看吗？ "
-  },
-  {
-    "shindanId": "1075343",
-    "shindanCommand": "我的JOJO替身测定",
-    "shindanMode": "image",
-    "shindanTitle": "大概是最JOJO的替身测试 "
-  },
-  {
-    "shindanId": "1000666",
-    "shindanCommand": "我的JOJO做爱",
-    "shindanMode": "image",
-    "shindanTitle": "JOJO里谁想和你做爱？ "
-  },
-  {
-    "shindanId": "1111932",
-    "shindanCommand": "我的OC童年",
-    "shindanMode": "image",
-    "shindanTitle": "你OC的童年是什么样的？ "
-  },
-  {
-    "shindanId": "1191558",
-    "shindanCommand": "我和某个黑箱LSS角色困在了不XXX就不能出去的房间",
-    "shindanMode": "image",
-    "shindanTitle": "【黑箱LSS】你和某个人困在了不XXX就不能出去的房间。 "
-  },
-  {
-    "shindanId": "828727",
-    "shindanCommand": "我会成为怎样的美少女偶像呢",
-    "shindanMode": "image",
-    "shindanTitle": "会成为怎样的美少女偶像呢 "
-  },
-  {
-    "shindanId": "35169",
-    "shindanCommand": "我会困在梦的第几层",
-    "shindanMode": "image",
-    "shindanTitle": "你會困在夢的第幾層 "
-  },
-  {
-    "shindanId": "1092679",
-    "shindanCommand": "我娘化后在战锤40k宇宙生存",
-    "shindanMode": "image",
-    "shindanTitle": "你娘化后在战锤40k宇宙生存 "
-  },
-  {
-    "shindanId": "1111492",
-    "shindanCommand": "我身上燃烧的火焰精神",
-    "shindanMode": "image",
-    "shindanTitle": "測試你身上燃燒的火焰精神 "
-  },
-  {
-    "shindanId": "1066594",
-    "shindanCommand": "我是大楚皇宫里面的谁",
-    "shindanMode": "image",
-    "shindanTitle": "测测你是大楚皇宫里面的谁？ "
-  },
-  {
-    "shindanId": "828977",
-    "shindanCommand": "我是什么故事的主角呢",
-    "shindanMode": "image",
-    "shindanTitle": "你是什么故事的主角呢 "
-  },
-  {
-    "shindanId": "29060",
-    "shindanCommand": "我是什么控",
-    "shindanMode": "image",
-    "shindanTitle": "你是甚麼控 "
-  },
-  {
-    "shindanId": "828905",
-    "shindanCommand": "我是什么小动物",
-    "shindanMode": "image",
-    "shindanTitle": "你是什么小动物？ "
-  },
-  {
-    "shindanId": "26646",
-    "shindanCommand": "我是什么样的猫",
-    "shindanMode": "image",
-    "shindanTitle": "你是什么样的猫？ "
-  },
-  {
-    "shindanId": "1152188",
-    "shindanCommand": "我是什么样的BL角色",
-    "shindanMode": "image",
-    "shindanTitle": "测测你是什么样的 BL 角色 "
-  },
-  {
-    "shindanId": "1085569",
-    "shindanCommand": "我适合什么样的赛马娘怪文书",
-    "shindanMode": "image",
-    "shindanTitle": "你适合什么样的赛马娘怪文书？ "
-  },
-  {
-    "shindanId": "16775",
-    "shindanCommand": "我未來的老公或老婆",
-    "shindanMode": "image",
-    "shindanTitle": "你未來的老公/婆 "
-  },
-  {
-    "shindanId": "833754",
-    "shindanCommand": "我一生中最大的遗憾",
-    "shindanMode": "image",
-    "shindanTitle": "你一生最大的遗憾 "
-  },
-  {
-    "shindanId": "21565",
-    "shindanCommand": "我有多S",
-    "shindanMode": "image",
-    "shindanTitle": "測試你有多S "
-  },
-  {
-    "shindanId": "1101491",
-    "shindanCommand": "我与CP的关系",
-    "shindanMode": "image",
-    "shindanTitle": "你CP的关系 "
-  },
-  {
-    "shindanId": "860471",
-    "shindanCommand": "我在碧蓝航线中是怎样的船",
-    "shindanMode": "image",
-    "shindanTitle": "看看你在碧蓝航线中是怎样的船 "
-  },
-  {
-    "shindanId": "1079854",
-    "shindanCommand": "我在空中花园已经不当人了",
-    "shindanMode": "image",
-    "shindanTitle": "你在空中花园已经不当人了！ "
-  },
-  {
-    "shindanId": "426611",
-    "shindanCommand": "我在魔法世界的能力或武器",
-    "shindanMode": "image",
-    "shindanTitle": "在魔法世界的能力或武器 "
-  },
-  {
-    "shindanId": "933189",
-    "shindanCommand": "我在陌生而又熟悉的世界中会是怎样的人",
-    "shindanMode": "image",
-    "shindanTitle": "你在陌生而又熟悉的世界中会是怎样的人 "
-  },
-  {
-    "shindanId": "27587",
-    "shindanCommand": "我最喜欢的人",
-    "shindanMode": "image",
-    "shindanTitle": "我最喜歡...樣的人了!! 0////x////0 "
-  },
-  {
-    "shindanId": "870739",
-    "shindanCommand": "我作为女奥特曼是怎么败北的",
-    "shindanMode": "image",
-    "shindanTitle": "【R-18】你作为女奥特曼是怎么败北的 "
-  },
-  {
-    "shindanId": "454982",
-    "shindanCommand": "无梗助手",
-    "shindanMode": "image",
-    "shindanTitle": "沒梗時的好幫手 "
-  },
-  {
-    "shindanId": "316024",
-    "shindanCommand": "现在吃什么",
-    "shindanMode": "image",
-    "shindanTitle": "现在吃什么 "
-  },
-  {
-    "shindanId": "827891",
-    "shindanCommand": "香气测定",
-    "shindanMode": "image",
-    "shindanTitle": "今天拥有着什么样的香气呢？ "
-  },
-  {
-    "shindanId": "1126968",
-    "shindanCommand": "香水工坊",
-    "shindanMode": "image",
-    "shindanTitle": "香水工坊 "
-  },
-  {
-    "shindanId": "1135662",
-    "shindanCommand": "小剧场题材",
-    "shindanMode": "image",
-    "shindanTitle": "小劇場題材 "
-  },
-  {
-    "shindanId": "16051",
-    "shindanCommand": "小JJ长度测定",
-    "shindanMode": "image",
-    "shindanTitle": "小JJ长度预测 "
-  },
-  {
-    "shindanId": "1148670",
-    "shindanCommand": "性癖大爆炸",
-    "shindanMode": "image",
-    "shindanTitle": "岔皮大爆炸 "
-  },
-  {
-    "shindanId": "1189540",
-    "shindanCommand": "修真oc楠阳界人族初始设定抽取",
-    "shindanMode": "image",
-    "shindanTitle": "（修真oc）楠阳界•人族初始设定抽取 —（已制作完成） "
-  },
-  {
-    "shindanId": "1190103",
-    "shindanCommand": "修真oc楠阳界妖族初始设定抽取",
-    "shindanMode": "image",
-    "shindanTitle": "（修真oc）楠阳界•妖族初始设定抽取 —（已制作完成） "
-  },
-  {
-    "shindanId": "1132629",
-    "shindanCommand": "阎魔之目",
-    "shindanMode": "image",
-    "shindanTitle": "閻魔之目，洞悉你的人格善惡 "
-  },
-  {
-    "shindanId": "934511",
-    "shindanCommand": "一个纷乱的梦",
-    "shindanMode": "image",
-    "shindanTitle": "一个纷乱的梦。（融合了许多游戏梗 "
-  },
-  {
-    "shindanId": "799899",
-    "shindanCommand": "一句话创作",
-    "shindanMode": "image",
-    "shindanTitle": "CP向一句話創作圖文 "
-  },
-  {
-    "shindanId": "1189474",
-    "shindanCommand": "以我为主题的香水",
-    "shindanMode": "image",
-    "shindanTitle": "以你为主题的香水 "
-  },
-  {
-    "shindanId": "896449",
-    "shindanCommand": "异世界的天赋技能",
-    "shindanMode": "image",
-    "shindanTitle": "你轉生到異世界後得到的七個天賦技能 "
-  },
-  {
-    "shindanId": "587874",
-    "shindanCommand": "异世界转生",
-    "shindanMode": "image",
-    "shindanTitle": "異世界轉生—∩開始的種族∩—— "
-  },
-  {
-    "shindanId": "829302",
-    "shindanCommand": "隐藏气味",
-    "shindanMode": "image",
-    "shindanTitle": "你的隐藏气味 "
-  },
-  {
-    "shindanId": "595068",
-    "shindanCommand": "英灵召唤",
-    "shindanMode": "image",
-    "shindanTitle": "Fate 英霊召喚 "
-  },
-  {
-    "shindanId": "1136163",
-    "shindanCommand": "勇闯KPL",
-    "shindanMode": "image",
-    "shindanTitle": "勇闯KPL "
-  },
-  {
-    "shindanId": "1171805",
-    "shindanCommand": "用几句歌词来概括我",
-    "shindanMode": "image",
-    "shindanTitle": "几句歌词来概括/代餐你的CP或者OC "
-  },
-  {
-    "shindanId": "767626",
-    "shindanCommand": "与我的深渊",
-    "shindanMode": "image",
-    "shindanTitle": "⚫如墜與你的深淵⚫ "
-  },
-  {
-    "shindanId": "864453",
-    "shindanCommand": "欲望雷达",
-    "shindanMode": "image",
-    "shindanTitle": "你的欲望 "
-  },
-  {
-    "shindanId": "1167768",
-    "shindanCommand": "原神，启动！",
-    "shindanMode": "image",
-    "shindanTitle": "原神，启动！ "
-  },
-  {
-    "shindanId": "1052778",
-    "shindanCommand": "原神世界转生",
-    "shindanMode": "image",
-    "shindanTitle": "あなたは原神世界に生まれ落ちました "
-  },
-  {
-    "shindanId": "1183660",
-    "shindanCommand": "在角落遇到的三个字",
-    "shindanMode": "image",
-    "shindanTitle": "在角落遇到的三个字。 "
-  },
-  {
-    "shindanId": "1191716",
-    "shindanCommand": "在FGO成为了这样的从者",
-    "shindanMode": "image",
-    "shindanTitle": "在FGO成为了这样的从者 "
-  },
-  {
-    "shindanId": "316802",
-    "shindanCommand": "召唤的英灵",
-    "shindanMode": "image",
-    "shindanTitle": "你召唤出的英灵将是？ "
-  },
-  {
-    "shindanId": "790697",
-    "shindanCommand": "中二称号",
-    "shindanMode": "image",
-    "shindanTitle": "奇妙的中二称号生成器 "
-  },
-  {
-    "shindanId": "162202",
-    "shindanCommand": "中国的圣杯战争",
-    "shindanMode": "image",
-    "shindanTitle": "于是，一场中国的圣杯战争开始了 "
-  },
-  {
-    "shindanId": "829595",
-    "shindanCommand": "铸造我的灵魂",
-    "shindanMode": "image",
-    "shindanTitle": "如何铸造你的灵魂 "
-  },
-  {
-    "shindanId": "806227",
-    "shindanCommand": "自杀",
-    "shindanMode": "image",
-    "shindanTitle": "✦自戕者✧ "
-  },
-  {
-    "shindanId": "30052",
-    "shindanCommand": "最搭配的动漫女角",
-    "shindanMode": "image",
-    "shindanTitle": "不囉唆!!與你最搭配的動漫女角!! "
-  },
-  {
-    "shindanId": "20880",
-    "shindanCommand": "最适合我的绰号",
-    "shindanMode": "image",
-    "shindanTitle": "其實這才是最適合你的綽號 "
-  },
-  {
-    "shindanId": "23446",
-    "shindanCommand": "最赚钱的职业是什么",
-    "shindanMode": "image",
-    "shindanTitle": "不囉唆!!你作什麼職業最賺錢!! "
-  },
-  {
-    "shindanId": "764124",
-    "shindanCommand": "罪囚生平与谎言",
-    "shindanMode": "image",
-    "shindanTitle": "罪囚 "
-  },
-  {
-    "shindanId": "749044",
-    "shindanCommand": "作为魔王的事迹",
-    "shindanMode": "image",
-    "shindanTitle": "你作為魔王的事跡 "
+    "shindanTitle": "重生之我在48系做偶像"
   },
   {
     "shindanId": "866449",
-    "shindanCommand": "ABO测定",
+    "shindanCommand": "ABO",
     "shindanMode": "image",
-    "shindanTitle": "测一测你的ABO性别与信息素 "
+    "shindanTitle": "测一测你的ABO性别与信息素"
+  },
+  {
+    "shindanId": "1037996",
+    "shindanCommand": "ABO人设",
+    "shindanMode": "image",
+    "shindanTitle": "ABO随机人设"
+  },
+  {
+    "shindanId": "1037825",
+    "shindanCommand": "ABO信息素",
+    "shindanMode": "image",
+    "shindanTitle": "专属于你的ABO信息素，快来试一试吧"
+  },
+  {
+    "shindanId": "1213984",
+    "shindanCommand": "ABO属性",
+    "shindanMode": "image",
+    "shindanTitle": "ABO属性"
+  },
+  {
+    "shindanId": "1134607",
+    "shindanCommand": "ABO检测",
+    "shindanMode": "image",
+    "shindanTitle": "ABO檢測設定"
   },
   {
     "shindanId": "738333",
-    "shindanCommand": "ABO角色设定",
+    "shindanCommand": "ABO角色",
     "shindanMode": "image",
-    "shindanTitle": "ABO角色設定 "
+    "shindanTitle": "ABO角色設定"
+  },
+  {
+    "shindanId": "1142429",
+    "shindanCommand": "AI绘画提示词",
+    "shindanMode": "image",
+    "shindanTitle": "AI 絵画専用ガシャポン機"
+  },
+  {
+    "shindanId": "1152188",
+    "shindanCommand": "BL角色",
+    "shindanMode": "image",
+    "shindanTitle": "测测你是什么样的 BL 角色"
   },
   {
     "shindanId": "525431",
-    "shindanCommand": "BL重口H生成器",
+    "shindanCommand": "BL重口",
     "shindanMode": "image",
-    "shindanTitle": "[R-18]BL重口H產生機 "
+    "shindanTitle": "[R-18]BL重口H產生機"
   },
   {
     "shindanId": "695886",
+    "shindanCommand": "COC人物",
+    "shindanMode": "image",
+    "shindanTitle": "COC人物卡生成器"
+  },
+  {
+    "shindanId": "1106170",
     "shindanCommand": "COC人物卡",
     "shindanMode": "image",
-    "shindanTitle": "COC人物卡生成器 "
+    "shindanTitle": "第七版COC人物卡"
   },
   {
     "shindanId": "1168478",
-    "shindanCommand": "COJ随机里ho生成器",
+    "shindanCommand": "COJ",
     "shindanMode": "image",
-    "shindanTitle": "COJ随机里ho生成器 "
-  },
-  {
-    "shindanId": "1098005",
-    "shindanCommand": "CP的关键词",
-    "shindanMode": "image",
-    "shindanTitle": "你CP的关键词 "
-  },
-  {
-    "shindanId": "873026",
-    "shindanCommand": "CP的三句歌词",
-    "shindanMode": "image",
-    "shindanTitle": "属于CP的三句歌词 "
-  },
-  {
-    "shindanId": "835973",
-    "shindanCommand": "CP的幸福结局",
-    "shindanMode": "image",
-    "shindanTitle": "属于他（她）们的幸福结局 "
+    "shindanTitle": "COJ随机里ho生成器"
   },
   {
     "shindanId": "831016",
-    "shindanCommand": "CP的一生组成",
+    "shindanCommand": "CP一生",
     "shindanMode": "image",
-    "shindanTitle": "一对cp的一生是什么组成的？ "
+    "shindanTitle": "一对cp的一生是什么组成的？"
   },
   {
-    "shindanId": "829712",
-    "shindanCommand": "CP之间发生过什么",
+    "shindanId": "829556",
+    "shindanCommand": "CP一辈子",
     "shindanMode": "image",
-    "shindanTitle": "cp之间发生过什么 "
+    "shindanTitle": "测试cp的一辈子"
+  },
+  {
+    "shindanId": "733273",
+    "shindanCommand": "CP三梗",
+    "shindanMode": "image",
+    "shindanTitle": "缺梗的人快進來(❁´ω`❁)"
+  },
+  {
+    "shindanId": "1055920",
+    "shindanCommand": "CP三梗H",
+    "shindanMode": "image",
+    "shindanTitle": "适合cp/你推H时的梗"
+  },
+  {
+    "shindanId": "1187782",
+    "shindanCommand": "CP与梗",
+    "shindanMode": "image",
+    "shindanTitle": "用名字生成人设和梗"
   },
   {
     "shindanId": "701727",
-    "shindanCommand": "CP主题发挥",
+    "shindanCommand": "CP主题",
     "shindanMode": "image",
-    "shindanTitle": "圖/文。三梗系列 "
+    "shindanTitle": "圖/文。三梗系列"
+  },
+  {
+    "shindanId": "829712",
+    "shindanCommand": "CP之间",
+    "shindanMode": "image",
+    "shindanTitle": "cp之间发生过什么"
+  },
+  {
+    "shindanId": "807196",
+    "shindanCommand": "CP互动",
+    "shindanMode": "image",
+    "shindanTitle": "每日CP Paro題材"
+  },
+  {
+    "shindanId": "1101491",
+    "shindanCommand": "CP关系",
+    "shindanMode": "image",
+    "shindanTitle": "你CP的关系"
+  },
+  {
+    "shindanId": "1098005",
+    "shindanCommand": "CP关键词",
+    "shindanMode": "image",
+    "shindanTitle": "你CP的关键词"
+  },
+  {
+    "shindanId": "1161220",
+    "shindanCommand": "CP关键词2",
+    "shindanMode": "image",
+    "shindanTitle": "你/你的CP的关键词"
+  },
+  {
+    "shindanId": "829935",
+    "shindanCommand": "CP命运",
+    "shindanMode": "image",
+    "shindanTitle": "CP的命运"
+  },
+  {
+    "shindanId": "1185768",
+    "shindanCommand": "CP在干嘛",
+    "shindanMode": "image",
+    "shindanTitle": "猜猜我cp在干嘛"
+  },
+  {
+    "shindanId": "1164243",
+    "shindanCommand": "CP意难平",
+    "shindanMode": "image",
+    "shindanTitle": "你cp的意难平"
+  },
+  {
+    "shindanId": "1130619",
+    "shindanCommand": "CP故事",
+    "shindanMode": "image",
+    "shindanTitle": "你CP的故事里..."
+  },
+  {
+    "shindanId": "829767",
+    "shindanCommand": "CP故事2",
+    "shindanMode": "image",
+    "shindanTitle": "每日cp限定开头和限定结尾"
+  },
+  {
+    "shindanId": "1178875",
+    "shindanCommand": "CP故事3",
+    "shindanMode": "image",
+    "shindanTitle": "你CP的故事里...（更新版）"
+  },
+  {
+    "shindanId": "1190503",
+    "shindanCommand": "CP文梗",
+    "shindanMode": "image",
+    "shindanTitle": "CP文梗（自用）"
+  },
+  {
+    "shindanId": "873026",
+    "shindanCommand": "CP歌词",
+    "shindanMode": "image",
+    "shindanTitle": "属于CP的三句歌词"
+  },
+  {
+    "shindanId": "1164263",
+    "shindanCommand": "CP甜饼",
+    "shindanMode": "image",
+    "shindanTitle": "你cp的甜饼日常"
+  },
+  {
+    "shindanId": "1155984",
+    "shindanCommand": "CP生成",
+    "shindanMode": "image",
+    "shindanTitle": "搞cp用"
+  },
+  {
+    "shindanId": "835973",
+    "shindanCommand": "CP结局",
+    "shindanMode": "image",
+    "shindanTitle": "属于他（她）们的幸福结局"
+  },
+  {
+    "shindanId": "1194680",
+    "shindanCommand": "CP表情",
+    "shindanMode": "image",
+    "shindanTitle": "基于emoji的CP出题器"
+  },
+  {
+    "shindanId": "1160415",
+    "shindanCommand": "CP身份",
+    "shindanMode": "image",
+    "shindanTitle": "今天你cp是什么身份"
+  },
+  {
+    "shindanId": "1198474",
+    "shindanCommand": "CP道具",
+    "shindanMode": "image",
+    "shindanTitle": "cp道具赛"
+  },
+  {
+    "shindanId": "807174",
+    "shindanCommand": "CP题材",
+    "shindanMode": "image",
+    "shindanTitle": "每日CP互動題材"
+  },
+  {
+    "shindanId": "928742",
+    "shindanCommand": "CP题材2",
+    "shindanMode": "image",
+    "shindanTitle": "你家CP要不要來點題材？"
+  },
+  {
+    "shindanId": "1118780",
+    "shindanCommand": "CP黄文生成",
+    "shindanMode": "image",
+    "shindanTitle": "kpop嗑药鸡cp黄文生成器"
+  },
+  {
+    "shindanId": "1204473",
+    "shindanCommand": "CV服",
+    "shindanMode": "image",
+    "shindanTitle": "看看你是CV服里的谁"
+  },
+  {
+    "shindanId": "1120226",
+    "shindanCommand": "DND抽奖",
+    "shindanMode": "image",
+    "shindanTitle": "群黑鬼的DND因子大抽奖（入门难度）"
+  },
+  {
+    "shindanId": "1120199",
+    "shindanCommand": "DND抽奖2",
+    "shindanMode": "image",
+    "shindanTitle": "群黑鬼的DND因子大抽奖（困难难度）"
+  },
+  {
+    "shindanId": "1120198",
+    "shindanCommand": "DND抽奖3",
+    "shindanMode": "image",
+    "shindanTitle": "群黑鬼的DND因子大抽奖（标准难度）"
+  },
+  {
+    "shindanId": "1120197",
+    "shindanCommand": "DND抽奖4",
+    "shindanMode": "image",
+    "shindanTitle": "群黑鬼的DND因子大抽奖（简单难度）"
+  },
+  {
+    "shindanId": "1204609",
+    "shindanCommand": "DOTA2英雄",
+    "shindanMode": "image",
+    "shindanTitle": "占卜你的Dota2英雄"
+  },
+  {
+    "shindanId": "1164788",
+    "shindanCommand": "FE十连",
+    "shindanMode": "image",
+    "shindanTitle": "fe十连抽！【姜安生】"
+  },
+  {
+    "shindanId": "1164769",
+    "shindanCommand": "FE十连2",
+    "shindanMode": "image",
+    "shindanTitle": "FE十连抽_【宋栖ver】"
+  },
+  {
+    "shindanId": "1164767",
+    "shindanCommand": "FE十连3",
+    "shindanMode": "image",
+    "shindanTitle": "FE十连抽【宋栖ver】"
+  },
+  {
+    "shindanId": "1164760",
+    "shindanCommand": "FE十连4",
+    "shindanMode": "image",
+    "shindanTitle": "fe宋栖酱10连抽。。"
+  },
+  {
+    "shindanId": "1164758",
+    "shindanCommand": "FE十连5",
+    "shindanMode": "image",
+    "shindanTitle": "fe宋栖 10连抽"
+  },
+  {
+    "shindanId": "1164756",
+    "shindanCommand": "FE十连6",
+    "shindanMode": "image",
+    "shindanTitle": "fe十连抽！【宋栖】"
+  },
+  {
+    "shindanId": "1138528",
+    "shindanCommand": "FF14人设",
+    "shindanMode": "image",
+    "shindanTitle": "【FF14】测测你的rp人设"
+  },
+  {
+    "shindanId": "1140848",
+    "shindanCommand": "FF14冒险者",
+    "shindanMode": "image",
+    "shindanTitle": "ff14冒险者登记！"
+  },
+  {
+    "shindanId": "1141953",
+    "shindanCommand": "FF14同人梗",
+    "shindanMode": "image",
+    "shindanTitle": "FF14同人梗生成器（截至6.1版本）"
+  },
+  {
+    "shindanId": "1191716",
+    "shindanCommand": "FGO从者",
+    "shindanMode": "image",
+    "shindanTitle": "在FGO成为了这样的从者"
   },
   {
     "shindanId": "1157240",
-    "shindanCommand": "fgo从者化",
+    "shindanCommand": "FGO从者化",
     "shindanMode": "image",
-    "shindanTitle": "fgo从者化 "
+    "shindanTitle": "fgo从者化"
+  },
+  {
+    "shindanId": "1129774",
+    "shindanCommand": "FGO英灵",
+    "shindanMode": "image",
+    "shindanTitle": "重生之假如我成为了FGO英灵"
+  },
+  {
+    "shindanId": "1128812",
+    "shindanCommand": "HPFL",
+    "shindanMode": "image",
+    "shindanTitle": "未來那一天在HPFL..."
   },
   {
     "shindanId": "863622",
-    "shindanCommand": "H时的呻吟",
+    "shindanCommand": "H呻吟",
     "shindanMode": "image",
-    "shindanTitle": "你的cp在H时是怎样呻吟的 "
+    "shindanTitle": "你的cp在H时是怎样呻吟的"
   },
   {
     "shindanId": "42890",
-    "shindanCommand": "H时的呻吟续",
+    "shindanCommand": "H呻吟续",
     "shindanMode": "image",
-    "shindanTitle": "【老湿测试】H的时候的呻吟 "
+    "shindanTitle": "【老湿测试】H的时候的呻吟"
+  },
+  {
+    "shindanId": "1043561",
+    "shindanCommand": "H地下城",
+    "shindanMode": "image",
+    "shindanTitle": "絕頂管理的淫慾地下城 byあかいししろいし（艾奈茲漢化）"
+  },
+  {
+    "shindanId": "1090382",
+    "shindanCommand": "H梗",
+    "shindanMode": "image",
+    "shindanTitle": "H梗生成器"
+  },
+  {
+    "shindanId": "1130264",
+    "shindanCommand": "H魔物猎人",
+    "shindanMode": "image",
+    "shindanTitle": "【牙獸種篇】慘遭H的魔物獵人"
+  },
+  {
+    "shindanId": "1148399",
+    "shindanCommand": "IAM",
+    "shindanMode": "image",
+    "shindanTitle": "欢迎来到IAM!"
+  },
+  {
+    "shindanId": "16051",
+    "shindanCommand": "JJ长度",
+    "shindanMode": "image",
+    "shindanTitle": "小JJ长度预测"
+  },
+  {
+    "shindanId": "1000666",
+    "shindanCommand": "JOJO做爱",
+    "shindanMode": "image",
+    "shindanTitle": "JOJO里谁想和你做爱？"
+  },
+  {
+    "shindanId": "1075343",
+    "shindanCommand": "JOJO替身",
+    "shindanMode": "image",
+    "shindanTitle": "大概是最JOJO的替身测试"
+  },
+  {
+    "shindanId": "965601",
+    "shindanCommand": "JOJO老婆",
+    "shindanMode": "image",
+    "shindanTitle": "穿越到JOJO世界中谁会爱上你呢？你最终又会和谁在一起呢？"
+  },
+  {
+    "shindanId": "1115946",
+    "shindanCommand": "LDH男团",
+    "shindanMode": "image",
+    "shindanTitle": "假如让你打造一个LDH男团："
+  },
+  {
+    "shindanId": "1188647",
+    "shindanCommand": "LOL狼人杀",
+    "shindanMode": "image",
+    "shindanTitle": "pxxn的lol狼人杀"
+  },
+  {
+    "shindanId": "1157324",
+    "shindanCommand": "MBTI和九型",
+    "shindanMode": "image",
+    "shindanTitle": "隨機mbti和九型"
+  },
+  {
+    "shindanId": "1162074",
+    "shindanCommand": "MGS出行",
+    "shindanMode": "image",
+    "shindanTitle": "MGS出行"
+  },
+  {
+    "shindanId": "1106594",
+    "shindanCommand": "OC元素关键词",
+    "shindanMode": "image",
+    "shindanTitle": "【第一次试做】oc元素关键词生成（要素过多）"
+  },
+  {
+    "shindanId": "1075782",
+    "shindanCommand": "OC十连",
+    "shindanMode": "image",
+    "shindanTitle": "OC十连池"
+  },
+  {
+    "shindanId": "1139005",
+    "shindanCommand": "OC单UP池",
+    "shindanMode": "image",
+    "shindanTitle": "oc单up池抽抽乐"
+  },
+  {
+    "shindanId": "1139004",
+    "shindanCommand": "OC单UP池2",
+    "shindanMode": "image",
+    "shindanTitle": "oc单up池十连"
+  },
+  {
+    "shindanId": "1156117",
+    "shindanCommand": "OC印象物",
+    "shindanMode": "image",
+    "shindanTitle": "关于oc的印象物"
+  },
+  {
+    "shindanId": "1057774",
+    "shindanCommand": "OC换装",
+    "shindanMode": "image",
+    "shindanTitle": "☆·\":*人設換裝*:\"·☆"
   },
   {
     "shindanId": "1116736",
     "shindanCommand": "OC生成",
     "shindanMode": "image",
-    "shindanTitle": "♣OC生成器（Demo版）♣ "
+    "shindanTitle": "♣OC生成器（Demo版）♣"
+  },
+  {
+    "shindanId": "1174414",
+    "shindanCommand": "OC生成10",
+    "shindanMode": "image",
+    "shindanTitle": "奶茶的人设生成器"
+  },
+  {
+    "shindanId": "1155706",
+    "shindanCommand": "OC生成11",
+    "shindanMode": "image",
+    "shindanTitle": "创作一个oc"
   },
   {
     "shindanId": "1140990",
-    "shindanCommand": "OC生成器",
+    "shindanCommand": "OC生成2",
     "shindanMode": "image",
-    "shindanTitle": "OC Creator(Based on the PES:B Universe)  "
+    "shindanTitle": "OC Creator(Based on the PES:B Universe) "
   },
   {
-    "shindanId": "162994",
-    "shindanCommand": "Servant属性测定",
+    "shindanId": "1215134",
+    "shindanCommand": "OC生成4",
     "shindanMode": "image",
-    "shindanTitle": "你作為Servant的屬性 "
+    "shindanTitle": "OC生成器（颜色可视化ver）"
   },
   {
-    "shindanId": "1153659",
-    "shindanCommand": "Shanthi家OC角色发生器",
+    "shindanId": "1153293",
+    "shindanCommand": "OC生成5",
     "shindanMode": "image",
-    "shindanTitle": "Shanthi家OC角色发生器1.0 "
+    "shindanTitle": "oc生成器/oc creator"
+  },
+  {
+    "shindanId": "1138362",
+    "shindanCommand": "OC生成6",
+    "shindanMode": "image",
+    "shindanTitle": "OC生成器✨"
+  },
+  {
+    "shindanId": "1213942",
+    "shindanCommand": "OC生成7",
+    "shindanMode": "image",
+    "shindanTitle": "我也要搞oc"
+  },
+  {
+    "shindanId": "1191235",
+    "shindanCommand": "OC生成8",
+    "shindanMode": "image",
+    "shindanTitle": "【自用】oc创作"
+  },
+  {
+    "shindanId": "1188466",
+    "shindanCommand": "OC生成9",
+    "shindanMode": "image",
+    "shindanTitle": "oc生成器自用世界观版"
+  },
+  {
+    "shindanId": "1165958",
+    "shindanCommand": "OC衣服",
+    "shindanMode": "image",
+    "shindanTitle": "来给你的oc一套衣服吧！"
+  },
+  {
+    "shindanId": "1117103",
+    "shindanCommand": "P4迷宫",
+    "shindanMode": "image",
+    "shindanTitle": "你在女神异闻录4中的迷宫"
+  },
+  {
+    "shindanId": "1128682",
+    "shindanCommand": "RGB",
+    "shindanMode": "image",
+    "shindanTitle": "随机颜色（RGB）"
+  },
+  {
+    "shindanId": "741327",
+    "shindanCommand": "RPG职业",
+    "shindanMode": "image",
+    "shindanTitle": "你在RPG遊戲中的正副職業"
   },
   {
     "shindanId": "28414",
-    "shindanCommand": "SM测试",
+    "shindanCommand": "SM",
     "shindanMode": "image",
-    "shindanTitle": "SM测试 "
+    "shindanTitle": "SM测试"
   },
   {
-    "shindanId": "1113644",
-    "shindanCommand": "我是什么魅魔",
+    "shindanId": "162994",
+    "shindanCommand": "Servant",
     "shindanMode": "image",
-    "shindanTitle": "测一测你是什么类型的魅魔～♡ "
+    "shindanTitle": "你作為Servant的屬性"
+  },
+  {
+    "shindanId": "1153659",
+    "shindanCommand": "Shanthi",
+    "shindanMode": "image",
+    "shindanTitle": "Shanthi家OC角色发生器1.0"
+  },
+  {
+    "shindanId": "1204675",
+    "shindanCommand": "UA卡牌",
+    "shindanMode": "image",
+    "shindanTitle": "生成你的UA卡牌效果！"
+  },
+  {
+    "shindanId": "1155821",
+    "shindanCommand": "aka乱交成员",
+    "shindanMode": "image",
+    "shindanTitle": "txt第六名成员生成器"
+  },
+  {
+    "shindanId": "1153267",
+    "shindanCommand": "arma3在基地重生",
+    "shindanMode": "image",
+    "shindanTitle": "arma3在基地重生"
+  },
+  {
+    "shindanId": "1136609",
+    "shindanCommand": "homo指数",
+    "shindanMode": "image",
+    "shindanTitle": "你是homolism吗"
+  },
+  {
+    "shindanId": "1135995",
+    "shindanCommand": "nt台词",
+    "shindanMode": "image",
+    "shindanTitle": "【自用】脑谈台词生成器"
+  },
+  {
+    "shindanId": "799899",
+    "shindanCommand": "一句话",
+    "shindanMode": "image",
+    "shindanTitle": "CP向一句話創作圖文"
+  },
+  {
+    "shindanId": "1140051",
+    "shindanCommand": "一句话故事",
+    "shindanMode": "image",
+    "shindanTitle": "生成你的一句话故事"
+  },
+  {
+    "shindanId": "1190840",
+    "shindanCommand": "一方苗圃",
+    "shindanMode": "image",
+    "shindanTitle": "一方苗圃"
+  },
+  {
+    "shindanId": "761933",
+    "shindanCommand": "七宗罪",
+    "shindanMode": "image",
+    "shindanTitle": "七宗罪程度測量"
+  },
+  {
+    "shindanId": "1134084",
+    "shindanCommand": "万圣节变装",
+    "shindanMode": "image",
+    "shindanTitle": "万圣节的他们变装成了……"
+  },
+  {
+    "shindanId": "1183660",
+    "shindanCommand": "三个字",
+    "shindanMode": "image",
+    "shindanTitle": "在角落遇到的三个字。"
+  },
+  {
+    "shindanId": "898330",
+    "shindanCommand": "三关键词",
+    "shindanMode": "image",
+    "shindanTitle": "CP每日三个关键词"
+  },
+  {
+    "shindanId": "1134777",
+    "shindanCommand": "三句古诗",
+    "shindanMode": "image",
+    "shindanTitle": "三句有缘的小众古诗"
+  },
+  {
+    "shindanId": "1125024",
+    "shindanCommand": "下周晚饭",
+    "shindanMode": "image",
+    "shindanTitle": "那么下周的晚饭"
+  },
+  {
+    "shindanId": "1164265",
+    "shindanCommand": "不健康恋爱关键词",
+    "shindanMode": "image",
+    "shindanTitle": "不健康恋爱关系"
+  },
+  {
+    "shindanId": "1215542",
+    "shindanCommand": "不存在的县城",
+    "shindanMode": "image",
+    "shindanTitle": "不存在的小县城"
+  },
+  {
+    "shindanId": "28733",
+    "shindanCommand": "不对劲",
+    "shindanMode": "image",
+    "shindanTitle": "哪裡不對勁"
+  },
+  {
+    "shindanId": "832081",
+    "shindanCommand": "专属魔药",
+    "shindanMode": "image",
+    "shindanTitle": "製作你的專屬魔藥☆"
+  },
+  {
+    "shindanId": "1204276",
+    "shindanCommand": "世警大乐透",
+    "shindanMode": "image",
+    "shindanTitle": "世警大乐透，有命你就来"
+  },
+  {
+    "shindanId": "1153313",
+    "shindanCommand": "丘比特之箭",
+    "shindanMode": "image",
+    "shindanTitle": "丘比特之箭"
+  },
+  {
+    "shindanId": "1161317",
+    "shindanCommand": "东方风格称号",
+    "shindanMode": "image",
+    "shindanTitle": "尝试制作的东方风格称号生成器"
+  },
+  {
+    "shindanId": "1089994",
+    "shindanCommand": "个人属性",
+    "shindanMode": "image",
+    "shindanTitle": "个人属性"
+  },
+  {
+    "shindanId": "790697",
+    "shindanCommand": "中二称号",
+    "shindanMode": "image",
+    "shindanTitle": "奇妙的中二称号生成器"
+  },
+  {
+    "shindanId": "162202",
+    "shindanCommand": "中国圣杯战争",
+    "shindanMode": "image",
+    "shindanTitle": "于是，一场中国的圣杯战争开始了"
+  },
+  {
+    "shindanId": "21973",
+    "shindanCommand": "主人",
+    "shindanMode": "image",
+    "shindanTitle": "我的主人v.1.0"
+  },
+  {
+    "shindanId": "1189474",
+    "shindanCommand": "主题香水",
+    "shindanMode": "image",
+    "shindanTitle": "以你为主题的香水"
+  },
+  {
+    "shindanId": "731066",
+    "shindanCommand": "九型人格",
+    "shindanMode": "image",
+    "shindanTitle": "你的人格特質分布（九型人格）"
+  },
+  {
+    "shindanId": "851659",
+    "shindanCommand": "二次元人设生成",
+    "shindanMode": "image",
+    "shindanTitle": "indie二次元人设生成器"
+  },
+  {
+    "shindanId": "210287",
+    "shindanCommand": "二次元少女",
+    "shindanMode": "image",
+    "shindanTitle": "测测乃的二次元少女形象（加强版）"
+  },
+  {
+    "shindanId": "288809",
+    "shindanCommand": "二次元男性",
+    "shindanMode": "image",
+    "shindanTitle": "你的二次元男性設定"
+  },
+  {
+    "shindanId": "22206",
+    "shindanCommand": "二次元的我",
+    "shindanMode": "image",
+    "shindanTitle": "二次元的你是？"
+  },
+  {
+    "shindanId": "1136285",
+    "shindanCommand": "二次元老婆",
+    "shindanMode": "image",
+    "shindanTitle": "你的二次元老婆是"
+  },
+  {
+    "shindanId": "1148696",
+    "shindanCommand": "于生命终焉",
+    "shindanMode": "image",
+    "shindanTitle": "于生命终焉"
+  },
+  {
+    "shindanId": "383328",
+    "shindanCommand": "互动命题",
+    "shindanMode": "image",
+    "shindanTitle": "互動命題(*´ﾟ∀ﾟ)从(ﾟωﾟ｀*)"
+  },
+  {
+    "shindanId": "1123549",
+    "shindanCommand": "五觉剥夺世界",
+    "shindanMode": "image",
+    "shindanTitle": "五覺剝奪世界paro"
+  },
+  {
+    "shindanId": "1214661",
+    "shindanCommand": "五词条",
+    "shindanMode": "image",
+    "shindanTitle": "限定五个词条来写一篇文吧(o^^o)♪"
+  },
+  {
+    "shindanId": "1214543",
+    "shindanCommand": "人偶生成",
+    "shindanMode": "image",
+    "shindanTitle": "人偶生成器<3"
+  },
+  {
+    "shindanId": "1183682",
+    "shindanCommand": "人偶记忆碎片",
+    "shindanMode": "image",
+    "shindanTitle": "人偶记忆碎片"
+  },
+  {
+    "shindanId": "827798",
+    "shindanCommand": "人格面具",
+    "shindanMode": "image",
+    "shindanTitle": "測試你的人格面具（Persona）屬性"
+  },
+  {
+    "shindanId": "1162252",
+    "shindanCommand": "人物基本数值",
+    "shindanMode": "image",
+    "shindanTitle": "人物基本数值生成"
+  },
+  {
+    "shindanId": "1136727",
+    "shindanCommand": "人生",
+    "shindanMode": "image",
+    "shindanTitle": "TA的人生"
+  },
+  {
+    "shindanId": "917962",
+    "shindanCommand": "人设生成",
+    "shindanMode": "image",
+    "shindanTitle": "人设生成器"
+  },
+  {
+    "shindanId": "976056",
+    "shindanCommand": "人设生成2",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的人设-2.0！"
+  },
+  {
+    "shindanId": "1137397",
+    "shindanCommand": "人设生成3",
+    "shindanMode": "image",
+    "shindanTitle": "人設製造機"
+  },
+  {
+    "shindanId": "1123349",
+    "shindanCommand": "人设生成4",
+    "shindanMode": "image",
+    "shindanTitle": "人設產生"
+  },
+  {
+    "shindanId": "26637",
+    "shindanCommand": "人造少女",
+    "shindanMode": "image",
+    "shindanTitle": "-人造少女-"
+  },
+  {
+    "shindanId": "23346",
+    "shindanCommand": "仆人",
+    "shindanMode": "image",
+    "shindanTitle": "我的僕人v1.0"
+  },
+  {
+    "shindanId": "1150012",
+    "shindanCommand": "今天可以吃巧克力吗",
+    "shindanMode": "image",
+    "shindanTitle": "今天可以吃巧克力吗"
+  },
+  {
+    "shindanId": "1147498",
+    "shindanCommand": "今日人品",
+    "shindanMode": "image",
+    "shindanTitle": "今日人品(自用)"
+  },
+  {
+    "shindanId": "1150537",
+    "shindanCommand": "今日任斗",
+    "shindanMode": "image",
+    "shindanTitle": "今日任斗Main是？"
+  },
+  {
+    "shindanId": "1126051",
+    "shindanCommand": "今日可蕾",
+    "shindanMode": "image",
+    "shindanTitle": "今天的也最喜歡了 可蕾版本"
+  },
+  {
+    "shindanId": "1062001",
+    "shindanCommand": "今日多娜多娜人材",
+    "shindanMode": "image",
+    "shindanTitle": "☆多娜多娜人材属性☆"
+  },
+  {
+    "shindanId": "1200414",
+    "shindanCommand": "今日妖狐",
+    "shindanMode": "image",
+    "shindanTitle": "【自用向】今天要來點妖狐嗎"
+  },
+  {
+    "shindanId": "1062077",
+    "shindanCommand": "今日宝可梦",
+    "shindanMode": "image",
+    "shindanTitle": "☆宝可梦图鉴☆"
+  },
+  {
+    "shindanId": "162207",
+    "shindanCommand": "今日少女",
+    "shindanMode": "image",
+    "shindanTitle": "你的二次元少女化形象"
+  },
+  {
+    "shindanId": "1152099",
+    "shindanCommand": "今日欧派",
+    "shindanMode": "image",
+    "shindanTitle": "今天的欧派是什么样"
+  },
+  {
+    "shindanId": "1061975",
+    "shindanCommand": "今日画画人设",
+    "shindanMode": "image",
+    "shindanTitle": "画画用人设生成器"
+  },
+  {
+    "shindanId": "1168322",
+    "shindanCommand": "今日糖果",
+    "shindanMode": "image",
+    "shindanTitle": "今天的你是什麼樣的糖果呢？"
+  },
+  {
+    "shindanId": "1077564",
+    "shindanCommand": "今日胖次",
+    "shindanMode": "image",
+    "shindanTitle": "今天穿的什么颜色的胖次"
+  },
+  {
+    "shindanId": "1060224",
+    "shindanCommand": "今日誓灵",
+    "shindanMode": "image",
+    "shindanTitle": "生成专属于你的誓灵"
+  },
+  {
+    "shindanId": "1163424",
+    "shindanCommand": "今日运势",
+    "shindanMode": "image",
+    "shindanTitle": "今日运势~36~"
+  },
+  {
+    "shindanId": "1146701",
+    "shindanCommand": "从不偶尔很少总是",
+    "shindanMode": "image",
+    "shindanTitle": "从不，很少，偶尔，总是"
+  },
+  {
+    "shindanId": "1183493",
+    "shindanCommand": "从何而来",
+    "shindanMode": "image",
+    "shindanTitle": "你来自宇宙的何方？"
+  },
+  {
+    "shindanId": "1134655",
+    "shindanCommand": "从前",
+    "shindanMode": "image",
+    "shindanTitle": "预测你的从前"
+  },
+  {
+    "shindanId": "916394",
+    "shindanCommand": "他们的结局",
+    "shindanMode": "image",
+    "shindanTitle": "他們的結局"
+  },
+  {
+    "shindanId": "1148392",
+    "shindanCommand": "代号M",
+    "shindanMode": "image",
+    "shindanTitle": "欢迎来到代号M！"
+  },
+  {
+    "shindanId": "1064580",
+    "shindanCommand": "令咒",
+    "shindanMode": "image",
+    "shindanTitle": "♏️あなたの令呪風アイコン作るったー♋️(3画修正＆気ままに増量中)"
+  },
+  {
+    "shindanId": "1148497",
+    "shindanCommand": "以诺之书角色",
+    "shindanMode": "image",
+    "shindanTitle": "來生成「以諾之書」中的人物！"
+  },
+  {
+    "shindanId": "1127983",
+    "shindanCommand": "伤疤",
+    "shindanMode": "image",
+    "shindanTitle": "你的伤疤是怎么来的"
+  },
+  {
+    "shindanId": "1214714",
+    "shindanCommand": "伪二元妖精",
+    "shindanMode": "image",
+    "shindanTitle": "众所周知（伪）的二元妖精"
+  },
+  {
+    "shindanId": "1189540",
+    "shindanCommand": "修真人族",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•人族初始设定抽取 —（已制作完成）"
+  },
+  {
+    "shindanId": "1216717",
+    "shindanCommand": "修真兽族",
+    "shindanMode": "image",
+    "shindanTitle": "〔修真测试〕|〔楠阳界〕•「初始设定抽取」|〔兽〕 |（未制作完成）"
+  },
+  {
+    "shindanId": "1190103",
+    "shindanCommand": "修真妖族",
+    "shindanMode": "image",
+    "shindanTitle": "（修真oc）楠阳界•妖族初始设定抽取 —（已制作完成）"
+  },
+  {
+    "shindanId": "1198315",
+    "shindanCommand": "修真资质",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的 ‘修真资质’ 吧 ---- 已制作完成"
+  },
+  {
+    "shindanId": "1204477",
+    "shindanCommand": "俾斯麦餐厅菜单",
+    "shindanMode": "image",
+    "shindanTitle": "俾斯麦餐厅今日菜单"
+  },
+  {
+    "shindanId": "828228",
+    "shindanCommand": "假面骑士",
+    "shindanMode": "image",
+    "shindanTitle": "假面骑士生成器"
+  },
+  {
+    "shindanId": "1122723",
+    "shindanCommand": "做梦",
+    "shindanMode": "image",
+    "shindanTitle": "某天做的夢（測試）"
+  },
+  {
+    "shindanId": "26988",
+    "shindanCommand": "傲娇程度",
+    "shindanMode": "text",
+    "shindanTitle": "傲嬌"
+  },
+  {
+    "shindanId": "1128866",
+    "shindanCommand": "元素盲盒",
+    "shindanMode": "image",
+    "shindanTitle": "随机元素盲盒"
+  },
+  {
+    "shindanId": "1208061",
+    "shindanCommand": "六月份被表白概率",
+    "shindanMode": "image",
+    "shindanTitle": "六月份你被表白的概率"
+  },
+  {
+    "shindanId": "1134331",
+    "shindanCommand": "关键词",
+    "shindanMode": "image",
+    "shindanTitle": "属于你的关键词"
+  },
+  {
+    "shindanId": "1103980",
+    "shindanCommand": "内娱女团",
+    "shindanMode": "image",
+    "shindanTitle": "假如你打造了一个内娱9人女团"
+  },
+  {
+    "shindanId": "1102872",
+    "shindanCommand": "冉群属性",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的冉群属性"
+  },
+  {
+    "shindanId": "1102874",
+    "shindanCommand": "冉群属性2",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的冉群属性2"
+  },
+  {
+    "shindanId": "1161235",
+    "shindanCommand": "农场生活",
+    "shindanMode": "image",
+    "shindanTitle": "農場生活"
+  },
+  {
+    "shindanId": "1117355",
+    "shindanCommand": "冥界生命履历",
+    "shindanMode": "image",
+    "shindanTitle": "冥界的生命履歷"
+  },
+  {
+    "shindanId": "1158792",
+    "shindanCommand": "创作关键词",
+    "shindanMode": "image",
+    "shindanTitle": "抽取创作关键词"
+  },
+  {
+    "shindanId": "1141770",
+    "shindanCommand": "创作灵感",
+    "shindanMode": "image",
+    "shindanTitle": "✨創作靈感✨"
+  },
+  {
+    "shindanId": "1109819",
+    "shindanCommand": "创作用句",
+    "shindanMode": "image",
+    "shindanTitle": "创作用句2/2"
+  },
+  {
+    "shindanId": "1135815",
+    "shindanCommand": "创造偶像",
+    "shindanMode": "image",
+    "shindanTitle": "來創造偶像吧"
+  },
+  {
+    "shindanId": "829014",
+    "shindanCommand": "创造我",
+    "shindanMode": "image",
+    "shindanTitle": "神明创造你的十日"
+  },
+  {
+    "shindanId": "1177226",
+    "shindanCommand": "创造故事",
+    "shindanMode": "image",
+    "shindanTitle": "创造故事！附带有趣背景与内心世界的角色设定"
+  },
+  {
+    "shindanId": "1174420",
+    "shindanCommand": "制作我的四样东西",
+    "shindanMode": "image",
+    "shindanTitle": "神明制作你的四样东西"
+  },
+  {
+    "shindanId": "87845",
+    "shindanCommand": "剑与魔法",
+    "shindanMode": "image",
+    "shindanTitle": "少年！亮兵器吧！"
+  },
+  {
+    "shindanId": "162924",
+    "shindanCommand": "动漫中的样子",
+    "shindanMode": "image",
+    "shindanTitle": "测试你在动漫里面的样子"
+  },
+  {
+    "shindanId": "30052",
+    "shindanCommand": "动漫女角",
+    "shindanMode": "image",
+    "shindanTitle": "不囉唆!!與你最搭配的動漫女角!!"
+  },
+  {
+    "shindanId": "318410",
+    "shindanCommand": "动漫角色",
+    "shindanMode": "image",
+    "shindanTitle": "动漫角色测试"
+  },
+  {
+    "shindanId": "1127800",
+    "shindanCommand": "动画片",
+    "shindanMode": "image",
+    "shindanTitle": "动画片生成"
+  },
+  {
+    "shindanId": "1191352",
+    "shindanCommand": "劲道台词",
+    "shindanMode": "image",
+    "shindanTitle": "来一句劲道的最终台词吧"
+  },
+  {
+    "shindanId": "1136163",
+    "shindanCommand": "勇闯KPL",
+    "shindanMode": "image",
+    "shindanTitle": "勇闯KPL"
+  },
+  {
+    "shindanId": "830443",
+    "shindanCommand": "化成我",
+    "shindanMode": "image",
+    "shindanTitle": "如果你是世间万物化成的"
+  },
+  {
+    "shindanId": "1136027",
+    "shindanCommand": "十个韵脚",
+    "shindanMode": "image",
+    "shindanTitle": "十个韵脚写段歌词"
+  },
+  {
+    "shindanId": "1139845",
+    "shindanCommand": "十二月女团",
+    "shindanMode": "image",
+    "shindanTitle": "with十二月"
+  },
+  {
+    "shindanId": "1051455",
+    "shindanCommand": "单女色色文梗",
+    "shindanMode": "image",
+    "shindanTitle": "盘点那些色色的文梗【微重口预警】（单人-女性向）"
+  },
+  {
+    "shindanId": "360578",
+    "shindanCommand": "卖萌",
+    "shindanMode": "text",
+    "shindanTitle": "顔文字作るよ(  ﾟдﾟ )"
+  },
+  {
+    "shindanId": "1161422",
+    "shindanCommand": "卧龙OC",
+    "shindanMode": "image",
+    "shindanTitle": "卧龙里你的OC"
+  },
+  {
+    "shindanId": "1129108",
+    "shindanCommand": "历史碎片",
+    "shindanMode": "image",
+    "shindanTitle": "蓋雷的歷史碎片"
+  },
+  {
+    "shindanId": "1118491",
+    "shindanCommand": "原画练习",
+    "shindanMode": "image",
+    "shindanTitle": "随机角色原画练习，脑洞向"
+  },
+  {
+    "shindanId": "1200442",
+    "shindanCommand": "原画练习脑洞",
+    "shindanMode": "image",
+    "shindanTitle": "随机角色原画练习，脑洞向进阶版"
+  },
+  {
+    "shindanId": "1167768",
+    "shindanCommand": "原神启动",
+    "shindanMode": "image",
+    "shindanTitle": "原神，启动！"
+  },
+  {
+    "shindanId": "1150770",
+    "shindanCommand": "原神角色",
+    "shindanMode": "image",
+    "shindanTitle": "【原神／画像あり】全68種！2023年あなたと最も相性のいい原神キャラは！？"
+  },
+  {
+    "shindanId": "528555",
+    "shindanCommand": "反派角色",
+    "shindanMode": "image",
+    "shindanTitle": "测试你会成为什么样的反派角色"
+  },
+  {
+    "shindanId": "1204678",
+    "shindanCommand": "变成游戏王卡",
+    "shindanMode": "image",
+    "shindanTitle": "当你变成游戏王卡会拥有什么效果"
+  },
+  {
+    "shindanId": "638952",
+    "shindanCommand": "变成触手怪",
+    "shindanMode": "image",
+    "shindanTitle": "如果变成触手怪的话！（有污）"
+  },
+  {
+    "shindanId": "1154683",
+    "shindanCommand": "变身可爱二次元",
+    "shindanMode": "image",
+    "shindanTitle": "AIがあなたを可愛い二次元キャラクターに変身させます"
+  },
+  {
+    "shindanId": "20263",
+    "shindanCommand": "古代姓名",
+    "shindanMode": "image",
+    "shindanTitle": "你在古代的姓名字號"
+  },
+  {
+    "shindanId": "1162250",
+    "shindanCommand": "古代家世",
+    "shindanMode": "image",
+    "shindanTitle": "古代家世生成器"
+  },
+  {
+    "shindanId": "35290",
+    "shindanCommand": "古代的我",
+    "shindanMode": "image",
+    "shindanTitle": "古代的身分"
+  },
+  {
+    "shindanId": "786329",
+    "shindanCommand": "古典笔名",
+    "shindanMode": "image",
+    "shindanTitle": "古典笔名生成器"
+  },
+  {
+    "shindanId": "1133603",
+    "shindanCommand": "古风元素",
+    "shindanMode": "image",
+    "shindanTitle": "古风元素生成。"
+  },
+  {
+    "shindanId": "1133594",
+    "shindanCommand": "古风元素2",
+    "shindanMode": "image",
+    "shindanTitle": "古风元素生成"
+  },
+  {
+    "shindanId": "28206",
+    "shindanCommand": "另一半",
+    "shindanMode": "image",
+    "shindanTitle": "你未來的另一半"
+  },
+  {
+    "shindanId": "316802",
+    "shindanCommand": "召唤英灵",
+    "shindanMode": "image",
+    "shindanTitle": "你召唤出的英灵将是？"
+  },
+  {
+    "shindanId": "316024",
+    "shindanCommand": "吃什么",
+    "shindanMode": "image",
+    "shindanTitle": "现在吃什么"
+  },
+  {
+    "shindanId": "1181412",
+    "shindanCommand": "吃什么2",
+    "shindanMode": "image",
+    "shindanTitle": "今餐食咩(個人用)"
+  },
+  {
+    "shindanId": "1158015",
+    "shindanCommand": "吃什么3",
+    "shindanMode": "image",
+    "shindanTitle": "外卖吃什么"
+  },
+  {
+    "shindanId": "1180240",
+    "shindanCommand": "吃豆豆",
+    "shindanMode": "image",
+    "shindanTitle": "面對豆豆命運吧！"
+  },
+  {
+    "shindanId": "1211253",
+    "shindanCommand": "后日谈人偶",
+    "shindanMode": "image",
+    "shindanTitle": "车一个后日谈的人偶吧！（固定版）"
+  },
+  {
+    "shindanId": "1132049",
+    "shindanCommand": "听到了什么",
+    "shindanMode": "image",
+    "shindanTitle": "在这時 你听到了…"
+  },
+  {
+    "shindanId": "1218122",
+    "shindanCommand": "听哪个消波块",
+    "shindanMode": "image",
+    "shindanTitle": "今天听哪个消波块"
+  },
+  {
+    "shindanId": "1115989",
+    "shindanCommand": "启示之刻",
+    "shindanMode": "image",
+    "shindanTitle": "获得启示之刻"
+  },
+  {
+    "shindanId": "1166235",
+    "shindanCommand": "命运",
+    "shindanMode": "image",
+    "shindanTitle": "一句话命运"
+  },
+  {
+    "shindanId": "1126144",
+    "shindanCommand": "和一口袋",
+    "shindanMode": "image",
+    "shindanTitle": "如果在装满左右田和一的袋子中摸摸？"
+  },
+  {
+    "shindanId": "1142483",
+    "shindanCommand": "和三日月的本丸生活",
+    "shindanMode": "image",
+    "shindanTitle": "和三日月的本丸生活"
+  },
+  {
+    "shindanId": "1116064",
+    "shindanCommand": "哈利波特卡组",
+    "shindanMode": "image",
+    "shindanTitle": "魔法部神奇动物在锅里社团的哈利波特魔法觉醒随机卡组生成器2"
+  },
+  {
+    "shindanId": "1088007",
+    "shindanCommand": "哈利波特魔法人生",
+    "shindanMode": "image",
+    "shindanTitle": "体验哈利波特魔法人生（2.0新版）"
+  },
+  {
+    "shindanId": "1150916",
+    "shindanCommand": "哥们考试",
+    "shindanMode": "image",
+    "shindanTitle": "哥们考试"
+  },
+  {
+    "shindanId": "877212",
+    "shindanCommand": "哥谭十连抽",
+    "shindanMode": "image",
+    "shindanTitle": "哥谭的超幸运十连抽！"
+  },
+  {
+    "shindanId": "1167846",
+    "shindanCommand": "噬神者",
+    "shindanMode": "image",
+    "shindanTitle": "噬神者系列里你的OC"
+  },
+  {
+    "shindanId": "1167596",
+    "shindanCommand": "噬血代码",
+    "shindanMode": "image",
+    "shindanTitle": "噬血代码里你的OC"
+  },
+  {
+    "shindanId": "1148603",
+    "shindanCommand": "回忆",
+    "shindanMode": "image",
+    "shindanTitle": "回忆生成器"
+  },
+  {
+    "shindanId": "1136733",
+    "shindanCommand": "回忆2",
+    "shindanMode": "image",
+    "shindanTitle": "TA的回忆里有……"
+  },
+  {
+    "shindanId": "35169",
+    "shindanCommand": "困梦",
+    "shindanMode": "image",
+    "shindanTitle": "你會困在夢的第幾層"
+  },
+  {
+    "shindanId": "1190757",
+    "shindanCommand": "在做什么",
+    "shindanMode": "image",
+    "shindanTitle": "那個人在做什麼呢？"
+  },
+  {
+    "shindanId": "1120350",
+    "shindanCommand": "在做什么2",
+    "shindanMode": "image",
+    "shindanTitle": "今天大家和誰在做什麼呢？"
+  },
+  {
+    "shindanId": "1120340",
+    "shindanCommand": "在做什么3",
+    "shindanMode": "image",
+    "shindanTitle": "今天大家在做什麼呢？"
+  },
+  {
+    "shindanId": "1204604",
+    "shindanCommand": "在艾欧泽亚的一生",
+    "shindanMode": "image",
+    "shindanTitle": "在艾欧泽亚的一生"
+  },
+  {
+    "shindanId": "1138848",
+    "shindanCommand": "场景灵感",
+    "shindanMode": "image",
+    "shindanTitle": "绘画/写作场景灵感"
+  },
+  {
+    "shindanId": "843850",
+    "shindanCommand": "坠落",
+    "shindanMode": "image",
+    "shindanTitle": "坠落"
+  },
+  {
+    "shindanId": "1153368",
+    "shindanCommand": "坦克战车娘",
+    "shindanMode": "image",
+    "shindanTitle": "你是什么坦克战车娘"
+  },
+  {
+    "shindanId": "1160229",
+    "shindanCommand": "垃圾站幻想人设",
+    "shindanMode": "image",
+    "shindanTitle": "垃圾站里的幻想人设生成器/一日一刷新"
+  },
+  {
+    "shindanId": "1161299",
+    "shindanCommand": "埃尔库利斯",
+    "shindanMode": "image",
+    "shindanTitle": "【自用】埃尔库利斯"
+  },
+  {
+    "shindanId": "843854",
+    "shindanCommand": "墓志铭",
+    "shindanMode": "image",
+    "shindanTitle": "墓志铭"
+  },
+  {
+    "shindanId": "1115622",
+    "shindanCommand": "墓碑前",
+    "shindanMode": "image",
+    "shindanTitle": "你的墓碑前会有什么？"
+  },
+  {
+    "shindanId": "1121834",
+    "shindanCommand": "夏天",
+    "shindanMode": "image",
+    "shindanTitle": "你的夏天是？"
+  },
+  {
+    "shindanId": "828438",
+    "shindanCommand": "外在与内在",
+    "shindanMode": "image",
+    "shindanTitle": "你的外在與內在的成分是？"
+  },
+  {
+    "shindanId": "1204394",
+    "shindanCommand": "大征服者2属性",
+    "shindanMode": "image",
+    "shindanTitle": "测测你在大征服者2的属性"
+  },
+  {
+    "shindanId": "1066594",
+    "shindanCommand": "大楚皇宫",
+    "shindanMode": "image",
+    "shindanTitle": "测测你是大楚皇宫里面的谁？"
+  },
+  {
+    "shindanId": "1194760",
+    "shindanCommand": "大陆酒店",
+    "shindanMode": "image",
+    "shindanTitle": "大陆酒店"
+  },
+  {
+    "shindanId": "1215106",
+    "shindanCommand": "天命舞曲",
+    "shindanMode": "image",
+    "shindanTitle": "今日份pypy dance (按天变化)"
+  },
+  {
+    "shindanId": "896449",
+    "shindanCommand": "天赋技能",
+    "shindanMode": "image",
+    "shindanTitle": "你轉生到異世界後得到的七個天賦技能"
+  },
+  {
+    "shindanId": "1136736",
+    "shindanCommand": "失去",
+    "shindanMode": "image",
+    "shindanTitle": "TA所失去的"
+  },
+  {
+    "shindanId": "790800",
+    "shindanCommand": "奇妙乱睡角色",
+    "shindanMode": "image",
+    "shindanTitle": "【自用世界观】奇妙的乱睡角色生成器"
+  },
+  {
+    "shindanId": "1115924",
+    "shindanCommand": "奇妙意象",
+    "shindanMode": "image",
+    "shindanTitle": "oc/cp背景故事的奇妙意象"
+  },
+  {
+    "shindanId": "790673",
+    "shindanCommand": "奇妙教会",
+    "shindanMode": "image",
+    "shindanTitle": "【自用世界观】奇妙的教会生成器"
+  },
+  {
+    "shindanId": "790659",
+    "shindanCommand": "奇妙角色",
+    "shindanMode": "image",
+    "shindanTitle": "奇妙的角色生成器"
+  },
+  {
+    "shindanId": "1142797",
+    "shindanCommand": "奇幻人设",
+    "shindanMode": "image",
+    "shindanTitle": "奇幻人设生成"
+  },
+  {
+    "shindanId": "1175394",
+    "shindanCommand": "奇怪融化宠物",
+    "shindanMode": "image",
+    "shindanTitle": "宠物店里奇怪融化宠物的备注"
+  },
+  {
+    "shindanId": "1218842",
+    "shindanCommand": "奈良物语2",
+    "shindanMode": "image",
+    "shindanTitle": "奈良物語2 【标准常驻池】[单次召唤]"
+  },
+  {
+    "shindanId": "1218837",
+    "shindanCommand": "奈良物语2连续召唤",
+    "shindanMode": "image",
+    "shindanTitle": "奈良物語2 【标准常驻池】[连续召唤]"
+  },
+  {
+    "shindanId": "870739",
+    "shindanCommand": "女奥特曼败北",
+    "shindanMode": "image",
+    "shindanTitle": "【R-18】你作为女奥特曼是怎么败北的"
+  },
+  {
+    "shindanId": "637294",
+    "shindanCommand": "女性人设",
+    "shindanMode": "image",
+    "shindanTitle": "人设生成器（女性限定）"
+  },
+  {
+    "shindanId": "1135578",
+    "shindanCommand": "女数码兽抉择者",
+    "shindanMode": "image",
+    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（固定版）（无VPN用）"
+  },
+  {
+    "shindanId": "22157",
+    "shindanCommand": "女版自己",
+    "shindanMode": "image",
+    "shindanTitle": "女版的自己"
+  },
+  {
+    "shindanId": "1126001",
+    "shindanCommand": "女神在抽卡",
+    "shindanMode": "image",
+    "shindanTitle": "女神在抽卡（？）"
   },
   {
     "shindanId": "1203714",
-    "shindanCommand": "女骑士生成器",
+    "shindanCommand": "女骑士",
     "shindanMode": "image",
-    "shindanTitle": "女骑士生成器 "
+    "shindanTitle": "女骑士生成器"
+  },
+  {
+    "shindanId": "1181376",
+    "shindanCommand": "娘化的我",
+    "shindanMode": "image",
+    "shindanTitle": "今天娘化的你是什么样"
+  },
+  {
+    "shindanId": "635902",
+    "shindanCommand": "娘化穿越",
+    "shindanMode": "image",
+    "shindanTitle": "娘化穿越到异世界ver4.2"
+  },
+  {
+    "shindanId": "1092679",
+    "shindanCommand": "娘化转生战锤",
+    "shindanMode": "image",
+    "shindanTitle": "你娘化后在战锤40k宇宙生存"
+  },
+  {
+    "shindanId": "1210701",
+    "shindanCommand": "娱乐圈邂逅",
+    "shindanMode": "image",
+    "shindanTitle": "【娱乐圈】Y/N和他的邂逅"
+  },
+  {
+    "shindanId": "760611",
+    "shindanCommand": "孩子",
+    "shindanMode": "image",
+    "shindanTitle": "新孩子生成器"
+  },
+  {
+    "shindanId": "1197151",
+    "shindanCommand": "宇宙中枢",
+    "shindanMode": "image",
+    "shindanTitle": "欢迎来到宇宙中枢"
+  },
+  {
+    "shindanId": "1133873",
+    "shindanCommand": "宋词意象",
+    "shindanMode": "image",
+    "shindanTitle": "测一测你是宋词中的什么意象"
+  },
+  {
+    "shindanId": "1198169",
+    "shindanCommand": "完整人设",
+    "shindanMode": "image",
+    "shindanTitle": "创造完整的人设（基本版本）"
+  },
+  {
+    "shindanId": "1160251",
+    "shindanCommand": "宝可梦",
+    "shindanMode": "image",
+    "shindanTitle": "Your Pokémon Journey!!!"
+  },
+  {
+    "shindanId": "833360",
+    "shindanCommand": "宠物培养",
+    "shindanMode": "image",
+    "shindanTitle": "來飼養一只○○吧！"
+  },
+  {
+    "shindanId": "1204517",
+    "shindanCommand": "宠物萝莉",
+    "shindanMode": "image",
+    "shindanTitle": "憧憬成为宠物萝莉"
+  },
+  {
+    "shindanId": "1134923",
+    "shindanCommand": "密教人物",
+    "shindanMode": "image",
+    "shindanTitle": "密教人物生成器"
+  },
+  {
+    "shindanId": "1135662",
+    "shindanCommand": "小剧场题材",
+    "shindanMode": "image",
+    "shindanTitle": "小劇場題材"
+  },
+  {
+    "shindanId": "828905",
+    "shindanCommand": "小动物",
+    "shindanMode": "image",
+    "shindanTitle": "你是什么小动物？"
+  },
+  {
+    "shindanId": "1135885",
+    "shindanCommand": "小场景",
+    "shindanMode": "image",
+    "shindanTitle": "小场景"
+  },
+  {
+    "shindanId": "1206040",
+    "shindanCommand": "小马宝莉OC",
+    "shindanMode": "image",
+    "shindanTitle": "小马宝莉马设oc生成"
+  },
+  {
+    "shindanId": "1206120",
+    "shindanCommand": "小马宝莉好朋友",
+    "shindanMode": "image",
+    "shindanTitle": "测测你与小马宝莉中的哪位角色是好朋友"
+  },
+  {
+    "shindanId": "1209956",
+    "shindanCommand": "少萝交友",
+    "shindanMode": "image",
+    "shindanTitle": "少萝交友🔞"
+  },
+  {
+    "shindanId": "1163261",
+    "shindanCommand": "属性牌",
+    "shindanMode": "image",
+    "shindanTitle": "自用属性牌test"
+  },
+  {
+    "shindanId": "1124861",
+    "shindanCommand": "工地男人",
+    "shindanMode": "image",
+    "shindanTitle": "工地男人占卜「瑟瑟版」"
+  },
+  {
+    "shindanId": "1220847",
+    "shindanCommand": "巨大娘",
+    "shindanMode": "image",
+    "shindanTitle": "羽化状态___巨大娘生成器"
+  },
+  {
+    "shindanId": "1197104",
+    "shindanCommand": "帕鲁",
+    "shindanMode": "image",
+    "shindanTitle": "最能代表你的精神帕魯 (並沒有)"
+  },
+  {
+    "shindanId": "1135729",
+    "shindanCommand": "带感台词",
+    "shindanMode": "image",
+    "shindanTitle": "來一句帶感的臺詞"
+  },
+  {
+    "shindanId": "28047",
+    "shindanCommand": "平行宇宙",
+    "shindanMode": "image",
+    "shindanTitle": "平行宇宙中的另一个你，此刻在做什么 ？"
+  },
+  {
+    "shindanId": "1136770",
+    "shindanCommand": "幸福结局",
+    "shindanMode": "image",
+    "shindanTitle": "来一个幸福的结局"
+  },
+  {
+    "shindanId": "1137229",
+    "shindanCommand": "幸运物",
+    "shindanMode": "image",
+    "shindanTitle": "今日幸運物"
+  },
+  {
+    "shindanId": "1150490",
+    "shindanCommand": "幸运车次",
+    "shindanMode": "image",
+    "shindanTitle": "今日的幸運車次是......？"
+  },
+  {
+    "shindanId": "829668",
+    "shindanCommand": "幻境",
+    "shindanMode": "image",
+    "shindanTitle": "你的幻境"
+  },
+  {
+    "shindanId": "1160234",
+    "shindanCommand": "幻想",
+    "shindanMode": "image",
+    "shindanTitle": "是幻想和幻想啊！"
+  },
+  {
+    "shindanId": "1124532",
+    "shindanCommand": "幻想世界OC",
+    "shindanMode": "image",
+    "shindanTitle": "幻想世界oc生成（不定时更新）"
+  },
+  {
+    "shindanId": "1220025",
+    "shindanCommand": "幻想生物",
+    "shindanMode": "image",
+    "shindanTitle": "幻想生物生成器"
+  },
+  {
+    "shindanId": "1208541",
+    "shindanCommand": "幼儿园兼职老师",
+    "shindanMode": "image",
+    "shindanTitle": "在颍川幼儿园兼职做老师"
+  },
+  {
+    "shindanId": "1153256",
+    "shindanCommand": "康康你的",
+    "shindanMode": "image",
+    "shindanTitle": "让我康康你的姬尔"
+  },
+  {
+    "shindanId": "1178059",
+    "shindanCommand": "开学季",
+    "shindanMode": "image",
+    "shindanTitle": "又是一年开学季。。（剋泡女宝版）"
+  },
+  {
+    "shindanId": "1178000",
+    "shindanCommand": "开学季2",
+    "shindanMode": "image",
+    "shindanTitle": "又是一年开学季。。（捞版）"
+  },
+  {
+    "shindanId": "1177996",
+    "shindanCommand": "开学季3",
+    "shindanMode": "image",
+    "shindanTitle": "又是一年开学季。。（农版）"
+  },
+  {
+    "shindanId": "1177992",
+    "shindanCommand": "开学季4",
+    "shindanMode": "image",
+    "shindanTitle": "又是一年开学季。。（剋泡男宝版）"
+  },
+  {
+    "shindanId": "1177980",
+    "shindanCommand": "开学季5",
+    "shindanMode": "image",
+    "shindanTitle": "又是一年开学季。。（内娱）"
+  },
+  {
+    "shindanId": "1205029",
+    "shindanCommand": "异世界传送列车",
+    "shindanMode": "image",
+    "shindanTitle": "异世界传送列车"
+  },
+  {
+    "shindanId": "555143",
+    "shindanCommand": "异世界属性",
+    "shindanMode": "image",
+    "shindanTitle": "如果你穿越/重生到異世界,你的屬性面板會是?"
+  },
+  {
+    "shindanId": "738291",
+    "shindanCommand": "异世界状态版面",
+    "shindanMode": "image",
+    "shindanTitle": "穿越轉生到異世界的狀態版面(升級豪華版)"
+  },
+  {
+    "shindanId": "587874",
+    "shindanCommand": "异世界转生",
+    "shindanMode": "image",
+    "shindanTitle": "異世界轉生—∩開始的種族∩——"
+  },
+  {
+    "shindanId": "1191401",
+    "shindanCommand": "异世界转生2",
+    "shindanMode": "image",
+    "shindanTitle": "異世界轉生"
+  },
+  {
+    "shindanId": "1187753",
+    "shindanCommand": "异世界转生3",
+    "shindanMode": "image",
+    "shindanTitle": "在異世界裡生活的話"
+  },
+  {
+    "shindanId": "1186635",
+    "shindanCommand": "异世界转生4",
+    "shindanMode": "image",
+    "shindanTitle": "被大卡车撞-重生之异世界故事"
+  },
+  {
+    "shindanId": "1180180",
+    "shindanCommand": "异世界转生5",
+    "shindanMode": "image",
+    "shindanTitle": "看看异世界生活"
+  },
+  {
+    "shindanId": "1142688",
+    "shindanCommand": "异世界转生6",
+    "shindanMode": "image",
+    "shindanTitle": "异世界人生（未完成）"
+  },
+  {
+    "shindanId": "1189659",
+    "shindanCommand": "异能游戏",
+    "shindanMode": "image",
+    "shindanTitle": "异能遊戲模擬器"
+  },
+  {
+    "shindanId": "1140548",
+    "shindanCommand": "异象猎人",
+    "shindanMode": "image",
+    "shindanTitle": "【原创世界观oc自用】来测测是怎样的异象猎人！"
+  },
+  {
+    "shindanId": "1167491",
+    "shindanCommand": "弃仙牌OC",
+    "shindanMode": "image",
+    "shindanTitle": "弈仙牌世界里你的人设"
+  },
+  {
+    "shindanId": "1130223",
+    "shindanCommand": "心之兽",
+    "shindanMode": "image",
+    "shindanTitle": "心之獸的構成原因"
+  },
+  {
+    "shindanId": "1130217",
+    "shindanCommand": "心之兽素质",
+    "shindanMode": "image",
+    "shindanTitle": "心之獸的素質"
+  },
+  {
+    "shindanId": "16164",
+    "shindanCommand": "必杀技",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的潜能"
+  },
+  {
+    "shindanId": "1131429",
+    "shindanCommand": "忍神角色",
+    "shindanMode": "image",
+    "shindanTitle": "车一个忍神角色吧（现代篇）"
+  },
+  {
+    "shindanId": "1205120",
+    "shindanCommand": "快乐点心派对",
+    "shindanMode": "image",
+    "shindanTitle": "【換暱稱】快樂點心派對"
+  },
+  {
+    "shindanId": "1134778",
+    "shindanCommand": "快穿主受小说",
+    "shindanMode": "image",
+    "shindanTitle": "给你推荐一本快穿主受小说"
+  },
+  {
+    "shindanId": "1217702",
+    "shindanCommand": "怎样的人",
+    "shindanMode": "image",
+    "shindanTitle": "是个怎样的人呢？"
+  },
+  {
+    "shindanId": "1162222",
+    "shindanCommand": "思绪",
+    "shindanMode": "image",
+    "shindanTitle": "你的思绪是什么"
+  },
+  {
+    "shindanId": "1148670",
+    "shindanCommand": "性癖",
+    "shindanMode": "image",
+    "shindanTitle": "岔皮大爆炸"
+  },
+  {
+    "shindanId": "1137909",
+    "shindanCommand": "怪物猎人世界",
+    "shindanMode": "image",
+    "shindanTitle": "怪物猎人世界里你的OC"
+  },
+  {
+    "shindanId": "1142562",
+    "shindanCommand": "怪物猎人崛起",
+    "shindanMode": "image",
+    "shindanTitle": "怪物猎人崛起里你的OC"
+  },
+  {
+    "shindanId": "1090825",
+    "shindanCommand": "恋爱观",
+    "shindanMode": "image",
+    "shindanTitle": "恋爱观"
+  },
+  {
+    "shindanId": "1158309",
+    "shindanCommand": "恶作剧",
+    "shindanMode": "image",
+    "shindanTitle": "惡作劇時間!是躲過一劫還是被迫中獎?"
+  },
+  {
+    "shindanId": "1140859",
+    "shindanCommand": "悲剧主人公",
+    "shindanMode": "image",
+    "shindanTitle": "你是悲剧的主人公"
+  },
+  {
+    "shindanId": "868441",
+    "shindanCommand": "惩罚",
+    "shindanMode": "image",
+    "shindanTitle": "SPANKING自我惩罚生成器"
+  },
+  {
+    "shindanId": "24963",
+    "shindanCommand": "成为书",
+    "shindanMode": "image",
+    "shindanTitle": "不要猶豫！成為一本書吧！(認真ver.0.1)"
+  },
+  {
+    "shindanId": "1146263",
+    "shindanCommand": "我喜欢的人",
+    "shindanMode": "image",
+    "shindanTitle": "测测你喜欢的人是谁☆〜（ゝ。∂）"
+  },
+  {
+    "shindanId": "761425",
+    "shindanCommand": "我是什么做成的",
+    "shindanMode": "image",
+    "shindanTitle": "你是什麼做成的"
+  },
+  {
+    "shindanId": "829369",
+    "shindanCommand": "我是什么做成的2",
+    "shindanMode": "image",
+    "shindanTitle": "你是什麼做成的2.0"
+  },
+  {
+    "shindanId": "1083312",
+    "shindanCommand": "我是什么将军",
+    "shindanMode": "image",
+    "shindanTitle": "穿越到二次世界大战的你会是什么样将军呢？"
+  },
+  {
+    "shindanId": "29060",
+    "shindanCommand": "我是什么控",
+    "shindanMode": "image",
+    "shindanTitle": "你是甚麼控"
+  },
+  {
+    "shindanId": "27587",
+    "shindanCommand": "我最喜欢的人",
+    "shindanMode": "image",
+    "shindanTitle": "我最喜歡...樣的人了!! 0////x////0"
+  },
+  {
+    "shindanId": "21565",
+    "shindanCommand": "我有多S",
+    "shindanMode": "image",
+    "shindanTitle": "測試你有多S"
+  },
+  {
+    "shindanId": "827537",
+    "shindanCommand": "我爱谁",
+    "shindanMode": "image",
+    "shindanTitle": "测试你爱的人是谁？"
+  },
+  {
+    "shindanId": "1143582",
+    "shindanCommand": "我由什么构成",
+    "shindanMode": "image",
+    "shindanTitle": "你是由什么构成的？【古代篇】"
+  },
+  {
+    "shindanId": "1136513",
+    "shindanCommand": "我由什么组成",
+    "shindanMode": "image",
+    "shindanTitle": "你是由什么组成的？"
+  },
+  {
+    "shindanId": "845842",
+    "shindanCommand": "我的一生",
+    "shindanMode": "image",
+    "shindanTitle": "用三句话概括CP"
+  },
+  {
+    "shindanId": "1151548",
+    "shindanCommand": "我的故事",
+    "shindanMode": "image",
+    "shindanTitle": " 在……你……的故事"
+  },
+  {
+    "shindanId": "829511",
+    "shindanCommand": "我的爱",
+    "shindanMode": "image",
+    "shindanTitle": "你的爱是怎样的？"
+  },
+  {
+    "shindanId": "1070601",
+    "shindanCommand": "我的粉丝",
+    "shindanMode": "image",
+    "shindanTitle": "粉丝构成测试"
+  },
+  {
+    "shindanId": "1211825",
+    "shindanCommand": "战争大陆",
+    "shindanMode": "image",
+    "shindanTitle": "战争大陆随机旅游挑战！"
+  },
+  {
+    "shindanId": "1121766",
+    "shindanCommand": "战双",
+    "shindanMode": "image",
+    "shindanTitle": "【戰雙】今天的你會遇到誰?"
+  },
+  {
+    "shindanId": "17507",
+    "shindanCommand": "战斗力",
+    "shindanMode": "image",
+    "shindanTitle": "战斗力"
+  },
+  {
+    "shindanId": "1198952",
+    "shindanCommand": "战斗角色",
+    "shindanMode": "image",
+    "shindanTitle": "寻求战斗的人"
+  },
+  {
+    "shindanId": "832039",
+    "shindanCommand": "战术人形",
+    "shindanMode": "image",
+    "shindanTitle": "當你變成了戰術人形☆"
+  },
+  {
+    "shindanId": "21431",
+    "shindanCommand": "执事与女仆",
+    "shindanMode": "image",
+    "shindanTitle": "適合待在您身邊的執事與女僕是？"
+  },
+  {
+    "shindanId": "1126910",
+    "shindanCommand": "执剑之刻",
+    "shindanMode": "image",
+    "shindanTitle": "假設你穿越到執劍之刻裡的設定（會更新）"
+  },
+  {
+    "shindanId": "995775",
+    "shindanCommand": "抓捕少年1",
+    "shindanMode": "image",
+    "shindanTitle": "奇异少年抓捕装置1"
+  },
+  {
+    "shindanId": "1051544",
+    "shindanCommand": "抓捕少年2",
+    "shindanMode": "image",
+    "shindanTitle": "奇异少年诱捕装置2"
+  },
+  {
+    "shindanId": "995787",
+    "shindanCommand": "抓捕少年3",
+    "shindanMode": "image",
+    "shindanTitle": "奇异少年抓捕装置3"
+  },
+  {
+    "shindanId": "1147683",
+    "shindanCommand": "投胎中国",
+    "shindanMode": "image",
+    "shindanTitle": "投胎到中国！"
+  },
+  {
+    "shindanId": "1150686",
+    "shindanCommand": "抽P3老婆",
+    "shindanMode": "image",
+    "shindanTitle": "你的P3老婆"
+  },
+  {
+    "shindanId": "1150609",
+    "shindanCommand": "抽P4老婆",
+    "shindanMode": "image",
+    "shindanTitle": "抽取P4老婆"
+  },
+  {
+    "shindanId": "1150594",
+    "shindanCommand": "抽P5老婆",
+    "shindanMode": "image",
+    "shindanTitle": "抽P5老婆"
+  },
+  {
+    "shindanId": "1000507",
+    "shindanCommand": "抽丈夫",
+    "shindanMode": "image",
+    "shindanTitle": "あなたに似ているジャンプ主人公診断！"
+  },
+  {
+    "shindanId": "1142582",
+    "shindanCommand": "抽主人",
+    "shindanMode": "image",
+    "shindanTitle": "あなたが行ったらハマるホスト"
+  },
+  {
+    "shindanId": "1099408",
+    "shindanCommand": "抽元素",
+    "shindanMode": "image",
+    "shindanTitle": "Atom-Element"
+  },
+  {
+    "shindanId": "1150017",
+    "shindanCommand": "抽卡模拟",
+    "shindanMode": "image",
+    "shindanTitle": "抽卡模拟器（待修改）"
+  },
+  {
+    "shindanId": "1163454",
+    "shindanCommand": "抽原神",
+    "shindanMode": "image",
+    "shindanTitle": "测试你是原神中的谁"
+  },
+  {
+    "shindanId": "1163576",
+    "shindanCommand": "抽原神简易",
+    "shindanMode": "image",
+    "shindanTitle": "测试你是原神形象简易版"
+  },
+  {
+    "shindanId": "1044378",
+    "shindanCommand": "抽台湾地名",
+    "shindanMode": "image",
+    "shindanTitle": "地名抽抽"
+  },
+  {
+    "shindanId": "1150872",
+    "shindanCommand": "抽塔罗",
+    "shindanMode": "image",
+    "shindanTitle": "Persona5塔罗"
+  },
+  {
+    "shindanId": "1199388",
+    "shindanCommand": "抽塔罗2",
+    "shindanMode": "image",
+    "shindanTitle": "给oc或者cp抽一张塔罗牌吧"
+  },
+  {
+    "shindanId": "1150610",
+    "shindanCommand": "抽女神异闻录老婆",
+    "shindanMode": "image",
+    "shindanTitle": "抽取女神异闻录老婆"
+  },
+  {
+    "shindanId": "1075116",
+    "shindanCommand": "抽妻子",
+    "shindanMode": "image",
+    "shindanTitle": "あなたの二次元での嫁ヒロイン"
+  },
+  {
+    "shindanId": "1221873",
+    "shindanCommand": "抽彩虹社主播",
+    "shindanMode": "image",
+    "shindanTitle": "抽にじさんじ彩虹社主播"
+  },
+  {
+    "shindanId": "1135573",
+    "shindanCommand": "抽数码兽抉择者",
+    "shindanMode": "image",
+    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（变动版）"
+  },
+  {
+    "shindanId": "541545",
+    "shindanCommand": "抽星武",
+    "shindanMode": "image",
+    "shindanTitle": "《永恒之轮》！看看您驾驶哪一部星武装机！"
+  },
+  {
+    "shindanId": "1110781",
+    "shindanCommand": "抽特殊能力",
+    "shindanMode": "image",
+    "shindanTitle": "你的特殊能力是什么？"
+  },
+  {
+    "shindanId": "1208686",
+    "shindanCommand": "抽糖果",
+    "shindanMode": "image",
+    "shindanTitle": "儿童节女巫糖果抽抽乐！"
+  },
+  {
+    "shindanId": "876174",
+    "shindanCommand": "抽老公",
+    "shindanMode": "image",
+    "shindanTitle": "あなたっぽい主人公キャラ"
+  },
+  {
+    "shindanId": "1150687",
+    "shindanCommand": "抽老婆",
+    "shindanMode": "image",
+    "shindanTitle": "抽老婆"
+  },
+  {
+    "shindanId": "1150888",
+    "shindanCommand": "抽能量属性",
+    "shindanMode": "image",
+    "shindanTitle": "能量属性"
+  },
+  {
+    "shindanId": "400813",
+    "shindanCommand": "抽舰娘",
+    "shindanMode": "image",
+    "shindanTitle": "【艦これ】あなたの嫁になる艦娘は？"
+  },
+  {
+    "shindanId": "361845",
+    "shindanCommand": "抽高达",
+    "shindanMode": "image",
+    "shindanTitle": "マイ・ガンダム診断"
+  },
+  {
+    "shindanId": "1214015",
+    "shindanCommand": "拉丁语名字",
+    "shindanMode": "image",
+    "shindanTitle": "拉丁语系外文名字生成器"
+  },
+  {
+    "shindanId": "1137539",
+    "shindanCommand": "拉尼卡公会城",
+    "shindanMode": "image",
+    "shindanTitle": "你属于拉尼卡公会城的哪个公会呢？"
+  },
+  {
+    "shindanId": "35205",
+    "shindanCommand": "拟人动物",
+    "shindanMode": "image",
+    "shindanTitle": "你的擬人動物代表"
+  },
+  {
+    "shindanId": "870843",
+    "shindanCommand": "拷问女奥特曼",
+    "shindanMode": "image",
+    "shindanTitle": "【R-18】被拷问的女奥特曼是……"
+  },
+  {
+    "shindanId": "1209263",
+    "shindanCommand": "挂机地",
+    "shindanMode": "image",
+    "shindanTitle": "群友今天去哪挂机！1.0"
+  },
+  {
+    "shindanId": "1133869",
+    "shindanCommand": "指环王元素",
+    "shindanMode": "image",
+    "shindanTitle": "你在指环王里是什么元素"
+  },
+  {
+    "shindanId": "1116035",
+    "shindanCommand": "捡到什么",
+    "shindanMode": "image",
+    "shindanTitle": "你将会在路边捡到什么"
+  },
+  {
+    "shindanId": "1177918",
+    "shindanCommand": "探索者OC",
+    "shindanMode": "image",
+    "shindanTitle": "pathfinder里你的OC"
+  },
+  {
+    "shindanId": "1169935",
+    "shindanCommand": "揍人学院学生证",
+    "shindanMode": "image",
+    "shindanTitle": "揍人学院学生证"
+  },
+  {
+    "shindanId": "1150508",
+    "shindanCommand": "提奥耶工作",
+    "shindanMode": "image",
+    "shindanTitle": "當你進入提奧耶工作......"
+  },
+  {
+    "shindanId": "828977",
+    "shindanCommand": "故事主角",
+    "shindanMode": "image",
+    "shindanTitle": "你是什么故事的主角呢"
+  },
+  {
+    "shindanId": "1121649",
+    "shindanCommand": "故事片段",
+    "shindanMode": "image",
+    "shindanTitle": "你故事的一個片段(未完成)"
+  },
+  {
+    "shindanId": "1155635",
+    "shindanCommand": "故事背景",
+    "shindanMode": "image",
+    "shindanTitle": "随机故事背景设定"
+  },
+  {
+    "shindanId": "1121982",
+    "shindanCommand": "敏感度",
+    "shindanMode": "image",
+    "shindanTitle": "正义t爆！！"
+  },
+  {
+    "shindanId": "1204649",
+    "shindanCommand": "散触老黄历",
+    "shindanMode": "image",
+    "shindanTitle": "散触老黄历 Ver1.2"
+  },
+  {
+    "shindanId": "1135572",
+    "shindanCommand": "数码兽抉择者",
+    "shindanMode": "image",
+    "shindanTitle": "《数码兽抉择者》游戏企划终极抉择者人物卡（女）（固定版）"
+  },
+  {
+    "shindanId": "1206263",
+    "shindanCommand": "数码搭档兽",
+    "shindanMode": "image",
+    "shindanTitle": "在数码世界的搭档数码兽是谁"
+  },
+  {
+    "shindanId": "1205065",
+    "shindanCommand": "斗罗武魂",
+    "shindanMode": "image",
+    "shindanTitle": "斗罗大陆 --- 来测试你的 ‘武魂’ 吧 ---- 已制作完成"
+  },
+  {
+    "shindanId": "1133418",
+    "shindanCommand": "新班级座位表",
+    "shindanMode": "image",
+    "shindanTitle": "SAMPLE : CHART函数 TABLE图表"
+  },
+  {
+    "shindanId": "1126136",
+    "shindanCommand": "施法应用图鉴",
+    "shindanMode": "image",
+    "shindanTitle": "來自施法應用圖鑑的奇妙用法"
+  },
+  {
+    "shindanId": "1169069",
+    "shindanCommand": "无常法资质",
+    "shindanMode": "image",
+    "shindanTitle": "无常法资质测定"
+  },
+  {
+    "shindanId": "1165318",
+    "shindanCommand": "无意义拼贴",
+    "shindanMode": "image",
+    "shindanTitle": "无意义拼贴"
+  },
+  {
+    "shindanId": "1165322",
+    "shindanCommand": "无意义拼贴2",
+    "shindanMode": "image",
+    "shindanTitle": "无意义拼贴2"
+  },
+  {
+    "shindanId": "1165317",
+    "shindanCommand": "无意义拼贴3",
+    "shindanMode": "image",
+    "shindanTitle": "无意义随机拼贴"
+  },
+  {
+    "shindanId": "454982",
+    "shindanCommand": "无梗助手",
+    "shindanMode": "image",
+    "shindanTitle": "沒梗時的好幫手"
+  },
+  {
+    "shindanId": "1092787",
+    "shindanCommand": "无畏机甲",
+    "shindanMode": "image",
+    "shindanTitle": "角色被葬入无畏机甲"
+  },
+  {
+    "shindanId": "1150177",
+    "shindanCommand": "无限流男友",
+    "shindanMode": "image",
+    "shindanTitle": "请勿在无限流游戏里找男朋友！"
+  },
+  {
+    "shindanId": "1161245",
+    "shindanCommand": "日落赌场",
+    "shindanMode": "image",
+    "shindanTitle": "日落賭場"
+  },
+  {
+    "shindanId": "1135818",
+    "shindanCommand": "时装",
+    "shindanMode": "image",
+    "shindanTitle": "每日時裝製造機"
+  },
+  {
+    "shindanId": "27865",
+    "shindanCommand": "时间占比",
+    "shindanMode": "image",
+    "shindanTitle": "一生中某件事占時間"
+  },
+  {
+    "shindanId": "905435",
+    "shindanCommand": "明日方舟干员",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟干员生成"
+  },
+  {
+    "shindanId": "1186773",
+    "shindanCommand": "明日方舟干员2",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟干员制成|随机干员生成"
+  },
+  {
+    "shindanId": "1156225",
+    "shindanCommand": "明日方舟干员3",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟干员生成器"
+  },
+  {
+    "shindanId": "1124214",
+    "shindanCommand": "明日方舟干员4",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟干员生成 职业基础档案客观履历"
+  },
+  {
+    "shindanId": "897114",
+    "shindanCommand": "明日方舟角色",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟角色生成器"
+  },
+  {
+    "shindanId": "959146",
+    "shindanCommand": "明日方舟风格干员",
+    "shindanMode": "image",
+    "shindanTitle": "明日方舟风格干员生成器（ALPHA）"
+  },
+  {
+    "shindanId": "1206193",
+    "shindanCommand": "星穹铁道OC",
+    "shindanMode": "image",
+    "shindanTitle": "在崩坏：星穹铁道，你会是什么样的人？"
+  },
+  {
+    "shindanId": "1092608",
+    "shindanCommand": "星际战士",
+    "shindanMode": "image",
+    "shindanTitle": "角色成为星际战士的战斗力"
+  },
+  {
+    "shindanId": "1155175",
+    "shindanCommand": "春日幻境",
+    "shindanMode": "image",
+    "shindanTitle": "清河春日幻境之旅"
+  },
+  {
+    "shindanId": "1159796",
+    "shindanCommand": "是什么人",
+    "shindanMode": "image",
+    "shindanTitle": "性格&喜欢&讨厌"
+  },
+  {
+    "shindanId": "1125771",
+    "shindanCommand": "智力度",
+    "shindanMode": "image",
+    "shindanTitle": "占卜你的智力度"
+  },
+  {
+    "shindanId": "1176458",
+    "shindanCommand": "更酷的角色卡",
+    "shindanMode": "image",
+    "shindanTitle": "Superior oc generator（更酷的角色卡生成器）"
+  },
+  {
+    "shindanId": "1117882",
+    "shindanCommand": "曾经是什么",
+    "shindanMode": "image",
+    "shindanTitle": "你曾经是什么？"
+  },
+  {
+    "shindanId": "522194",
+    "shindanCommand": "替身属性",
+    "shindanMode": "image",
+    "shindanTitle": "看看你的替身是什么样的"
+  },
+  {
+    "shindanId": "905484",
+    "shindanCommand": "替身能力",
+    "shindanMode": "image",
+    "shindanTitle": "JOJO替身能力"
+  },
+  {
+    "shindanId": "1144712",
+    "shindanCommand": "最终幻想14",
+    "shindanMode": "image",
+    "shindanTitle": "最终幻想14里你的OC"
+  },
+  {
+    "shindanId": "1138042",
+    "shindanCommand": "月饼",
+    "shindanMode": "image",
+    "shindanTitle": "【梅吉库塔】今晚吃到的月饼是什么口味的？"
+  },
+  {
+    "shindanId": "1160390",
+    "shindanCommand": "服装主题角色生成",
+    "shindanMode": "image",
+    "shindanTitle": ">服装主题< 角色生成器"
+  },
+  {
+    "shindanId": "1131250",
+    "shindanCommand": "服装风格灵感",
+    "shindanMode": "image",
+    "shindanTitle": "服裝風格靈感"
+  },
+  {
+    "shindanId": "1177098",
+    "shindanCommand": "未来事物",
+    "shindanMode": "image",
+    "shindanTitle": "未来事物灵感生成器：The Thing from the Future Card Game"
+  },
+  {
+    "shindanId": "1141174",
+    "shindanCommand": "未来恋人",
+    "shindanMode": "image",
+    "shindanTitle": "准备好与你未来的恋人相遇了吗？"
+  },
+  {
+    "shindanId": "1146780",
+    "shindanCommand": "末日祭典",
+    "shindanMode": "image",
+    "shindanTitle": "《希诺尔奇的诅咒》之末日祭典"
+  },
+  {
+    "shindanId": "443593",
+    "shindanCommand": "本命武器",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的本命武器"
+  },
+  {
+    "shindanId": "1117121",
+    "shindanCommand": "机叶十连",
+    "shindanMode": "image",
+    "shindanTitle": "网络式机叶抽奖"
+  },
+  {
+    "shindanId": "1123765",
+    "shindanCommand": "杀人理由",
+    "shindanMode": "image",
+    "shindanTitle": "杀人的理由"
+  },
+  {
+    "shindanId": "1141522",
+    "shindanCommand": "杀手",
+    "shindanMode": "image",
+    "shindanTitle": "你是一名杀手"
+  },
+  {
+    "shindanId": "829594",
+    "shindanCommand": "杀死我的东西",
+    "shindanMode": "image",
+    "shindanTitle": "会杀死你的东西"
+  },
+  {
+    "shindanId": "820217",
+    "shindanCommand": "来梗",
+    "shindanMode": "image",
+    "shindanTitle": "♣我有梗，你有笔吗♣"
+  },
+  {
+    "shindanId": "1133069",
+    "shindanCommand": "来梗2",
+    "shindanMode": "image",
+    "shindanTitle": "今天要來點什麼梗？"
+  },
+  {
+    "shindanId": "1118288",
+    "shindanCommand": "来自何方",
+    "shindanMode": "image",
+    "shindanTitle": "你來自何方？"
+  },
+  {
+    "shindanId": "1135903",
+    "shindanCommand": "来自何方2",
+    "shindanMode": "image",
+    "shindanTitle": "测测你来自何方，下一个目的地又会是哪里"
+  },
+  {
+    "shindanId": "1062457",
+    "shindanCommand": "架空角色",
+    "shindanMode": "image",
+    "shindanTitle": "如果你是架空世界中的角色"
+  },
+  {
+    "shindanId": "1090381",
+    "shindanCommand": "查收魅魔",
+    "shindanMode": "image",
+    "shindanTitle": "请查收你的魅☆魔档案"
+  },
+  {
+    "shindanId": "637314",
+    "shindanCommand": "梦境旅行者",
+    "shindanMode": "image",
+    "shindanTitle": "來自葛籣希爾大陸夢境的旅行者"
+  },
+  {
+    "shindanId": "1210699",
+    "shindanCommand": "梦女BG梗",
+    "shindanMode": "image",
+    "shindanTitle": "【个人使用】到处搜刮来的梗喵喵喵"
+  },
+  {
+    "shindanId": "1136794",
+    "shindanCommand": "梦想",
+    "shindanMode": "image",
+    "shindanTitle": "TA的梦想"
+  },
+  {
+    "shindanId": "759939",
+    "shindanCommand": "梦病塔",
+    "shindanMode": "image",
+    "shindanTitle": "✦夢病塔✧"
+  },
+  {
+    "shindanId": "1142219",
+    "shindanCommand": "梦里会看见什么",
+    "shindanMode": "image",
+    "shindanTitle": "你的梦里会出现些什么？"
+  },
+  {
+    "shindanId": "1156904",
+    "shindanCommand": "棉花娃稿",
+    "shindanMode": "image",
+    "shindanTitle": "來畫棉花娃稿吧"
+  },
+  {
+    "shindanId": "1186164",
+    "shindanCommand": "森罗重铸",
+    "shindanMode": "image",
+    "shindanTitle": "森罗重铸"
+  },
+  {
+    "shindanId": "828884",
+    "shindanCommand": "概括CP一生",
+    "shindanMode": "image",
+    "shindanTitle": "概括cp一生"
+  },
+  {
+    "shindanId": "1145946",
+    "shindanCommand": "欲望指数",
+    "shindanMode": "image",
+    "shindanTitle": "你的欲望指数(自用)"
+  },
+  {
+    "shindanId": "864453",
+    "shindanCommand": "欲望雷达",
+    "shindanMode": "image",
+    "shindanTitle": "你的欲望"
+  },
+  {
+    "shindanId": "1171805",
+    "shindanCommand": "歌词概括我",
+    "shindanMode": "image",
+    "shindanTitle": "几句歌词来概括/代餐你的CP或者OC"
+  },
+  {
+    "shindanId": "1209847",
+    "shindanCommand": "正常版少萝交友",
+    "shindanMode": "image",
+    "shindanTitle": "少萝交友（正常版）"
+  },
+  {
+    "shindanId": "637918",
+    "shindanCommand": "正经版娘化穿越",
+    "shindanMode": "image",
+    "shindanTitle": "娘化穿越到异世界（正经）VER2"
+  },
+  {
+    "shindanId": "1154869",
+    "shindanCommand": "武装JK",
+    "shindanMode": "image",
+    "shindanTitle": "今天是什么武装JK"
+  },
+  {
+    "shindanId": "1135663",
+    "shindanCommand": "死前",
+    "shindanMode": "image",
+    "shindanTitle": "因為什麼而死，死前眼前浮現了什麼"
+  },
+  {
+    "shindanId": "834482",
+    "shindanCommand": "死前眼底",
+    "shindanMode": "image",
+    "shindanTitle": "你死之前的眼底映照着些什么呢？"
+  },
+  {
+    "shindanId": "875491",
+    "shindanCommand": "每日三词",
+    "shindanMode": "image",
+    "shindanTitle": "每日三詞生成！"
+  },
+  {
+    "shindanId": "486338",
+    "shindanCommand": "每日三题",
+    "shindanMode": "image",
+    "shindanTitle": "每日三题生成"
+  },
+  {
+    "shindanId": "837833",
+    "shindanCommand": "每日台词",
+    "shindanMode": "image",
+    "shindanTitle": "來畫單格漫畫吧！"
+  },
+  {
+    "shindanId": "1171473",
+    "shindanCommand": "每日歌词",
+    "shindanMode": "image",
+    "shindanTitle": "屬於你的一句歌詞"
+  },
+  {
+    "shindanId": "1151175",
+    "shindanCommand": "每日运势",
+    "shindanMode": "image",
+    "shindanTitle": "小波奇牌2023每日运势"
+  },
+  {
+    "shindanId": "394047",
+    "shindanCommand": "每日重口",
+    "shindanMode": "image",
+    "shindanTitle": "重口PLAY测试（无R18G内容只到R18）"
+  },
+  {
+    "shindanId": "1118852",
+    "shindanCommand": "每日题材",
+    "shindanMode": "image",
+    "shindanTitle": "每日的题材(自用)"
+  },
+  {
+    "shindanId": "1031149",
+    "shindanCommand": "每日黄梗",
+    "shindanMode": "image",
+    "shindanTitle": "每日的梗之類的(全R18)"
+  },
+  {
+    "shindanId": "1213746",
+    "shindanCommand": "水晶冲突队友",
+    "shindanMode": "image",
+    "shindanTitle": "选择你的水晶冲突队友"
+  },
+  {
+    "shindanId": "1151559",
+    "shindanCommand": "水晶球",
+    "shindanMode": "image",
+    "shindanTitle": "水晶球预示了某一次的未来"
+  },
+  {
+    "shindanId": "1188702",
+    "shindanCommand": "汉末三国霸业",
+    "shindanMode": "image",
+    "shindanTitle": "汉末三国霸业（自用）"
+  },
+  {
+    "shindanId": "1117294",
+    "shindanCommand": "注视",
+    "shindanMode": "image",
+    "shindanTitle": "TA注视着你，说——"
+  },
+  {
+    "shindanId": "767626",
+    "shindanCommand": "深渊",
+    "shindanMode": "image",
+    "shindanTitle": "⚫如墜與你的深淵⚫"
+  },
+  {
+    "shindanId": "1136731",
+    "shindanCommand": "渴望",
+    "shindanMode": "image",
+    "shindanTitle": "TA所渴望的是什么"
+  },
+  {
+    "shindanId": "1169928",
+    "shindanCommand": "激战2",
+    "shindanMode": "image",
+    "shindanTitle": "激战2里你的OC"
+  },
+  {
+    "shindanId": "1214727",
+    "shindanCommand": "火影OC",
+    "shindanMode": "image",
+    "shindanTitle": "在火影里的你"
+  },
+  {
+    "shindanId": "1111492",
+    "shindanCommand": "火焰精神",
+    "shindanMode": "image",
+    "shindanTitle": "測試你身上燃燒的火焰精神"
+  },
+  {
+    "shindanId": "833775",
+    "shindanCommand": "灵感颜色",
+    "shindanMode": "image",
+    "shindanTitle": "今天的靈感是什麼顏色？"
+  },
+  {
+    "shindanId": "1138653",
+    "shindanCommand": "灵魂收藏品",
+    "shindanMode": "image",
+    "shindanTitle": "神明的灵魂收藏品"
+  },
+  {
+    "shindanId": "1136723",
+    "shindanCommand": "爱人",
+    "shindanMode": "image",
+    "shindanTitle": "TA的爱人将是什么样的"
+  },
+  {
+    "shindanId": "1140826",
+    "shindanCommand": "爱情表达",
+    "shindanMode": "image",
+    "shindanTitle": "你的爱情表达是怎样的？"
+  },
+  {
+    "shindanId": "1116468",
+    "shindanCommand": "物品",
+    "shindanMode": "image",
+    "shindanTitle": "你的物品"
+  },
+  {
+    "shindanId": "1200212",
+    "shindanCommand": "狂野之心OC",
+    "shindanMode": "image",
+    "shindanTitle": "狂野之心里你的OC"
+  },
+  {
+    "shindanId": "1182078",
+    "shindanCommand": "猞猁代餐",
+    "shindanMode": "image",
+    "shindanTitle": "小猞猁代餐模拟器（私用）"
+  },
+  {
+    "shindanId": "26646",
+    "shindanCommand": "猫",
+    "shindanMode": "image",
+    "shindanTitle": "你是什么样的猫？"
+  },
+  {
+    "shindanId": "1175682",
+    "shindanCommand": "猫舍XP",
+    "shindanMode": "image",
+    "shindanTitle": "猫舍真实XP大揭秘~"
+  },
+  {
+    "shindanId": "1149739",
+    "shindanCommand": "玄幻世界身份",
+    "shindanMode": "image",
+    "shindanTitle": "测测你的玄幻世界身份"
+  },
+  {
+    "shindanId": "1215599",
+    "shindanCommand": "瓦罗兰特务",
+    "shindanMode": "image",
+    "shindanTitle": "如果你是瓦羅蘭的特務"
+  },
+  {
+    "shindanId": "1214626",
+    "shindanCommand": "生成香水",
+    "shindanMode": "image",
+    "shindanTitle": "来生成一款香水吧！"
+  },
+  {
+    "shindanId": "1204422",
+    "shindanCommand": "生来注定",
+    "shindanMode": "image",
+    "shindanTitle": "你生来注定是什么？"
+  },
+  {
+    "shindanId": "1188688",
+    "shindanCommand": "男友镜",
+    "shindanMode": "image",
+    "shindanTitle": "男友镜"
+  },
+  {
+    "shindanId": "830216",
+    "shindanCommand": "男朋友",
+    "shindanMode": "image",
+    "shindanTitle": "你命中注定的男朋友是什么样的！👨🎤"
+  },
+  {
+    "shindanId": "22074",
+    "shindanCommand": "男版自己",
+    "shindanMode": "image",
+    "shindanTitle": "男版的自己!!"
+  },
+  {
+    "shindanId": "22295",
+    "shindanCommand": "男版自己2",
+    "shindanMode": "image",
+    "shindanTitle": "男版的自己2"
+  },
+  {
+    "shindanId": "1087487",
+    "shindanCommand": "男练习生",
+    "shindanMode": "image",
+    "shindanTitle": "假如你作为男练习生参加了选秀节目"
+  },
+  {
+    "shindanId": "1210032",
+    "shindanCommand": "男酮副本",
+    "shindanMode": "image",
+    "shindanTitle": "R18慎入 作为男酮冒险者挑战触手迷宫副本的生成器"
+  },
+  {
+    "shindanId": "1204425",
+    "shindanCommand": "痒奴敏感度",
+    "shindanMode": "image",
+    "shindanTitle": "痒奴检查"
+  },
+  {
+    "shindanId": "1136153",
+    "shindanCommand": "痴情程度",
+    "shindanMode": "image",
+    "shindanTitle": "占卜你的痴情程度"
+  },
+  {
+    "shindanId": "1166004",
+    "shindanCommand": "真女神转生",
+    "shindanMode": "image",
+    "shindanTitle": "真·画手/文手转生[真女神转生角色cp抽签]"
+  },
+  {
+    "shindanId": "860471",
+    "shindanCommand": "碧蓝航线",
+    "shindanMode": "image",
+    "shindanTitle": "看看你在碧蓝航线中是怎样的船"
+  },
+  {
+    "shindanId": "827223",
+    "shindanCommand": "神",
+    "shindanMode": "image",
+    "shindanTitle": "你是一位怎样的神祇"
+  },
+  {
+    "shindanId": "1140320",
+    "shindanCommand": "神前川居民",
+    "shindanMode": "image",
+    "shindanTitle": "测测TA在神前川是什么样的居民吧！"
+  },
+  {
+    "shindanId": "1130986",
+    "shindanCommand": "神奇巫妖的生物",
+    "shindanMode": "image",
+    "shindanTitle": "神奇巫妖的生物積木"
+  },
+  {
+    "shindanId": "1215555",
+    "shindanCommand": "神秘商人",
+    "shindanMode": "image",
+    "shindanTitle": "神秘商人的占卜——！"
+  },
+  {
+    "shindanId": "1115658",
+    "shindanCommand": "神秘学家",
+    "shindanMode": "image",
+    "shindanTitle": "测测你是什么样的神秘学家"
+  },
+  {
+    "shindanId": "827937",
+    "shindanCommand": "神秘故事",
+    "shindanMode": "image",
+    "shindanTitle": "属于你的神必故事"
+  },
+  {
+    "shindanId": "1110841",
+    "shindanCommand": "神级动漫",
+    "shindanMode": "image",
+    "shindanTitle": "あなたが選ぶ神アニメはこれだ！！"
+  },
+  {
+    "shindanId": "1117639",
+    "shindanCommand": "神造物",
+    "shindanMode": "image",
+    "shindanTitle": "神造汝之所添物"
+  },
+  {
+    "shindanId": "792129",
+    "shindanCommand": "私欲外貌",
+    "shindanMode": "image",
+    "shindanTitle": "充满制作者私欲的随机外貌设定"
+  },
+  {
+    "shindanId": "1079854",
+    "shindanCommand": "空中花园",
+    "shindanMode": "image",
+    "shindanTitle": "你在空中花园已经不当人了！"
+  },
+  {
+    "shindanId": "1214977",
+    "shindanCommand": "穿越小黄油",
+    "shindanMode": "image",
+    "shindanTitle": "如果你穿越进了异世界小黄油里"
+  },
+  {
+    "shindanId": "1191719",
+    "shindanCommand": "穿越异世界",
+    "shindanMode": "image",
+    "shindanTitle": "穿越到奇幻异世界后！你成为了……"
+  },
+  {
+    "shindanId": "1204491",
+    "shindanCommand": "穿越成兽人",
+    "shindanMode": "image",
+    "shindanTitle": "穿越成兽人"
+  },
+  {
+    "shindanId": "1204547",
+    "shindanCommand": "穿越绒球",
+    "shindanMode": "image",
+    "shindanTitle": "检测穿越到绒球时你会变成什么生物！"
+  },
+  {
+    "shindanId": "1111932",
+    "shindanCommand": "童年",
+    "shindanMode": "image",
+    "shindanTitle": "你OC的童年是什么样的？"
+  },
+  {
+    "shindanId": "850187",
+    "shindanCommand": "第二人格",
+    "shindanMode": "image",
+    "shindanTitle": "如果你有第二人格，那麼他會是什麼模樣？"
+  },
+  {
+    "shindanId": "1175225",
+    "shindanCommand": "第五人格CP",
+    "shindanMode": "image",
+    "shindanTitle": "今天哪個男/女嘉賓會抱到哪隻菇菇呢？"
+  },
+  {
+    "shindanId": "1175220",
+    "shindanCommand": "第五人格CP2",
+    "shindanMode": "image",
+    "shindanTitle": "今天菇菇會寵幸哪位男/女嘉賓呢？"
+  },
+  {
+    "shindanId": "1212872",
+    "shindanCommand": "米德加尔德",
+    "shindanMode": "image",
+    "shindanTitle": "欢迎来到米德加尔德大陆！"
+  },
+  {
+    "shindanId": "1213052",
+    "shindanCommand": "类型学代码",
+    "shindanMode": "image",
+    "shindanTitle": "什么类型学代码跟你最配呢？！"
+  },
+  {
+    "shindanId": "1213050",
+    "shindanCommand": "类型学代码2",
+    "shindanMode": "image",
+    "shindanTitle": "你的类型学代码是……？！"
+  },
+  {
+    "shindanId": "851039",
+    "shindanCommand": "精神污染三梗",
+    "shindanMode": "image",
+    "shindanTitle": "精神污染·每日三题"
+  },
+  {
+    "shindanId": "403243",
+    "shindanCommand": "精神病院",
+    "shindanMode": "image",
+    "shindanTitle": "精神病院测试"
+  },
+  {
+    "shindanId": "934511",
+    "shindanCommand": "纷乱的梦",
+    "shindanMode": "image",
+    "shindanTitle": "一个纷乱的梦。（融合了许多游戏梗"
+  },
+  {
+    "shindanId": "1138197",
+    "shindanCommand": "终有一死",
+    "shindanMode": "image",
+    "shindanTitle": "人生終有一死"
+  },
+  {
+    "shindanId": "1137262",
+    "shindanCommand": "结局",
+    "shindanMode": "image",
+    "shindanTitle": "ta的结局是什么"
+  },
+  {
+    "shindanId": "1117883",
+    "shindanCommand": "绘画主题",
+    "shindanMode": "image",
+    "shindanTitle": "★绘画主题★"
+  },
+  {
+    "shindanId": "1124540",
+    "shindanCommand": "绘画元素",
+    "shindanMode": "image",
+    "shindanTitle": "随机绘画元素"
+  },
+  {
+    "shindanId": "832219",
+    "shindanCommand": "绘画关键词",
+    "shindanMode": "image",
+    "shindanTitle": "每日繪畫關鍵詞生成器(我流)"
+  },
+  {
+    "shindanId": "1131364",
+    "shindanCommand": "绘画关键词2",
+    "shindanMode": "image",
+    "shindanTitle": "自用日绘随机关键字"
+  },
+  {
+    "shindanId": "1126607",
+    "shindanCommand": "绘画关键词3",
+    "shindanMode": "image",
+    "shindanTitle": "绘画关键词生成器"
+  },
+  {
+    "shindanId": "1210449",
+    "shindanCommand": "绘画角色",
+    "shindanMode": "image",
+    "shindanTitle": "繪畫題目發想2：角色塑造產生器"
+  },
+  {
+    "shindanId": "1136113",
+    "shindanCommand": "给我一权",
+    "shindanMode": "image",
+    "shindanTitle": "給你一權"
+  },
+  {
+    "shindanId": "20880",
+    "shindanCommand": "绰号",
+    "shindanMode": "image",
+    "shindanTitle": "其實這才是最適合你的綽號"
+  },
+  {
+    "shindanId": "1141092",
+    "shindanCommand": "网名",
+    "shindanMode": "image",
+    "shindanTitle": "网名生成器"
+  },
+  {
+    "shindanId": "764124",
+    "shindanCommand": "罪囚",
+    "shindanMode": "image",
+    "shindanTitle": "罪囚"
+  },
+  {
+    "shindanId": "1141399",
+    "shindanCommand": "美利坚非裔生存指南",
+    "shindanMode": "image",
+    "shindanTitle": "美利坚非裔生存指南"
+  },
+  {
+    "shindanId": "1151952",
+    "shindanCommand": "美味灵魂",
+    "shindanMode": "image",
+    "shindanTitle": "你今天的灵魂超美味"
+  },
+  {
+    "shindanId": "1204415",
+    "shindanCommand": "美国警察",
+    "shindanMode": "image",
+    "shindanTitle": "阿美莉卡jc大乐透"
+  },
+  {
+    "shindanId": "828727",
+    "shindanCommand": "美少女偶像",
+    "shindanMode": "image",
+    "shindanTitle": "会成为怎样的美少女偶像呢"
+  },
+  {
+    "shindanId": "1204718",
+    "shindanCommand": "群像战斗动画OC",
+    "shindanMode": "image",
+    "shindanTitle": "测测你在群像战斗动画中会是什么样的角色"
+  },
+  {
+    "shindanId": "16775",
+    "shindanCommand": "老公或老婆",
+    "shindanMode": "image",
+    "shindanTitle": "你未來的老公/婆"
+  },
+  {
+    "shindanId": "1160185",
+    "shindanCommand": "职业主题角色生成",
+    "shindanMode": "image",
+    "shindanTitle": ">职业主题<角色生成器"
+  },
+  {
+    "shindanId": "1176240",
+    "shindanCommand": "职业连连看",
+    "shindanMode": "image",
+    "shindanTitle": "职业连连看"
+  },
+  {
+    "shindanId": "926484",
+    "shindanCommand": "肉文梗",
+    "shindanMode": "image",
+    "shindanTitle": "頗糟糕的肉文梗產生器"
+  },
+  {
+    "shindanId": "1129719",
+    "shindanCommand": "肢体拼接",
+    "shindanMode": "image",
+    "shindanTitle": "肢（枝）體拼接"
+  },
+  {
+    "shindanId": "384482",
+    "shindanCommand": "脑洞关键词",
+    "shindanMode": "image",
+    "shindanTitle": "互動命題(*´ﾟ∀ﾟ)从(ﾟωﾟ｀*)CP腦洞關鍵字"
+  },
+  {
+    "shindanId": "35462",
+    "shindanCommand": "自传",
+    "shindanMode": "image",
+    "shindanTitle": "我的自傳"
+  },
+  {
+    "shindanId": "24700",
+    "shindanCommand": "自传2",
+    "shindanMode": "image",
+    "shindanTitle": "你的自傳"
+  },
+  {
+    "shindanId": "806227",
+    "shindanCommand": "自杀",
+    "shindanMode": "image",
+    "shindanTitle": "✦自戕者✧"
+  },
+  {
+    "shindanId": "788053",
+    "shindanCommand": "自设人设生成",
+    "shindanMode": "image",
+    "shindanTitle": "自设世界观的人设生成器"
+  },
+  {
+    "shindanId": "1141554",
+    "shindanCommand": "色情度",
+    "shindanMode": "image",
+    "shindanTitle": "占卜你的色情度"
+  },
+  {
+    "shindanId": "1079091",
+    "shindanCommand": "色色十连",
+    "shindanMode": "image",
+    "shindanTitle": "【R18創作靈感】色色的10連特選卡片池"
+  },
+  {
+    "shindanId": "1216467",
+    "shindanCommand": "色色战败",
+    "shindanMode": "image",
+    "shindanTitle": "色色的战败生成器(虽然没有战)1.0"
+  },
+  {
+    "shindanId": "1099294",
+    "shindanCommand": "色色话题",
+    "shindanMode": "image",
+    "shindanTitle": "色色的cp互动题目大赏"
+  },
+  {
+    "shindanId": "595068",
+    "shindanCommand": "英灵召唤",
+    "shindanMode": "image",
+    "shindanTitle": "Fate 英霊召喚"
+  },
+  {
+    "shindanId": "161794",
+    "shindanCommand": "英灵圣杯战争",
+    "shindanMode": "image",
+    "shindanTitle": "你成为英灵参加圣杯战争的结果（修正加强版）"
+  },
+  {
+    "shindanId": "346290",
+    "shindanCommand": "英灵职阶",
+    "shindanMode": "image",
+    "shindanTitle": "在Fate中你会是哪个英灵的职阶"
+  },
+  {
+    "shindanId": "1117802",
+    "shindanCommand": "荣格八维与九型",
+    "shindanMode": "image",
+    "shindanTitle": "每日荣格八维+九型人格"
+  },
+  {
+    "shindanId": "1188679",
+    "shindanCommand": "获得机会",
+    "shindanMode": "image",
+    "shindanTitle": "下一站，驚喜！<機會>"
+  },
+  {
+    "shindanId": "1171145",
+    "shindanCommand": "菊科花卉",
+    "shindanMode": "image",
+    "shindanTitle": "属于你的菊科花卉"
+  },
+  {
+    "shindanId": "799582",
+    "shindanCommand": "虐梗",
+    "shindanMode": "image",
+    "shindanTitle": "每日虐梗"
+  },
+  {
+    "shindanId": "1058945",
+    "shindanCommand": "表里人格",
+    "shindanMode": "image",
+    "shindanTitle": "你的表裏人格一致嗎?"
+  },
+  {
+    "shindanId": "1141123",
+    "shindanCommand": "被噩梦惊醒",
+    "shindanMode": "image",
+    "shindanTitle": "當你做完噩夢之後醒來之後你看到了——"
+  },
+  {
+    "shindanId": "1134236",
+    "shindanCommand": "西幻人设",
+    "shindanMode": "image",
+    "shindanTitle": "每日西幻限定人设"
+  },
+  {
+    "shindanId": "1135896",
+    "shindanCommand": "西幻故事",
+    "shindanMode": "image",
+    "shindanTitle": "西幻故事生成器"
+  },
+  {
+    "shindanId": "1201928",
+    "shindanCommand": "观察者协会",
+    "shindanMode": "image",
+    "shindanTitle": "觀察者協會✧ ✦內部人員"
+  },
+  {
+    "shindanId": "1084644",
+    "shindanCommand": "角之国学生",
+    "shindanMode": "image",
+    "shindanTitle": "角之国某学院学生（自己填写的）档案"
+  },
+  {
+    "shindanId": "940214",
+    "shindanCommand": "角之旅",
+    "shindanMode": "image",
+    "shindanTitle": "✦角之旅✧"
+  },
+  {
+    "shindanId": "1160220",
+    "shindanCommand": "角色故事",
+    "shindanMode": "image",
+    "shindanTitle": "给你的角色的新故事"
+  },
+  {
+    "shindanId": "1218947",
+    "shindanCommand": "角色灵感",
+    "shindanMode": "image",
+    "shindanTitle": "主题词+身份的角色灵感"
+  },
+  {
+    "shindanId": "1124830",
+    "shindanCommand": "角色词汇",
+    "shindanMode": "image",
+    "shindanTitle": "每日随机角色词汇生成器 人设向"
+  },
+  {
+    "shindanId": "1135679",
+    "shindanCommand": "认识扭曲",
+    "shindanMode": "image",
+    "shindanTitle": "認識扭曲者"
+  },
+  {
+    "shindanId": "1189616",
+    "shindanCommand": "诗",
+    "shindanMode": "image",
+    "shindanTitle": "为你写一首诗"
+  },
+  {
+    "shindanId": "1133449",
+    "shindanCommand": "调教木马",
+    "shindanMode": "image",
+    "shindanTitle": "調教木馬desu⭐"
+  },
+  {
+    "shindanId": "572991",
+    "shindanCommand": "调色板",
+    "shindanMode": "image",
+    "shindanTitle": "ランダムカラーパレット"
+  },
+  {
+    "shindanId": "1117719",
+    "shindanCommand": "豪门宇宙",
+    "shindanMode": "image",
+    "shindanTitle": "豪门宇宙里的你"
+  },
+  {
+    "shindanId": "1161339",
+    "shindanCommand": "贴身衣物",
+    "shindanMode": "image",
+    "shindanTitle": "貼身衣物"
+  },
+  {
+    "shindanId": "23446",
+    "shindanCommand": "赚钱职业",
+    "shindanMode": "image",
+    "shindanTitle": "不囉唆!!你作什麼職業最賺錢!!"
+  },
+  {
+    "shindanId": "1085569",
+    "shindanCommand": "赛马娘怪文书",
+    "shindanMode": "image",
+    "shindanTitle": "你适合什么样的赛马娘怪文书？"
+  },
+  {
+    "shindanId": "1215367",
+    "shindanCommand": "起名",
+    "shindanMode": "image",
+    "shindanTitle": "起个名字吧"
+  },
+  {
+    "shindanId": "464514",
+    "shindanCommand": "超能力",
+    "shindanMode": "image",
+    "shindanTitle": "超能力測試"
+  },
+  {
+    "shindanId": "1134628",
+    "shindanCommand": "超能力2",
+    "shindanMode": "image",
+    "shindanTitle": "您覺醒的超能力診斷"
+  },
+  {
+    "shindanId": "571574",
+    "shindanCommand": "身体年龄",
+    "shindanMode": "image",
+    "shindanTitle": "あなたの身体の年齢診断"
+  },
+  {
+    "shindanId": "1178655",
+    "shindanCommand": "身体特征",
+    "shindanMode": "image",
+    "shindanTitle": "做一个角色（仅身体特征）"
+  },
+  {
+    "shindanId": "1161875",
+    "shindanCommand": "身体黏土",
+    "shindanMode": "image",
+    "shindanTitle": "身體黏土"
+  },
+  {
+    "shindanId": "985322",
+    "shindanCommand": "身高体重",
+    "shindanMode": "image",
+    "shindanTitle": "あなたのスリーサイズと身長と体重（女の子編）"
+  },
+  {
+    "shindanId": "1159628",
+    "shindanCommand": "车文梗",
+    "shindanMode": "image",
+    "shindanTitle": "开大车专用梗生产器"
+  },
+  {
+    "shindanId": "1117762",
+    "shindanCommand": "车次少女",
+    "shindanMode": "image",
+    "shindanTitle": "與你最為契合的車次少女是......？"
+  },
+  {
+    "shindanId": "1161249",
+    "shindanCommand": "转化诅咒",
+    "shindanMode": "image",
+    "shindanTitle": "轉化詛咒"
+  },
+  {
+    "shindanId": "1097999",
+    "shindanCommand": "转学如恩学院",
+    "shindanMode": "image",
+    "shindanTitle": "关于你转学到如恩学院这件事"
+  },
+  {
+    "shindanId": "624261",
+    "shindanCommand": "转生JOJO",
+    "shindanMode": "image",
+    "shindanTitle": "JOJO的世界，不去看看吗？"
+  },
+  {
+    "shindanId": "1202290",
+    "shindanCommand": "转生兽人",
+    "shindanMode": "image",
+    "shindanTitle": "关于我转生成为兽人的那件事"
+  },
+  {
+    "shindanId": "1200734",
+    "shindanCommand": "转生兽耳",
+    "shindanMode": "image",
+    "shindanTitle": "异世界转生（兽耳篇）"
+  },
+  {
+    "shindanId": "1052778",
+    "shindanCommand": "转生原神",
+    "shindanMode": "image",
+    "shindanTitle": "あなたは原神世界に生まれ落ちました"
+  },
+  {
+    "shindanId": "1189753",
+    "shindanCommand": "转生异世界",
+    "shindanMode": "image",
+    "shindanTitle": "当你转生到异世界你是什么样子"
+  },
+  {
+    "shindanId": "1204703",
+    "shindanCommand": "转生恶魔",
+    "shindanMode": "image",
+    "shindanTitle": "你会转生为什么种族的恶魔"
+  },
+  {
+    "shindanId": "1204676",
+    "shindanCommand": "转生艾欧泽亚",
+    "shindanMode": "image",
+    "shindanTitle": "转生艾欧泽亚，你是什么身份"
+  },
+  {
+    "shindanId": "1215014",
+    "shindanCommand": "转生鸡窝托斯",
+    "shindanMode": "image",
+    "shindanTitle": "转生鸡窝托斯当学生吧！"
+  },
+  {
+    "shindanId": "1207229",
+    "shindanCommand": "边狱巴士OC",
+    "shindanMode": "image",
+    "shindanTitle": "【边狱巴士】边狱巴士pa OC随机生成器"
+  },
+  {
+    "shindanId": "829339",
+    "shindanCommand": "过去",
+    "shindanMode": "image",
+    "shindanTitle": "你的过去"
+  },
+  {
+    "shindanId": "1192462",
+    "shindanCommand": "连缘风格称号",
+    "shindanMode": "image",
+    "shindanTitle": "尝试制作的连缘风格称号生成器"
+  },
+  {
+    "shindanId": "1206003",
+    "shindanCommand": "迷宫饭OC",
+    "shindanMode": "image",
+    "shindanTitle": "迷宫饭oc生成"
+  },
+  {
+    "shindanId": "830408",
+    "shindanCommand": "追星结局",
+    "shindanMode": "image",
+    "shindanTitle": "预测你的追星结局"
+  },
+  {
+    "shindanId": "1203802",
+    "shindanCommand": "追猎者",
+    "shindanMode": "image",
+    "shindanTitle": "VENTANGLE随机追猎者"
+  },
+  {
+    "shindanId": "1116526",
+    "shindanCommand": "透过镜片",
+    "shindanMode": "image",
+    "shindanTitle": "【自家OC】透过镜片去观测吧"
+  },
+  {
+    "shindanId": "1127247",
+    "shindanCommand": "逝者履历",
+    "shindanMode": "image",
+    "shindanTitle": "逝者的履歷"
+  },
+  {
+    "shindanId": "1129921",
+    "shindanCommand": "道诡人生",
+    "shindanMode": "image",
+    "shindanTitle": "道诡人生"
+  },
+  {
+    "shindanId": "833754",
+    "shindanCommand": "遗憾",
+    "shindanMode": "image",
+    "shindanTitle": "你一生最大的遗憾"
+  },
+  {
+    "shindanId": "942140",
+    "shindanCommand": "配色",
+    "shindanMode": "image",
+    "shindanTitle": "配色生成机器"
+  },
+  {
+    "shindanId": "790825",
+    "shindanCommand": "配色环",
+    "shindanMode": "image",
+    "shindanTitle": "奇妙的配色环"
+  },
+  {
+    "shindanId": "1204403",
+    "shindanCommand": "重生后的未来",
+    "shindanMode": "image",
+    "shindanTitle": "预测你重生后的未来"
+  },
+  {
+    "shindanId": "1204427",
+    "shindanCommand": "重生幻想乡",
+    "shindanMode": "image",
+    "shindanTitle": "重生之我在幻想乡..."
+  },
+  {
+    "shindanId": "1198177",
+    "shindanCommand": "重要程度",
+    "shindanMode": "image",
+    "shindanTitle": "【藍色系/繁體】你在他人的重要程度？"
+  },
+  {
+    "shindanId": "1122309",
+    "shindanCommand": "重逢",
+    "shindanMode": "image",
+    "shindanTitle": "你们会在何时何地重逢"
+  },
+  {
+    "shindanId": "16073",
+    "shindanCommand": "野心",
+    "shindanMode": "image",
+    "shindanTitle": "测试你的野心beta1"
+  },
+  {
+    "shindanId": "1213041",
+    "shindanCommand": "钢机",
+    "shindanMode": "image",
+    "shindanTitle": "钢机占卜"
+  },
+  {
+    "shindanId": "1134897",
+    "shindanCommand": "铠甲人体组装",
+    "shindanMode": "image",
+    "shindanTitle": "鎧甲人體組裝"
+  },
+  {
+    "shindanId": "829595",
+    "shindanCommand": "铸造灵魂",
+    "shindanMode": "image",
+    "shindanTitle": "如何铸造你的灵魂"
+  },
+  {
+    "shindanId": "1098388",
+    "shindanCommand": "闯入ABO内娱",
+    "shindanMode": "image",
+    "shindanTitle": "假如你闯入了ABO世界的内娱"
+  },
+  {
+    "shindanId": "1132629",
+    "shindanCommand": "阎魔之目",
+    "shindanMode": "image",
+    "shindanTitle": "閻魔之目，洞悉你的人格善惡"
+  },
+  {
+    "shindanId": "1152257",
+    "shindanCommand": "阿卡纳适应性",
+    "shindanMode": "image",
+    "shindanTitle": "小阿卡纳适应性"
+  },
+  {
+    "shindanId": "933189",
+    "shindanCommand": "陌生而又熟悉的世界",
+    "shindanMode": "image",
+    "shindanTitle": "你在陌生而又熟悉的世界中会是怎样的人"
+  },
+  {
+    "shindanId": "936211",
+    "shindanCommand": "降临",
+    "shindanMode": "image",
+    "shindanTitle": "当神明创造他时"
+  },
+  {
+    "shindanId": "1200270",
+    "shindanCommand": "随机DC角色",
+    "shindanMode": "image",
+    "shindanTitle": "【DC脑洞用】随机角色扮演模拟器"
+  },
+  {
+    "shindanId": "1129297",
+    "shindanCommand": "随机事件",
+    "shindanMode": "image",
+    "shindanTitle": "创造者之旅随机事件"
+  },
+  {
+    "shindanId": "1145108",
+    "shindanCommand": "随机作业",
+    "shindanMode": "image",
+    "shindanTitle": "【作业自用】"
+  },
+  {
+    "shindanId": "778274",
+    "shindanCommand": "随机外貌",
+    "shindanMode": "image",
+    "shindanTitle": "★随机外貌设定★"
+  },
+  {
+    "shindanId": "1138236",
+    "shindanCommand": "随机学员",
+    "shindanMode": "image",
+    "shindanTitle": "你的SCHOOL学员"
+  },
+  {
+    "shindanId": "1138193",
+    "shindanCommand": "随机对话",
+    "shindanMode": "image",
+    "shindanTitle": "對話應用（自嗨"
+  },
+  {
+    "shindanId": "1197333",
+    "shindanCommand": "随机搭配",
+    "shindanMode": "image",
+    "shindanTitle": "以闪亮之名随机搭配挑战"
+  },
+  {
+    "shindanId": "1215022",
+    "shindanCommand": "随机数",
+    "shindanMode": "image",
+    "shindanTitle": "oi，随机数！"
+  },
+  {
+    "shindanId": "1117756",
+    "shindanCommand": "随机数0-100",
+    "shindanMode": "image",
+    "shindanTitle": "占卜你的○○度111"
+  },
+  {
+    "shindanId": "1073636",
+    "shindanCommand": "随机数值",
+    "shindanMode": "image",
+    "shindanTitle": "隨機數值（雷達圖）"
+  },
+  {
+    "shindanId": "1127812",
+    "shindanCommand": "随机生成",
+    "shindanMode": "image",
+    "shindanTitle": "【吃饭模拟器】随机生成（1.0）"
+  },
+  {
+    "shindanId": "1215036",
+    "shindanCommand": "随机色卡",
+    "shindanMode": "image",
+    "shindanTitle": "随机色卡生成器"
+  },
+  {
+    "shindanId": "1215639",
+    "shindanCommand": "随机色票",
+    "shindanMode": "image",
+    "shindanTitle": "繪圖創作 / 隨機色票挑戰"
+  },
+  {
+    "shindanId": "1184080",
+    "shindanCommand": "随机表情",
+    "shindanMode": "image",
+    "shindanTitle": "隨機表符（完整）8種"
+  },
+  {
+    "shindanId": "1137948",
+    "shindanCommand": "随机表情2",
+    "shindanMode": "image",
+    "shindanTitle": "随机三个emoji"
+  },
+  {
+    "shindanId": "1158925",
+    "shindanCommand": "随机角色",
+    "shindanMode": "image",
+    "shindanTitle": "随机角色生成"
+  },
+  {
+    "shindanId": "1186057",
+    "shindanCommand": "随机角色卡",
+    "shindanMode": "image",
+    "shindanTitle": "纯雪自用的骰子卡牌小游戏角色卡随机器——每日版"
+  },
+  {
+    "shindanId": "1164307",
+    "shindanCommand": "随机角色设计",
+    "shindanMode": "image",
+    "shindanTitle": "随机角色设计题目"
+  },
+  {
+    "shindanId": "1123356",
+    "shindanCommand": "随机颜色",
+    "shindanMode": "image",
+    "shindanTitle": "隨機顏色"
+  },
+  {
+    "shindanId": "1183346",
+    "shindanCommand": "随机骰子",
+    "shindanMode": "image",
+    "shindanTitle": "随机骰子"
+  },
+  {
+    "shindanId": "829302",
+    "shindanCommand": "隐藏气味",
+    "shindanMode": "image",
+    "shindanTitle": "你的隐藏气味"
+  },
+  {
+    "shindanId": "1060802",
+    "shindanCommand": "雷达图",
+    "shindanMode": "image",
+    "shindanTitle": "test111111111"
+  },
+  {
+    "shindanId": "944833",
+    "shindanCommand": "霍格沃兹聊天室",
+    "shindanMode": "image",
+    "shindanTitle": "霍格華茲聊天室"
+  },
+  {
+    "shindanId": "957935",
+    "shindanCommand": "霍格沃茨毕业生",
+    "shindanMode": "image",
+    "shindanTitle": "霍格沃茨毕业生的生平与谎言"
+  },
+  {
+    "shindanId": "1122083",
+    "shindanCommand": "霾家人生",
+    "shindanMode": "image",
+    "shindanTitle": "霾家人生成器"
+  },
+  {
+    "shindanId": "1139589",
+    "shindanCommand": "非人类学院",
+    "shindanMode": "image",
+    "shindanTitle": "非人类学院角色卡池"
+  },
+  {
+    "shindanId": "1104123",
+    "shindanCommand": "韩娱男团",
+    "shindanMode": "image",
+    "shindanTitle": "假如你打造了一个韩娱9人男团"
+  },
+  {
+    "shindanId": "1156092",
+    "shindanCommand": "预测未来",
+    "shindanMode": "image",
+    "shindanTitle": "预测一个有可能实现也有可能不实现的某人的未来"
+  },
+  {
+    "shindanId": "1131718",
+    "shindanCommand": "预测未来2",
+    "shindanMode": "image",
+    "shindanTitle": "预测你的未来qq"
+  },
+  {
+    "shindanId": "1124887",
+    "shindanCommand": "领养宠物",
+    "shindanMode": "image",
+    "shindanTitle": "领养一只宠物吧"
+  },
+  {
+    "shindanId": "55603",
+    "shindanCommand": "饲养宠物",
+    "shindanMode": "image",
+    "shindanTitle": "DQ呪文でおなにったーーーー"
+  },
+  {
+    "shindanId": "556031",
+    "shindanCommand": "饲养我",
+    "shindanMode": "image",
+    "shindanTitle": "正确饲养你的方法！"
+  },
+  {
+    "shindanId": "827891",
+    "shindanCommand": "香气",
+    "shindanMode": "image",
+    "shindanTitle": "今天拥有着什么样的香气呢？"
+  },
+  {
+    "shindanId": "1126968",
+    "shindanCommand": "香水",
+    "shindanMode": "image",
+    "shindanTitle": "香水工坊"
+  },
+  {
+    "shindanId": "1059228",
+    "shindanCommand": "马娘",
+    "shindanMode": "image",
+    "shindanTitle": "如果你是一隻馬娘"
+  },
+  {
+    "shindanId": "1059404",
+    "shindanCommand": "马娘相性",
+    "shindanMode": "image",
+    "shindanTitle": "貴方と相性のいいウマ娘は？"
+  },
+  {
+    "shindanId": "1141852",
+    "shindanCommand": "骨设",
+    "shindanMode": "image",
+    "shindanTitle": "你的骨设是什么"
+  },
+  {
+    "shindanId": "1093459",
+    "shindanCommand": "高考成绩",
+    "shindanMode": "image",
+    "shindanTitle": "高考成绩生成器"
+  },
+  {
+    "shindanId": "1157184",
+    "shindanCommand": "魂味人设",
+    "shindanMode": "image",
+    "shindanTitle": "魂味人设生成器"
+  },
+  {
+    "shindanId": "1113644",
+    "shindanCommand": "魅魔",
+    "shindanMode": "image",
+    "shindanTitle": "测一测你是什么类型的魅魔～♡"
+  },
+  {
+    "shindanId": "1148960",
+    "shindanCommand": "魔杖材料",
+    "shindanMode": "image",
+    "shindanTitle": "（自用）你的魔杖材料"
+  },
+  {
+    "shindanId": "940824",
+    "shindanCommand": "魔法人生",
+    "shindanMode": "image",
+    "shindanTitle": "魔法人生：我在霍格沃兹读书时发生的两三事"
+  },
+  {
+    "shindanId": "1203043",
+    "shindanCommand": "魔法使的约定同人",
+    "shindanMode": "image",
+    "shindanTitle": "梦回四月药WEB ONLY-随机PARO摇摇乐"
+  },
+  {
+    "shindanId": "1147385",
+    "shindanCommand": "魔法少女穿什么",
+    "shindanMode": "image",
+    "shindanTitle": "今天你的魔法少女穿什么？"
+  },
+  {
+    "shindanId": "1182814",
+    "shindanCommand": "魔法属性",
+    "shindanMode": "image",
+    "shindanTitle": "（企划用）基础魔法属性测试"
+  },
+  {
+    "shindanId": "913532",
+    "shindanCommand": "魔法职业",
+    "shindanMode": "image",
+    "shindanTitle": "如果你在魔法世界里，你会拥有什么样的职业属性和魔法资质？"
+  },
+  {
+    "shindanId": "426611",
+    "shindanCommand": "魔法能力或武器",
+    "shindanMode": "image",
+    "shindanTitle": "在魔法世界的能力或武器"
+  },
+  {
+    "shindanId": "905558",
+    "shindanCommand": "魔物娘",
+    "shindanMode": "image",
+    "shindanTitle": "你的魔物娘"
+  },
+  {
+    "shindanId": "1150319",
+    "shindanCommand": "魔王",
+    "shindanMode": "image",
+    "shindanTitle": "【ハイスペックＡＩ】あなたが『魔王になったら』どんな感じなのか？"
+  },
+  {
+    "shindanId": "749044",
+    "shindanCommand": "魔王事迹",
+    "shindanMode": "image",
+    "shindanTitle": "你作為魔王的事跡"
+  },
+  {
+    "shindanId": "686074",
+    "shindanCommand": "魔禁",
+    "shindanMode": "image",
+    "shindanTitle": "魔禁tf测试-能力测验结果咯"
+  },
+  {
+    "shindanId": "1212415",
+    "shindanCommand": "鸣潮角色",
+    "shindanMode": "image",
+    "shindanTitle": "【鳴潮】恭喜你覺醒為共鳴者"
+  },
+  {
+    "shindanId": "919572",
+    "shindanCommand": "黄文元素",
+    "shindanMode": "image",
+    "shindanTitle": "小小的黄文元素生成器"
+  },
+  {
+    "shindanId": "1121119",
+    "shindanCommand": "黄油角色",
+    "shindanMode": "image",
+    "shindanTitle": "黄油角色测试（米拉版）"
+  },
+  {
+    "shindanId": "1187589",
+    "shindanCommand": "黄色废料",
+    "shindanMode": "image",
+    "shindanTitle": "每日黄色废料脑洞"
+  },
+  {
+    "shindanId": "1115998",
+    "shindanCommand": "黑帮OC",
+    "shindanMode": "image",
+    "shindanTitle": "生成一个属于你的黑帮OC吧！内含特殊结果"
+  },
+  {
+    "shindanId": "1191558",
+    "shindanCommand": "黑箱LSS",
+    "shindanMode": "image",
+    "shindanTitle": "【黑箱LSS】你和某个人困在了不XXX就不能出去的房间。"
+  },
+  {
+    "shindanId": "1204484",
+    "shindanCommand": "黑胶教团入教仪式",
+    "shindanMode": "image",
+    "shindanTitle": "黑胶教团入教仪式"
+  },
+  {
+    "shindanId": "1007603",
+    "shindanCommand": "龙与地下城",
+    "shindanMode": "image",
+    "shindanTitle": "屬於你的龍與地下城(DND)冒險者之證"
   }
 ]
