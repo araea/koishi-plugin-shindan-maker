@@ -337,6 +337,7 @@ export async function apply(ctx: Context, config: Config) {
   ctx
     .command("shindan", "查看神断帮助")
     .usage(`神断资源：${shindanUrl}.com。`)
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }) => {
       //
       if (
@@ -358,6 +359,7 @@ export async function apply(ctx: Context, config: Config) {
   //tj*
   ctx
     .command("shindan.统计 [targetUser:text]", "查看统计信息")
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, targetUser) => {
       //
       let { channelId, userId, username } = session;
@@ -382,7 +384,7 @@ export async function apply(ctx: Context, config: Config) {
       guildUsers.sort((a, b) => b.shindanCount - a.shindanCount);
 
       const userIndex = guildUsers.findIndex((user) => user.userId === userId);
-      const userRank = userIndex === -1 ? undefined : userIndex + 1; 
+      const userRank = userIndex === -1 ? undefined : userIndex + 1;
 
       return await sendMessage(
         session,
@@ -398,11 +400,12 @@ export async function apply(ctx: Context, config: Config) {
   // phb* r*
   ctx
     .command("shindan.排行榜 [number:number]", "神断次数排行榜")
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, number: number) => {
       let { channelId, userId, username } = session;
       username = await getSessionUserName(session);
       await updateNameInPlayerRecord(session, userId, username);
-      const maxNumber = number || defaultMaxDisplayCount; 
+      const maxNumber = number || defaultMaxDisplayCount;
 
       if (typeof maxNumber !== "number" || maxNumber <= 0) {
         return await sendMessage(
@@ -433,6 +436,7 @@ export async function apply(ctx: Context, config: Config) {
   // ck*
   ctx
     .command("shindan.查看 <shindanCommand:text>", "查看神断")
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, shindanCommand) => {
       let { channelId, userId, username } = session;
       username = await getSessionUserName(session);
@@ -474,9 +478,10 @@ export async function apply(ctx: Context, config: Config) {
       );
       //
     });
-  // sj*
+  // sj* sjsd*
   ctx
     .command("shindan.随机 [shindanName:text]", "随机神断")
+    .userFields(["id", "name", "permissions"])
     .option("text", "-t 文本模式")
     .option("image", "-i 图片模式")
     .action(async ({ session, options }, shindanName) => {
@@ -526,6 +531,7 @@ export async function apply(ctx: Context, config: Config) {
   // lb*
   ctx
     .command("shindan.列表 [batchCount:number]", "神断列表")
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, batchCount = defaultShindansBatchCount) => {
       let { channelId, userId, username } = session;
       username = await getSessionUserName(session);
@@ -801,6 +807,7 @@ export async function apply(ctx: Context, config: Config) {
   // sc*
   ctx
     .command("shindan.删除 <shindanCommand:string>", "删除神断")
+    .userFields(["id", "name", "permissions"])
     .action(async function ({ session }, shindanCommand) {
       let { channelId, userId, username } = session;
       username = await getSessionUserName(session);
@@ -854,6 +861,7 @@ export async function apply(ctx: Context, config: Config) {
       "shindan.修改 <shindanCommand:string> <shindanNewCommand:string> [shindanMode:string]",
       "修改神断"
     )
+    .userFields(["id", "name", "permissions"])
     .action(
       async (
         { session },
@@ -926,6 +934,7 @@ export async function apply(ctx: Context, config: Config) {
       "shindan.设置 <shindanCommand:string> <shindanMode:string>",
       "设置神断"
     )
+    .userFields(["id", "name", "permissions"])
     .action(
       async ({ session }, shindanCommand, shindanMode: MakeShindanMode) => {
         if (!shindanCommand || !shindanMode) {
@@ -985,9 +994,10 @@ export async function apply(ctx: Context, config: Config) {
       "自定义神断"
     )
     .userFields(["id", "name", "permissions"])
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
-      // 检查shindanId shindanMode
-      const { channelId, userId, username } = session;
+      let { userId, username } = session;
+      username = await getSessionUserName(session);
       if (!shindanId) {
         return await sendMessage(
           session,
@@ -1014,7 +1024,6 @@ export async function apply(ctx: Context, config: Config) {
       if (!shindanMode) {
         shindanMode = "image";
       }
-      // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
       const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
       let modifiedShindanName = shindanName;
       let matches: any;
@@ -1027,7 +1036,6 @@ export async function apply(ctx: Context, config: Config) {
       }
 
       shindanName = modifiedShindanName;
-      // 判断 mode 是否为 MakeShindanMode 类型
       if (!isMakeShindanMode(shindanMode)) {
         return await sendMessage(
           session,
@@ -1234,6 +1242,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
   // gm*
   ctx
     .command("shindan.改名 [newPlayerName:text]", "更改名字")
+    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, newPlayerName) => {
       let { userId, username } = session;
       username = await getSessionUserName(session);
