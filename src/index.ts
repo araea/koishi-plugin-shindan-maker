@@ -21,12 +21,6 @@ export const usage = `## 使用
 4. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
 5. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
 
-## 致谢
-
-* [Koishi](https://koishi.chat/)
-* [nonebot-plugin-shindanmaker](https://github.com/noneplugin/nonebot-plugin-shindan)
-* [ShindanMaker](https://en.shindanmaker.com/)
-
 ## QQ 群
 
 - 956758505
@@ -261,8 +255,7 @@ export async function apply(ctx: Context, config: Config) {
 
   // zjj*
   ctx.middleware(async (session, next) => {
-    let { username, content } = session;
-    username = await getSessionUserName(session);
+    let { content } = session;
     let isText = false;
     let isImage = false;
     let modifiedContent = content;
@@ -303,7 +296,7 @@ export async function apply(ctx: Context, config: Config) {
         (shindanName ? " " + shindanName : "");
 
       if (!shindanName) {
-        shindanName = username;
+        shindanName = "nawyjxxjywan";
       }
 
       return { command, shindanName };
@@ -1018,7 +1011,7 @@ export async function apply(ctx: Context, config: Config) {
           `改名 自定义神断 随机神断`
         );
       }
-      if (!shindanName) {
+      if (!shindanName || shindanName === "nawyjxxjywan") {
         shindanName = username;
       }
       if (!shindanMode) {
@@ -1156,7 +1149,6 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
         removeShindanEffects(titleAndResult, "ef_typing");
         const titleAndResultString = titleAndResult.outerHTML;
 
-        // 在 postDom 中寻找第一个包含 shindanId 的 <script> 标签
         const scriptTags =
           postDom.window.document.getElementsByTagName("script");
         let scriptString = "";
@@ -1312,7 +1304,6 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
 
   // hs*
   async function updateShindanRank(userId: string, username: string) {
-    // 判断是否存在，不存在则创建
     const shindanUser = await ctx.database.get("shindan_rank", { userId });
     if (shindanUser.length === 0) {
       await ctx.database.create("shindan_rank", {
