@@ -5,10 +5,11 @@ import {} from "koishi-plugin-puppeteer";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import { JSDOM } from "jsdom";
+import * as cheerio from "cheerio";
 
 import * as https from "https";
 import { URL } from "url";
+import { Element } from "domhandler";
 
 export const inject = {
   required: ["database", "puppeteer"],
@@ -184,13 +185,13 @@ export async function apply(ctx: Context, config: Config) {
     defaultShindansBatchCount,
   } = config;
 
-    const BROWSER_CIPHERS = [
-    'TLS_AES_128_GCM_SHA256',
-    'TLS_AES_256_GCM_SHA384',
-    'TLS_CHACHA20_POLY1305_SHA256',
-    'ECDHE-RSA-AES128-GCM-SHA256',
-    'ECDHE-RSA-AES256-GCM-SHA384',
-  ].join(':');
+  const BROWSER_CIPHERS = [
+    "TLS_AES_128_GCM_SHA256",
+    "TLS_AES_256_GCM_SHA384",
+    "TLS_CHACHA20_POLY1305_SHA256",
+    "ECDHE-RSA-AES128-GCM-SHA256",
+    "ECDHE-RSA-AES256-GCM-SHA384",
+  ].join(":");
 
   const isQQOfficialRobotMarkdownTemplateEnabled =
     config.isEnableQQOfficialRobotMarkdownTemplate &&
@@ -1046,77 +1047,85 @@ export async function apply(ctx: Context, config: Config) {
           `改名 自定义神断 随机神断`
         );
       }
-    const url = `https://${shindanUrl}.com/${shindanId}`;
+      const url = `https://${shindanUrl}.com/${shindanId}`;
 
       const baseHeaders = generateHeaders();
 
-      // [修改] 原网络请求已修改为原生 https 请求
-      const getResponse = await retry(() => httpsRequest(url, { headers: baseHeaders }));
-      const dom = new JSDOM(getResponse.data);
-      
-      const cookies = getResponse.headers["set-cookie"] || [];
-      const cookieString = cookies.map(c => c.split(';')[0]).join('; ');
+      const getResponse = await retry(() =>
+        httpsRequest(url, { headers: baseHeaders })
+      );
 
-      const xsrfCookie = cookies.find(c => c.startsWith('XSRF-TOKEN='));
-      let xsrfToken = '';
+      const $ = cheerio.load(getResponse.data);
+
+      const cookies = getResponse.headers["set-cookie"] || [];
+      const cookieString = cookies.map((c) => c.split(";")[0]).join("; ");
+
+      const xsrfCookie = cookies.find((c) => c.startsWith("XSRF-TOKEN="));
+      let xsrfToken = "";
       if (xsrfCookie) {
-        const encodedToken = xsrfCookie.split(';')[0].split('=')[1];
+        const encodedToken = xsrfCookie.split(";")[0].split("=")[1];
         xsrfToken = decodeURIComponent(encodedToken);
       }
 
-      const form = dom.window.document.querySelector<HTMLFormElement>('form#shindanForm');
-      const hiddenToken = form?.querySelector<HTMLInputElement>('input[name="_token"]')?.value ?? "";
-      const typeValue = form?.querySelector<HTMLInputElement>('input[name="type"]')?.value ?? "";
-      const randnameValue = form?.querySelector<HTMLInputElement>('input[name="randname"]')?.value ?? "";
+      const form = $("form#shindanForm");
+      const hiddenToken = form.find('input[name="_token"]').val() ?? "";
+      const typeValue = form.find('input[name="type"]').val() ?? "";
+      const randnameValue = form.find('input[name="randname"]').val() ?? "";
 
       const postHeaders = {
         ...baseHeaders,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Cookie': cookieString,
-        'Referer': url,
-        'X-XSRF-TOKEN': xsrfToken,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Cookie: cookieString,
+        Referer: url,
+        "X-XSRF-TOKEN": xsrfToken,
       };
 
-      const payload = new URLSearchParams({
-        _token: hiddenToken,
-        u: shindanName,
-        type: typeValue,
-        randname: randnameValue,
-      });
+      const payloadObject = {
+        _token: Array.isArray(hiddenToken)
+          ? hiddenToken.join("")
+          : hiddenToken ?? "",
+        type: Array.isArray(typeValue) ? typeValue.join("") : typeValue ?? "",
+        randname: Array.isArray(randnameValue)
+          ? randnameValue.join("")
+          : randnameValue ?? "",
+        user_input_value_1: shindanName ?? "",
+      };
 
-      // [修改] 原网络请求已修改为原生 https 请求
+      const payload = new URLSearchParams(payloadObject);
+
       const postResponse = await retry(() =>
-        httpsRequest(url, {
-          method: "POST", // 显式声明方法
-          headers: postHeaders,
-        }, payload.toString())
+        httpsRequest(
+          url,
+          {
+            method: "POST",
+            headers: postHeaders,
+          },
+          payload.toString()
+        )
       );
-      
-      const postDom = new JSDOM(postResponse.data);
 
-      function getShindanTitle(postDom: Document): string {
-        const shindanTitleElement = postDom.querySelector<HTMLAnchorElement>(
-          "h1#shindanResultAbove a.text-decoration-none"
+      const $post = cheerio.load(postResponse.data);
+
+      function getShindanTitle($page: cheerio.CheerioAPI): string {
+        return (
+          $page("h1#shindanResultAbove a.text-decoration-none").text() ?? ""
         );
-        return shindanTitleElement ? shindanTitleElement.textContent ?? "" : "";
       }
 
-      function getShindanImageUrl(postDom: Document): string | null {
-        const shindanImageElement = postDom.querySelector<HTMLImageElement>(
-          "div#shindanResultBlock img.shindanResult_image"
+      function getShindanImageUrl($page: cheerio.CheerioAPI): string | null {
+        return (
+          $page("div#shindanResultBlock img.shindanResult_image").attr("src") ??
+          null
         );
-        return shindanImageElement ? shindanImageElement.src : null;
       }
 
-      function getShindanResult(postDom: Document): string {
-        const shindanResultElement =
-          postDom.querySelector<HTMLSpanElement>("span#shindanResult");
-        return shindanResultElement ? shindanResultElement.innerHTML : "";
+      function getShindanResult($page: cheerio.CheerioAPI): string {
+        return $page("span#shindanResult").html() ?? "";
       }
 
-      const shindanTitle = getShindanTitle(postDom.window.document);
-      const shindanImageUrl = getShindanImageUrl(postDom.window.document);
-      const shindanResult = getShindanResult(postDom.window.document);
+      const shindanTitle = getShindanTitle($post);
+      const shindanImageUrl = getShindanImageUrl($post);
+      const shindanResult = getShindanResult($post);
       const formattedResult = shindanResult
         .replace(/<br\s*\/?>/gi, "\n")
         .replace(/<(?:.|\n)*?>/gm, "")
@@ -1128,52 +1137,46 @@ export async function apply(ctx: Context, config: Config) {
 ${formattedResult}
 ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
       } else {
-        // shindanMode = 'image'
-        const titleAndResult =
-          postDom.window.document.getElementById("title_and_result");
+        const titleAndResult = $post("#title_and_result");
 
-        if (!titleAndResult) {
-            logger.error("无法在页面上找到 'title_and_result' 元素。可能是神断失败。");
-            return await sendMessage(session, "神断失败，无法生成图片。", "随机神断");
+        if (!titleAndResult.length) {
+          logger.error(
+            "无法在页面上找到 'title_and_result' 元素。可能是神断失败。"
+          );
+          return await sendMessage(
+            session,
+            "神断失败，无法生成图片。",
+            "随机神断"
+          );
         }
 
-        function removeShindanEffects(content: Element, type: string) {
-          const tags = content.querySelectorAll(
-            `span.shindanEffects[data-mode="${type}"]`
-          );
-          tags.forEach((tag) => {
-            const noscript = tag.nextElementSibling;
-            if (noscript) {
-              replaceWithChildren(noscript);
-              tag.remove();
+  function removeShindanEffects(content: cheerio.Cheerio<Element>, type: string) {
+          content.find(`span.shindanEffects[data-mode="${type}"]`).each((i, tag) => {
+            const $tag = $(tag);
+            const $noscript = $tag.next('noscript');
+            if ($noscript.length) {
+              $noscript.replaceWith($noscript.contents()); // 用 noscript 的内容替换它自己
+              $tag.remove(); // 移除原来的效果标签
             }
           });
         }
 
-        function replaceWithChildren(node: Node) {
-          const parent = node.parentNode;
-          if (parent) {
-            while (node.firstChild) {
-              parent.insertBefore(node.firstChild, node);
-            }
-            parent.removeChild(node);
-          }
-        }
-
-        removeShindanEffects(titleAndResult, "ef_shuffle");
+         removeShindanEffects(titleAndResult, "ef_shuffle");
         removeShindanEffects(titleAndResult, "ef_typing");
-        const titleAndResultString = titleAndResult.outerHTML;
+        
+        const titleAndResultString = $.html(titleAndResult);
 
-        const scriptTags =
-          postDom.window.document.getElementsByTagName("script");
+        const scriptTags = $post("script");
         let scriptString = "";
 
-        for (let i = 0; i < scriptTags.length; i++) {
-          if (scriptTags[i].textContent.includes(shindanId)) {
-            scriptString = scriptTags[i].outerHTML;
-            break;
+        scriptTags.each((i, el) => {
+          const scriptContent = $(el).html();
+          if (scriptContent && scriptContent.includes(shindanId)) {
+            scriptString = $.html(el); // 获取整个 script 标签的 HTML
+            return false; // 相当于 break
           }
-        }
+        });
+
         const hasChart = postResponse.data.includes("chart.js");
         const needScript = `${h.unescape(scriptString)}
   <script src="./assets/app.js"
@@ -1194,7 +1197,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
   <body>
   <div id="main-container">
     <div id="main">
-     ${h.unescape(titleAndResultString)}
+      ${h.unescape(titleAndResultString)}
     </div>
   </div>
   </body>
@@ -1318,7 +1321,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
     });
 
   // hs*
-    /**
+  /**
    * @description
    * 用户要求使用免费的 SSL 证书。对于客户端请求，除非服务器明确要求客户端证书认证
    * (shindanmaker.com 并无此要求)，否则客户端本身不需要提供证书。
@@ -1359,7 +1362,9 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
           if (res.statusCode >= 200 && res.statusCode < 400) {
             resolve({ data: body, headers: res.headers });
           } else {
-            const error = new Error(`Request Failed. Status Code: ${res.statusCode}`);
+            const error = new Error(
+              `Request Failed. Status Code: ${res.statusCode}`
+            );
             (error as any).response = {
               status: res.statusCode,
               headers: res.headers,
@@ -1847,18 +1852,16 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
 
   async function getShindanTitle(shindanId: string): Promise<string> {
     const url = `https://${shindanUrl}.com/${shindanId}`;
-
     const headers = generateHeaders();
 
     const response = await retry(() => ctx.http.get(url, { headers }));
+    
+    const $ = cheerio.load(response.data);
+    
+    const shindanTitleElement = $("#shindanTitle");
 
-    const getDom = new JSDOM(response.data);
-
-    const shindanTitleElement =
-      getDom.window.document.getElementById("shindanTitle");
-
-    if (shindanTitleElement) {
-      return shindanTitleElement.textContent || "";
+    if (shindanTitleElement.length) {
+      return shindanTitleElement.text() || "";
     } else {
       throw new Error("无法找到 shindanTitle。");
     }
