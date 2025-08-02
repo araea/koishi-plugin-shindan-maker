@@ -4,9 +4,11 @@ import {} from "koishi-plugin-puppeteer";
 
 import fs from "fs";
 import path from "path";
-import axios from "axios";
 import crypto from "crypto";
 import { JSDOM } from "jsdom";
+
+import * as https from "https";
+import { URL } from "url";
 
 export const inject = {
   required: ["database", "puppeteer"],
@@ -181,6 +183,14 @@ export async function apply(ctx: Context, config: Config) {
     isOfficialShindanSyncEnabled,
     defaultShindansBatchCount,
   } = config;
+
+    const BROWSER_CIPHERS = [
+    'TLS_AES_128_GCM_SHA256',
+    'TLS_AES_256_GCM_SHA384',
+    'TLS_CHACHA20_POLY1305_SHA256',
+    'ECDHE-RSA-AES128-GCM-SHA256',
+    'ECDHE-RSA-AES256-GCM-SHA384',
+  ].join(':');
 
   const isQQOfficialRobotMarkdownTemplateEnabled =
     config.isEnableQQOfficialRobotMarkdownTemplate &&
@@ -1036,52 +1046,52 @@ export async function apply(ctx: Context, config: Config) {
           `改名 自定义神断 随机神断`
         );
       }
-      const url = `https://${shindanUrl}.com/${shindanId}`;
+    const url = `https://${shindanUrl}.com/${shindanId}`;
 
-      const headers = generateHeaders();
+      const baseHeaders = generateHeaders();
 
-      const response = await retry(() => axios.get(url, { headers }));
+      // [修改] 原网络请求已修改为原生 https 请求
+      const getResponse = await retry(() => httpsRequest(url, { headers: baseHeaders }));
+      const dom = new JSDOM(getResponse.data);
+      
+      const cookies = getResponse.headers["set-cookie"] || [];
+      const cookieString = cookies.map(c => c.split(';')[0]).join('; ');
 
-      const dom = new JSDOM(response.data);
+      const xsrfCookie = cookies.find(c => c.startsWith('XSRF-TOKEN='));
+      let xsrfToken = '';
+      if (xsrfCookie) {
+        const encodedToken = xsrfCookie.split(';')[0].split('=')[1];
+        xsrfToken = decodeURIComponent(encodedToken);
+      }
 
-      const cookies = response.headers["set-cookie"];
-      const sessionCookie = cookies.find((cookie: string) =>
-        cookie.startsWith("_session=")
-      );
-      const sessionValue = sessionCookie.split("=")[1].split(";")[0];
+      const form = dom.window.document.querySelector<HTMLFormElement>('form#shindanForm');
+      const hiddenToken = form?.querySelector<HTMLInputElement>('input[name="_token"]')?.value ?? "";
+      const typeValue = form?.querySelector<HTMLInputElement>('input[name="type"]')?.value ?? "";
+      const randnameValue = form?.querySelector<HTMLInputElement>('input[name="randname"]')?.value ?? "";
 
-      const defaultHeaders = {
-        ...headers,
-        "Content-Type": "application/x-www-form-urlencoded",
-        Cookie: `_session=${sessionValue};`,
+      const postHeaders = {
+        ...baseHeaders,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Cookie': cookieString,
+        'Referer': url,
+        'X-XSRF-TOKEN': xsrfToken,
       };
 
-      const form =
-        dom.window.document.querySelector<HTMLFormElement>("form#shindanForm");
-
-      const tokenValue =
-        form?.querySelector<HTMLInputElement>('input[name="_token"]')?.value ??
-        "";
-      const typeValue =
-        form?.querySelector<HTMLInputElement>('input[name="type"]')?.value ??
-        "";
-      const randnameValue =
-        form?.querySelector<HTMLInputElement>('input[name="randname"]')
-          ?.value ?? "";
-
       const payload = new URLSearchParams({
-        _token: tokenValue,
-        randname: randnameValue,
+        _token: hiddenToken,
+        u: shindanName,
         type: typeValue,
-        user_input_value_1: shindanName,
+        randname: randnameValue,
       });
 
+      // [修改] 原网络请求已修改为原生 https 请求
       const postResponse = await retry(() =>
-        axios.post(url, payload.toString(), {
-          headers: defaultHeaders,
-        })
+        httpsRequest(url, {
+          method: "POST", // 显式声明方法
+          headers: postHeaders,
+        }, payload.toString())
       );
-
+      
       const postDom = new JSDOM(postResponse.data);
 
       function getShindanTitle(postDom: Document): string {
@@ -1110,7 +1120,7 @@ export async function apply(ctx: Context, config: Config) {
       const formattedResult = shindanResult
         .replace(/<br\s*\/?>/gi, "\n")
         .replace(/<(?:.|\n)*?>/gm, "")
-        .replace(/&nbsp;/g, " ");
+        .replace(/ /g, " ");
 
       if (shindanMode === "text") {
         return `${shindanTitle}
@@ -1121,6 +1131,11 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
         // shindanMode = 'image'
         const titleAndResult =
           postDom.window.document.getElementById("title_and_result");
+
+        if (!titleAndResult) {
+            logger.error("无法在页面上找到 'title_and_result' 元素。可能是神断失败。");
+            return await sendMessage(session, "神断失败，无法生成图片。", "随机神断");
+        }
 
         function removeShindanEffects(content: Element, type: string) {
           const tags = content.querySelectorAll(
@@ -1303,6 +1318,70 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
     });
 
   // hs*
+    /**
+   * @description
+   * 用户要求使用免费的 SSL 证书。对于客户端请求，除非服务器明确要求客户端证书认证
+   * (shindanmaker.com 并无此要求)，否则客户端本身不需要提供证书。
+   * 相反，我们配置 TLS 连接选项（如密码套件）来更好地模拟真实浏览器，这有助于通过 Cloudflare 的验证。
+   * Node.js 的 https 模块会自动使用其内置的受信任根证书颁发机构(CA)存储来验证服务器证书，确保连接安全。
+   * @param urlString 请求的完整 URL
+   * @param options https.request 的选项，如 headers
+   * @param postData POST 请求的数据体
+   * @returns Promise，解析为 { data: 响应体字符串, headers: 响应头对象 }
+   */
+  async function httpsRequest(
+    urlString: string,
+    options: https.RequestOptions = {},
+    postData?: string
+  ): Promise<{ data: string; headers: any }> {
+    const url = new URL(urlString);
+
+    const requestOptions: https.RequestOptions = {
+      hostname: url.hostname,
+      port: url.port || 443,
+      path: url.pathname + url.search,
+      method: postData ? "POST" : "GET",
+      headers: options.headers || {},
+      // 自定义 TLS 选项以提高兼容性
+      ciphers: BROWSER_CIPHERS,
+      ...options,
+    };
+
+    return new Promise((resolve, reject) => {
+      const req = https.request(requestOptions, (res) => {
+        let body = "";
+        res.setEncoding("utf8");
+        res.on("data", (chunk) => {
+          body += chunk;
+        });
+        res.on("end", () => {
+          // 模拟 axios 的行为，在请求失败时抛出带有 response 属性的错误
+          if (res.statusCode >= 200 && res.statusCode < 400) {
+            resolve({ data: body, headers: res.headers });
+          } else {
+            const error = new Error(`Request Failed. Status Code: ${res.statusCode}`);
+            (error as any).response = {
+              status: res.statusCode,
+              headers: res.headers,
+              data: body,
+            };
+            reject(error);
+          }
+        });
+      });
+
+      req.on("error", (e) => {
+        reject(e);
+      });
+
+      if (postData) {
+        req.write(postData);
+      }
+
+      req.end();
+    });
+  }
+
   async function updateShindanRank(userId: string, username: string) {
     const shindanUser = await ctx.database.get("shindan_rank", { userId });
     if (shindanUser.length === 0) {
@@ -1771,7 +1850,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
 
     const headers = generateHeaders();
 
-    const response = await retry(() => axios.get(url, { headers }));
+    const response = await retry(() => ctx.http.get(url, { headers }));
 
     const getDom = new JSDOM(response.data);
 
