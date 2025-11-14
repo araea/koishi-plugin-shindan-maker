@@ -667,6 +667,7 @@ export async function apply(ctx: Context, config: Config) {
         if (i % batchSize === 0 || i === totalShindans) {
           const html = generateTable(tableRows);
           await page.setContent(html, { waitUntil: "load" });
+          await page.bringToFront();
           const imgBuffer = await page.screenshot({
             fullPage: true,
             type: imageType,
@@ -1218,6 +1219,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
         hasChart ? await sleep(2000) : "";
         // 找到 title_and_result 元素并截图
         const titleAndResultElement = await page.$("#title_and_result");
+        await page.bringToFront();
         const imgBuffer = await titleAndResultElement.screenshot({
           type: imageType,
         });
