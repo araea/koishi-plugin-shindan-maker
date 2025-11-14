@@ -525,7 +525,7 @@ export async function apply(ctx: Context, config: Config) {
         shindanMode = "image";
       }
       isRandomDivineCommandVisible
-        ? await await sendMessage(session, `神断指令：${shindanCommand}`, ``)
+        ? await sendMessage(session, `神断指令：${shindanCommand}`, ``)
         : noop();
       await session.execute(
         `shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`
@@ -642,8 +642,7 @@ export async function apply(ctx: Context, config: Config) {
       };
 
       const browser = ctx.puppeteer.browser;
-      const context = await browser.createBrowserContext();
-      const page = await context.newPage();
+      const page = await browser.newPage();
       await page.setViewport({ width: 100, height: 100 });
 
       for (let i = 1; i <= totalShindans; i++) {
@@ -684,7 +683,6 @@ export async function apply(ctx: Context, config: Config) {
       }
 
       await page.close();
-      await context.close();
     });
 
   // tj*
@@ -700,7 +698,7 @@ export async function apply(ctx: Context, config: Config) {
         shindanCommand,
         shindanMode: MakeShindanMode = "image"
       ) => {
-        let { channelId, userId, username } = session;
+        let { userId, username } = session;
         username = await getSessionUserName(session);
         await updateNameInPlayerRecord(session, userId, username);
         if (!shindanId || !shindanCommand) {
@@ -904,7 +902,7 @@ export async function apply(ctx: Context, config: Config) {
         );
 
         if (shindanIndex === -1) {
-          await await sendMessage(
+          await sendMessage(
             session,
             `'${shindanCommand}' 不存在！`,
             `改名 修改神断 随机神断`
@@ -920,7 +918,7 @@ export async function apply(ctx: Context, config: Config) {
         const updatedContent = JSON.stringify(shindans, null, 2);
         fs.writeFileSync(shindansFilePath, updatedContent, "utf-8");
 
-        await await sendMessage(
+        await sendMessage(
           session,
           `'${shindanCommand}' 已成功修改为 '${shindanNewCommand}'。
 
@@ -966,7 +964,7 @@ export async function apply(ctx: Context, config: Config) {
         );
 
         if (shindanIndex === -1) {
-          await await sendMessage(
+          await sendMessage(
             session,
             `'${shindanCommand}' 不存在！`,
             `改名 设置神断 随机神断`
@@ -1163,7 +1161,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
 
          removeShindanEffects(titleAndResult, "ef_shuffle");
         removeShindanEffects(titleAndResult, "ef_typing");
-        
+
         const titleAndResultString = $.html(titleAndResult);
 
         const scriptTags = $post("script");
@@ -1205,8 +1203,8 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
   </html>`;
 
         const browser = ctx.puppeteer.browser;
-        const context = await browser.createBrowserContext();
-        const page = await context.newPage();
+        const page = await browser.newPage();
+
         const filePath = path
           .join(__dirname, "emptyHtml.html")
           .replace(/\\/g, "/");
@@ -1225,7 +1223,6 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
         });
 
         await page.close();
-        await context.close();
         await updateShindanRank(userId, username);
         await sendMessage(
           session,
@@ -1855,9 +1852,9 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
     const headers = generateHeaders();
 
     const response = await retry(() => ctx.http.get(url, { headers }));
-    
+
     const $ = cheerio.load(response.data);
-    
+
     const shindanTitleElement = $("#shindanTitle");
 
     if (shindanTitleElement.length) {
