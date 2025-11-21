@@ -997,7 +997,6 @@ export async function apply(ctx: Context, config: Config) {
       "自定义神断"
     )
     .userFields(["id", "name", "permissions"])
-    .userFields(["id", "name", "permissions"])
     .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
       let { userId, username } = session;
       username = await getSessionUserName(session);
