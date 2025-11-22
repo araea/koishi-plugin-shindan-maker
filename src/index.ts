@@ -991,261 +991,385 @@ export async function apply(ctx: Context, config: Config) {
       }
     );
   // zdy**
-  ctx
-    .command(
-      "shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]",
-      "自定义神断"
+  ctx.command(
+        "shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]",
+        "自定义神断",
     )
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
-      let { userId, username } = session;
-      username = await getSessionUserName(session);
-      if (!shindanId) {
-        return await sendMessage(
-          session,
-          `请提供必要的参数 shindanId。
+        .userFields(["id", "name", "permissions"])
+        .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
+            let { userId, username } = session;
+            username = await getSessionUserName(session);
+
+            // -----------------------------------------------------
+            // 1. 参数校验 (保持原有逻辑 + 按钮菜单)
+            // -----------------------------------------------------
+            if (!shindanId) {
+                return await sendMessage(
+                    session,
+                    `请提供必要的参数 shindanId。
 
 指令格式：
 神断 [shindanId] [shindanName] [shindanMode]
 
 指令示例：
 神断 1116736 小小学 image`,
-          `改名 自定义神断 随机神断`
-        );
-      }
-      if (!isShindanIdValid(shindanId)) {
-        return await sendMessage(
-          session,
-          `shindanId 格式错误，请输入一个有效的 shindanId。`,
-          `改名 自定义神断 随机神断`
-        );
-      }
-      if (!shindanName || shindanName === "nawyjxxjywan") {
-        shindanName = username;
-      }
-      if (!shindanMode) {
-        shindanMode = "image";
-      }
-      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
-      let modifiedShindanName = shindanName;
-      let matches: any;
-
-      while ((matches = userIdRegex.exec(shindanName)) !== null) {
-        const [, , name] = matches;
-        if (name) {
-          modifiedShindanName = modifiedShindanName.replace(matches[0], name);
-        }
-      }
-
-      shindanName = modifiedShindanName;
-      if (!isMakeShindanMode(shindanMode)) {
-        return await sendMessage(
-          session,
-          `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
-          `改名 自定义神断 随机神断`
-        );
-      }
-      const url = `https://${shindanUrl}.com/${shindanId}`;
-
-      const baseHeaders = generateHeaders();
-
-      const getResponse = await retry(() =>
-        httpsRequest(url, { headers: baseHeaders })
-      );
-
-      const $ = cheerio.load(getResponse.data);
-
-      const cookies = getResponse.headers["set-cookie"] || [];
-      const cookieString = cookies.map((c) => c.split(";")[0]).join("; ");
-
-      const xsrfCookie = cookies.find((c) => c.startsWith("XSRF-TOKEN="));
-      let xsrfToken = "";
-      if (xsrfCookie) {
-        const encodedToken = xsrfCookie.split(";")[0].split("=")[1];
-        xsrfToken = decodeURIComponent(encodedToken);
-      }
-
-      const form = $("form#shindanForm");
-      const hiddenToken = form.find('input[name="_token"]').val() ?? "";
-      const typeValue = form.find('input[name="type"]').val() ?? "";
-      const randnameValue = form.find('input[name="randname"]').val() ?? "";
-
-      const postHeaders = {
-        ...baseHeaders,
-        "Content-Type": "application/x-www-form-urlencoded",
-        Cookie: cookieString,
-        Referer: url,
-        "X-XSRF-TOKEN": xsrfToken,
-      };
-
-      const payloadObject = {
-        _token: Array.isArray(hiddenToken)
-          ? hiddenToken.join("")
-          : hiddenToken ?? "",
-        type: Array.isArray(typeValue) ? typeValue.join("") : typeValue ?? "",
-        randname: Array.isArray(randnameValue)
-          ? randnameValue.join("")
-          : randnameValue ?? "",
-        user_input_value_1: shindanName ?? "",
-      };
-
-      const payload = new URLSearchParams(payloadObject);
-
-      const postResponse = await retry(() =>
-        httpsRequest(
-          url,
-          {
-            method: "POST",
-            headers: postHeaders,
-          },
-          payload.toString()
-        )
-      );
-
-      const $post = cheerio.load(postResponse.data);
-
-      function getShindanTitle($page: cheerio.CheerioAPI): string {
-        return (
-          $page("h1#shindanResultAbove a.text-decoration-none").text() ?? ""
-        );
-      }
-
-      function getShindanImageUrl($page: cheerio.CheerioAPI): string | null {
-        return (
-          $page("div#shindanResultBlock img.shindanResult_image").attr("src") ??
-          null
-        );
-      }
-
-      function getShindanResult($page: cheerio.CheerioAPI): string {
-        return $page("span#shindanResult").html() ?? "";
-      }
-
-      const shindanTitle = getShindanTitle($post);
-      const shindanImageUrl = getShindanImageUrl($post);
-      const shindanResult = getShindanResult($post);
-      const formattedResult = shindanResult
-        .replace(/<br\s*\/?>/gi, "\n")
-        .replace(/<(?:.|\n)*?>/gm, "")
-        .replace(/ /g, " ");
-
-      if (shindanMode === "text") {
-        return `${shindanTitle}
-
-${formattedResult}
-${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
-      } else {
-        const titleAndResult = $post("#title_and_result");
-
-        if (!titleAndResult.length) {
-          logger.error(
-            "无法在页面上找到 'title_and_result' 元素。可能是神断失败。"
-          );
-          return await sendMessage(
-            session,
-            "神断失败，无法生成图片。",
-            "随机神断"
-          );
-        }
-
-  function removeShindanEffects(content: cheerio.Cheerio<Element>, type: string) {
-          content.find(`span.shindanEffects[data-mode="${type}"]`).each((i, tag) => {
-            const $tag = $(tag);
-            const $noscript = $tag.next('noscript');
-            if ($noscript.length) {
-              $noscript.replaceWith($noscript.contents()); // 用 noscript 的内容替换它自己
-              $tag.remove(); // 移除原来的效果标签
+                    `改名 自定义神断 随机神断`,
+                );
             }
-          });
-        }
 
-         removeShindanEffects(titleAndResult, "ef_shuffle");
-        removeShindanEffects(titleAndResult, "ef_typing");
+            // 简单校验 ID (假设是纯数字)
+            if (!/^\d+$/.test(shindanId)) {
+                return await sendMessage(
+                    session,
+                    `shindanId 格式错误，请输入一个有效的数字 ID。`,
+                    `改名 自定义神断 随机神断`,
+                );
+            }
 
-        const titleAndResultString = $.html(titleAndResult);
+            if (!shindanName || shindanName === "nawyjxxjywan") {
+                shindanName = username;
+            }
+            if (!shindanMode) {
+                shindanMode = "image";
+            }
 
-        const scriptTags = $post("script");
-        let scriptString = "";
+            // 处理 @提及 (保持原有)
+            const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
+            let modifiedShindanName = shindanName;
+            let matches: RegExpExecArray | null;
 
-        scriptTags.each((i, el) => {
-          const scriptContent = $(el).html();
-          if (scriptContent && scriptContent.includes(shindanId)) {
-            scriptString = $.html(el); // 获取整个 script 标签的 HTML
-            return false; // 相当于 break
-          }
-        });
+            while ((matches = userIdRegex.exec(shindanName)) !== null) {
+                const [, , name] = matches;
+                if (name) {
+                    modifiedShindanName = modifiedShindanName.replace(
+                        matches[0],
+                        name,
+                    );
+                }
+            }
+            shindanName = modifiedShindanName;
 
-        const hasChart = postResponse.data.includes("chart.js");
-        const needScript = `${h.unescape(scriptString)}
-  <script src="./assets/app.js"
-    defer></script>
-    <script src="./assets/chartJs.js"
-            defer=""></script>`;
+            if (!['image', 'text'].includes(shindanMode)) {
+                return await sendMessage(
+                    session,
+                    `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
+                    `改名 自定义神断 随机神断`,
+                );
+            }
 
-        const html = `
-  <html lang="en">
+            // -----------------------------------------------------
+            // 2. 请求 ShindanMaker 页面 (获取 Token)
+            // -----------------------------------------------------
+            // 注意：这里尽量复用你原本的 httpsRequest 逻辑，但为了演示完整性，
+            // 我使用 ctx.http，你需要根据你的项目实际情况决定是否换回 httpsRequest
 
-  <head>
-<link rel="stylesheet" type="text/css" href="./assets/app.css">
+            const url = `https://${shindanUrl}.com/${shindanId}`;
 
-      <title>神断渲染页面</title>
-  ${hasChart ? h.unescape(needScript) : ""}
-  </head>
+            const baseHeaders = generateHeaders();
 
-  <body>
-  <div id="main-container">
-    <div id="main">
-      ${h.unescape(titleAndResultString)}
+            let getResponse;
+            try {
+                getResponse = await retry(() =>
+                    httpsRequest(url, { headers: baseHeaders }),
+                );
+            } catch (error) {
+                logger?.error(`获取神断页面失败: ${error.message}`);
+                return
+            }
+
+            const cookies = getResponse.headers["set-cookie"] || [];
+
+            const $ = cheerio.load(getResponse.data);
+
+            // 提取 CSRF Token (用于 Header)
+            const cookieString = cookies.map((c) => c.split(";")[0]).join("; ");
+            const xsrfCookie = cookies.find((c) => c.startsWith("XSRF-TOKEN="));
+            let xsrfToken = "";
+            if (xsrfCookie) {
+                const encodedToken = xsrfCookie.split(";")[0].split("=")[1];
+                xsrfToken = decodeURIComponent(encodedToken);
+            }
+
+            // -----------------------------------------------------
+            // 3. 提取表单数据 (Rust 逻辑: extract_form_data)
+            // -----------------------------------------------------
+            const form = $("body"); // 有些页面可能没有 form 标签包裹
+
+            // 基础字段
+            const token = form.find('input[name="_token"]').val() as string || "";
+            const randname = form.find('input[name="randname"]').val() as string || "";
+            const type = form.find('input[name="type"]').val() as string || "";
+
+            // 构建 POST 数据
+            const payloadObject: Record<string, string> = {
+                _token: token,
+                randname: randname,
+                type: type,
+                user_input_value_1: shindanName // 名字
+            };
+
+            // [关键更新] Rust逻辑: 处理 input[name^="parts["]
+            // 新版网站有很多动态输入框，必须把名字填入这些 parts 字段
+            form.find('input[name^="parts["]').each((_, el) => {
+                const inputName = $(el).attr('name');
+                if (inputName) {
+                    payloadObject[inputName] = shindanName;
+                }
+            });
+
+            const payload = new URLSearchParams(payloadObject);
+
+            // -----------------------------------------------------
+            // 4. 提交表单 (POST)
+            // -----------------------------------------------------
+            const postHeaders = {
+                ...baseHeaders,
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Cookie": cookieString,
+                "Referer": url,
+                "X-XSRF-TOKEN": xsrfToken,
+            };
+
+            let postResponse;
+            try {
+                postResponse = await retry(() =>
+                    httpsRequest(
+                        url,
+                        {
+                            method: "POST",
+                            headers: postHeaders,
+                        },
+                        payload.toString(),
+                    ),
+                );
+            } catch (error) {
+                logger?.error(`提交神断表单失败: ${error.message}`);
+                return;
+            }
+
+            const $post = cheerio.load(postResponse.data);
+            const shindanTitle = $post('#shindanTitle').attr('data-shindan_title') ||
+                                 $post("h1#shindanResultAbove a.text-decoration-none").text() || "诊断结果";
+
+            // -----------------------------------------------------
+            // 5. 处理结果 - 纯文本模式 (Rust 逻辑: parse_segments)
+            // -----------------------------------------------------
+            if (shindanMode === "text") {
+                let resultText = "";
+                const imageUrls: string[] = [];
+                const resultContainer = $post("#shindanResult");
+
+                // [关键更新] 优先尝试解析 data-blocks JSON (新版逻辑)
+                const dataBlocks = resultContainer.attr('data-blocks');
+                let parsedFromJson = false;
+
+                if (dataBlocks) {
+                    try {
+                        const blocks = JSON.parse(dataBlocks);
+                        parsedFromJson = true;
+                        for (const block of blocks) {
+                            if (block.type === 'text' && block.content) {
+                                resultText += block.content;
+                            } else if (block.type === 'user_input' && block.value) {
+                                resultText += block.value;
+                            } else if (block.type === 'image') {
+                                const src = block.source || block.src || block.url || block.file;
+                                if (src) imageUrls.push(src);
+                            }
+                        }
+                    } catch (e) {
+                        // JSON 解析失败，回退
+                    }
+                }
+
+                // 如果 JSON 解析失败，回退到旧的 DOM 遍历逻辑
+                if (!parsedFromJson) {
+                    // 递归提取文本
+                    const extractNodes = (node: any) => {
+                        $(node).contents().each((_, child: any) => {
+                            if (child.type === 'text') {
+                                resultText += $(child).text().replace(/&nbsp;/g, " ").replace(/\u00a0/g, " ");
+                            } else if (child.type === 'tag') {
+                                if (child.name === 'br') resultText += "\n";
+                                else if (child.name === 'img') {
+                                    const src = $(child).attr('data-src') || $(child).attr('src');
+                                    if (src) imageUrls.push(src);
+                                } else {
+                                    extractNodes(child);
+                                }
+                            }
+                        });
+                    };
+                    extractNodes(resultContainer);
+                }
+
+                return await sendMessage(
+                    session,
+                    `${shindanTitle}\n\n${resultText}\n${imageUrls.length > 0 ? h.image(imageUrls[0]) : ""}`,
+                    `改名 自定义神断 随机神断`
+                );
+            }
+
+            // -----------------------------------------------------
+            // 6. 处理结果 - 图片模式 (Rust 逻辑: construct_html_result)
+            // -----------------------------------------------------
+            else {
+                const titleAndResult = $post("#title_and_result");
+
+                if (!titleAndResult.length) {
+                    logger?.error("无法在页面上找到 'title_and_result' 元素。可能是神断失败。");
+                    return await sendMessage(
+                        session,
+                        "神断失败，无法生成图片。",
+                        "随机神断",
+                    );
+                }
+
+                // [关键更新] 清除特效 (Typing / Shuffle)
+                // Rust: replaces effect span with next sibling noscript content
+                const cleanEffects = (mode: string) => {
+                    titleAndResult.find(`span.shindanEffects[data-mode="${mode}"]`).each((i, el) => {
+                        const $el = $(el);
+                        const $noscript = $el.next('noscript');
+                        if ($noscript.length) {
+                            // 用 noscript 里的纯文本替换掉特效标签
+                            $el.replaceWith($noscript.html() || $noscript.text());
+                            $noscript.remove();
+                        }
+                    });
+                };
+                cleanEffects('ef_typing');
+                cleanEffects('ef_shuffle');
+
+                const titleAndResultString = $.html(titleAndResult);
+
+                // [关键更新] 提取包含当前 ID 的特定脚本
+                // 如果不提取这个，Chart.js 图表就没有数据
+                let specificScript = "";
+                $post("script").each((i, el) => {
+                    const content = $(el).html();
+                    if (content && content.includes(shindanId)) {
+                        specificScript = $.html(el); // 包含 <script> 标签本身
+                        return false; // break
+                    }
+                });
+
+                const hasChart = postResponse.data.includes("chart.js") || postResponse.data.includes("chartType");
+
+                // 资源路径处理
+                // 使用绝对路径以确保 puppeteer 能加载本地文件
+                // const assetsDir = path.resolve(__dirname, "assets").replace(/\\/g, "/");
+                // const assetUrl = `file://${assetsDir}`;
+
+                // [关键更新] 构建 HTML 结构
+                // 必须包含 shindan.js (基础定义)。如果有图表，还需要 app.js 和 chart.js
+                let scriptsHtml = `<script src="./assets/shindan.js"></script>`;
+
+                if (hasChart) {
+                    scriptsHtml += `
+                    <script src="./assets/app.js"></script>
+                    <script src="./assets/chart.js"></script>
+                    ${specificScript}
+                    `;
+                }
+
+                    // <base href="https://${shindanUrl}.com/">
+                const html = `
+<!DOCTYPE html>
+<html lang="zh" style="height:100%">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="./assets/app.css">
+    <title>ShindanMaker Result</title>
+    <style>
+        body { background-color: white; }
+        /* 避免截图时背景透明 */
+    </style>
+</head>
+<body class="" style="position:relative;min-height:100%;top:0">
+    <div id="main-container">
+        <div id="main">
+            ${titleAndResultString}
+        </div>
     </div>
-  </div>
-  </body>
+    ${scriptsHtml}
+</body>
+</html>`;
 
-  </html>`;
+                // -----------------------------------------------------
+                // 7. Puppeteer 截图
+                // -----------------------------------------------------
+                const browser = ctx.puppeteer.browser;
+                const page = await browser.newPage();
 
-        const browser = ctx.puppeteer.browser;
-        const page = await browser.newPage();
+                try {
+                  const filePath = path
+                      .join(__dirname, "emptyHtml.html")
+                      .replace(/\\/g, "/");
+                  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
+                  await page.goto("file://" + filePath);
+                    // 设置视口
+                    await page.setViewport({
+                        width: 800,
+                        height: 1000,
+                        deviceScaleFactor: 1, // 提高清晰度
+                    });
 
-        const filePath = path
-          .join(__dirname, "emptyHtml.html")
-          .replace(/\\/g, "/");
-        await page.goto("file://" + filePath);
-        await page.setViewport({
-          width: 750,
-          height: 100,
-          deviceScaleFactor: 1,
+                    // 加载 HTML
+                    // 如果有图表，使用 networkidle0 等待资源加载和 JS 执行
+                    await page.setContent(html, {
+                        waitUntil: "load"
+                    });
+
+                    if (hasChart) {
+                        // Chart.js 可能有动画，额外等待一下
+                        await sleep(2000);
+                    }
+
+                    // 找到结果元素并截图
+                    const resultElement = await page.$("#title_and_result");
+                    if (!resultElement) throw new Error("Element #title_and_result not found");
+
+                    await page.bringToFront();
+                    const imgBuffer = await resultElement.screenshot({
+                      type: imageType,
+                    });
+
+                    await page.close();
+
+                    // -----------------------------------------------------
+                    // 8. 发送最终结果
+                    // -----------------------------------------------------
+                    await updateShindanRank(userId, username); // 保持你的统计逻辑
+
+                    await sendMessage(
+                        session,
+                        h.image(imgBuffer, `image/jpeg`),
+                        ``, // 这里可能不需要按钮，或者是你想留空
+                        2,
+                        false,
+                    );
+
+                    if (
+                        isQQOfficialRobotMarkdownTemplateEnabled &&
+                        session.platform === "qq"
+                    ) {
+                        await sendMessage(
+                            session,
+                            `🎉 占卜完成！`,
+                            `神断列表 神断次数排行榜 改名 神断统计 随机神断`,
+                        );
+                    }
+
+                } catch (err) {
+                    logger?.error(err);
+                    await page.close();
+                    return await sendMessage(session, "生成图片出错，请重试。", "随机神断");
+                }
+            }
         });
-        await page.setContent(html, { waitUntil: "load" });
-        hasChart ? await sleep(2000) : "";
-        // 找到 title_and_result 元素并截图
-        const titleAndResultElement = await page.$("#title_and_result");
-        await page.bringToFront();
-        const imgBuffer = await titleAndResultElement.screenshot({
-          type: imageType,
-        });
-
-        await page.close();
-        await updateShindanRank(userId, username);
-        await sendMessage(
-          session,
-          h.image(imgBuffer, `image/${imageType}`),
-          ``,
-          2,
-          false
-        );
-        if (
-          isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
-          await sendMessage(
-            session,
-            `🎉 占卜完成！`,
-            `神断列表 神断次数排行榜 改名 神断统计 随机神断`
-          );
-        }
-      }
-
-      //
-    });
 
   // gm*
   ctx
@@ -1321,9 +1445,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
   // hs*
   /**
    * @description
-   * 用户要求使用免费的 SSL 证书。对于客户端请求，除非服务器明确要求客户端证书认证
-   * (shindanmaker.com 并无此要求)，否则客户端本身不需要提供证书。
-   * 相反，我们配置 TLS 连接选项（如密码套件）来更好地模拟真实浏览器，这有助于通过 Cloudflare 的验证。
+   * 配置 TLS 连接选项（如密码套件）来更好地模拟真实浏览器，这有助于通过 Cloudflare 的验证。
    * Node.js 的 https 模块会自动使用其内置的受信任根证书颁发机构(CA)存储来验证服务器证书，确保连接安全。
    * @param urlString 请求的完整 URL
    * @param options https.request 的选项，如 headers
@@ -1374,6 +1496,7 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
       });
 
       req.on("error", (e) => {
+        logger.error(`HTTPS request error for ${urlString}:`, e);
         reject(e);
       });
 
@@ -1852,13 +1975,30 @@ ${shindanImageUrl ? h.image(shindanImageUrl) : ""}`;
     const url = `https://${shindanUrl}.com/${shindanId}`;
     const headers = generateHeaders();
 
-    const response = await retry(() => ctx.http.get(url, { headers }));
+    let getResponse;
+    try {
+        getResponse = await retry(() =>
+            httpsRequest(url, { headers: headers }),
+        );
+    } catch (error) {
+        logger.error(`获取神断标题失败: ${error.message}`);
+        return
 
-    const $ = cheerio.load(response.data);
+    }
+
+    const $ = cheerio.load(getResponse.data);
 
     const shindanTitleElement = $("#shindanTitle");
 
     if (shindanTitleElement.length) {
+      const title = shindanTitleElement.attr("data-shindan_title");
+      if (title) {
+        return title;
+      }
+      const titleLink = shindanTitleElement.find("a.shindanTitleLink");
+      if (titleLink.length) {
+        return titleLink.text() || "";
+      }
       return shindanTitleElement.text() || "";
     } else {
       throw new Error("无法找到 shindanTitle。");
