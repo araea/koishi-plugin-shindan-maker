@@ -603,7 +603,7 @@ export function apply(ctx: Context, cfg: Config) {
   ctx.command("shindan", "神断").usage("直接输入神断列表中的指令名即可")
 
   ctx.command("shindan.自定义 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
-    .usage("按ID执行任意神断。\n示例: shindan.自定义 1602348 你的名字 image")
+    .usage("按ID执行任意神断（该指令不建议使用）\n示例: shindan.自定义 1602348 你的名字 image")
     .action(async ({ session }, id, name, mode) => {
       if (!id) return session.execute("shindan.自定义 -h");
       if (!Utils.isNumeric(id)) return session.execute("shindan.自定义 -h");
@@ -667,10 +667,8 @@ export function apply(ctx: Context, cfg: Config) {
       return `=== 神断排行榜 ===\n${list.map((u, i) => `${i + 1}. ${u.username} (${u.shindanCount}次)`).join("\n")}`;
     });
 
-  // --- Admin Commands ---
-
-  ctx.command("shindan.添加 <command:string> <id:string> [mode:string]", "添加新的神断", { authority: 1 })
-    .usage("添加神断 <命令> <ID> [模式]\n示例: 添加神断 声优 12345 image")
+  ctx.command("shindan.添加 <command:string> <id:string> [mode:string]", "添加新的神断")
+    .usage("shindan.添加 &lt;命令&gt; &lt;ID&gt; [模式]\n示例: shindan.添加 声优 12345 image")
     .action(async ({ session }, cmd, id, mode = "image") => {
       if (!id || !Utils.isNumeric(id)) return session.execute("shindan.添加 -h");
       if (!cmd) return session.execute("shindan.添加 -h");
@@ -690,16 +688,16 @@ export function apply(ctx: Context, cfg: Config) {
       }
     });
 
-  ctx.command("shindan.删除 <command:string>", "删除已有的神断定义", { authority: 1 })
-    .usage("删除神断 <命令>\n示例: 删除神断 声优")
+  ctx.command("shindan.删除 <command:string>", "删除已有的神断")
+    .usage("shindan.删除 &lt;命令&gt;\n示例: shindan.删除 声优")
     .action(async ({ session }, cmd) => {
       if (!cmd) return session.execute("shindan.删除 -h");
       if (repo.remove(cmd)) return `已删除指令 [${cmd}]。`;
       return `错误：未找到指令 [${cmd}]。`;
     });
 
-  ctx.command("shindan.设置模式 <command:string> <mode:string>", "修改神断输出模式", { authority: 1 })
-    .usage("设置神断模式 <命令> <image/text>\n示例: 设置神断模式 声优 text")
+  ctx.command("shindan.设置模式 <command:string> <mode:string>", "修改神断输出模式")
+    .usage("shindan.设置模式 &lt;命令&gt; &lt;image/text&gt;\n示例: shindan.设置模式 声优 text")
     .action(async ({ session }, cmd, mode) => {
       if (!cmd || !mode) return session.execute("shindan.设置模式 -h");
       if (mode !== "image" && mode !== "text") return session.execute("shindan.设置模式 -h");
@@ -708,8 +706,8 @@ export function apply(ctx: Context, cfg: Config) {
       return `错误：未找到指令 [${cmd}]。`;
     });
 
-  ctx.command("shindan.修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", { authority: 1 })
-    .usage("修改神断指令 <旧命令> <新命令>\n示例: 修改神断指令 卖萌 撒娇")
+  ctx.command("shindan.修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称")
+    .usage("shindan.修改 &lt;旧命令&gt; &lt;新命令&gt;\n示例: shindan.修改 卖萌 撒娇")
     .action(async ({ session }, oldCmd, newCmd) => {
       if (!oldCmd || !newCmd) return session.execute("shindan.修改 -h");
 
