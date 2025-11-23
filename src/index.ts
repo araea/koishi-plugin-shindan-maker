@@ -33,23 +33,33 @@ export interface Config {
   itemsPerPage: number;
 }
 
-export const Config: Schema<Config> = Schema.object({
-  // 通用配置
-  isOfficialShindanSyncEnabled: Schema.boolean().default(true).description("启动时同步内置预设"),
-  shindanUrl: Schema.string().default("cn.shindanmaker").description("ShindanMaker 主站 URL"),
-  maxRetryCount: Schema.number().min(1).default(3).description("最大网络重试次数"),
+export const Config: Schema<Config> = Schema.intersect([
+  Schema.object({
+    isOfficialShindanSyncEnabled: Schema.boolean().default(true).description("启动时同步内置预设"),
+    shindanUrl: Schema.union([
+      Schema.const("https://shindanmaker.com/").description("日语 (JP)"),
+      Schema.const("https://en.shindanmaker.com/").description("英语 (EN)"),
+      Schema.const("https://cn.shindanmaker.com/").description("中文 (CN)"),
+      Schema.const("https://kr.shindanmaker.com/").description("韩语 (KR)"),
+      Schema.const("https://th.shindanmaker.com/").description("泰语 (TH)")
+    ]).default("https://cn.shindanmaker.com/").description("ShindanMaker 主站 URL"),
+    maxRetryCount: Schema.number().min(1).default(3).description("最大网络重试次数"),
+  }).description("通用配置"),
 
-  // 消息设置
-  imageType: Schema.union(["png", "jpeg", "webp"]).default("png").description("输出图片格式"),
-  retractDelay: Schema.number().min(0).default(0).description("自动撤回时间（秒），0 为关闭"),
+  Schema.object({
+    imageType: Schema.union(["png", "jpeg", "webp"]).default("png").description("输出图片格式"),
+    retractDelay: Schema.number().min(0).default(0).description("自动撤回时间（秒），0 为关闭"),
+  }).description("消息设置"),
 
-  // 列表配置
-  itemsPerPage: Schema.number().min(10).max(200).default(60).description("列表指令每页显示的数量"),
+  Schema.object({
+    itemsPerPage: Schema.number().min(10).max(200).default(60).description("列表指令每页显示的数量"),
+  }).description("列表配置"),
 
-  // 交互配置
-  isRandomDivineCommandVisible: Schema.boolean().default(true).description("随机神断时是否展示指令名"),
-  defaultMaxDisplayCount: Schema.number().min(1).default(10).description("排行榜显示最大条数"),
-});
+  Schema.object({
+    isRandomDivineCommandVisible: Schema.boolean().default(true).description("随机神断时是否展示指令名"),
+    defaultMaxDisplayCount: Schema.number().min(1).default(10).description("排行榜显示最大条数"),
+  }).description("交互配置"),
+]);
 
 // ========================================================================
 // [Types] Type Definitions
@@ -126,7 +136,8 @@ class NetworkService {
   static async request(
     urlStr: string,
     options: https.RequestOptions = {},
-    postData?: string
+    postData?: string,
+    maxRedirects = 5
   ): Promise<{ data: string; headers: any }> {
     const url = new URL(urlStr);
     const requestOptions: https.RequestOptions = {
@@ -140,7 +151,24 @@ class NetworkService {
     };
 
     return new Promise((resolve, reject) => {
-      const req = https.request(requestOptions, (res) => {
+      const req = https.request(requestOptions, async (res) => {
+        // Handle HTTP Redirects 3xx
+        if (res.statusCode && [301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location) {
+          if (maxRedirects === 0) {
+            reject(new Error('Too many redirects'));
+            return;
+          }
+          // Follow the redirect with updated URL and decrease redirect count
+          try {
+            const redirectUrl = new URL(res.headers.location, url);
+            resolve(await this.request(redirectUrl.toString(), options, postData, maxRedirects - 1));
+          } catch (err) {
+            reject(err);
+          }
+          req.destroy(); // Abort current request
+          return;
+        }
+
         let body = "";
         res.setEncoding("utf8");
         res.on("data", (chunk) => (body += chunk));
@@ -159,7 +187,7 @@ class NetworkService {
   }
 
   static async getShindanTitle(prefix: string, id: string): Promise<string> {
-    const url = `https://${prefix}.com/${id}`;
+    const url = `${prefix}${id}`;
     const { data } = await Utils.retry(() => this.request(url, { headers: Utils.generateHeaders() }), 3);
     const $ = cheerio.load(data);
     const title = $("#shindanTitle").attr("data-shindan_title") || $(".shindanTitleLink").text();
@@ -319,7 +347,7 @@ class ShindanCore {
 
   async execute(session: Session, shindanId: string, name: string, mode: MakeShindanMode) {
     const { shindanUrl, maxRetryCount } = this.config;
-    const targetUrl = `https://${shindanUrl}.com/${shindanId}`;
+    const targetUrl = `${shindanUrl}${shindanId}`;
     const headers = Utils.generateHeaders();
 
     try {
@@ -334,9 +362,9 @@ class ShindanCore {
         cookies.find((c: string) => c.startsWith("XSRF-TOKEN="))?.split(";")[0].split("=")[1] || ""
       );
 
-      const token = $('input[name="_token"]').val() as string;
-      const randname = $('input[name="randname"]').val() as string;
-      const type = $('input[name="type"]').val() as string;
+      const token = $('input[name="_token"]').first().val() as string;
+      const randname = $('input[name="randname"]').first().val() as string;
+      const type = $('input[name="type"]').first().val() as string;
 
       if (!token) throw new Error("CSRF Token Not Found");
 
@@ -521,7 +549,7 @@ class ShindanCore {
       const element = await page.$("#title_and_result");
       if (!element) throw new Error("Render Failed: Element not found");
 
-      if (hasChart) await sleep(1500);
+      if (hasChart) await sleep(2000);
 
       const buffer = await element.screenshot({ type: this.config.imageType });
 
