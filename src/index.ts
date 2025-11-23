@@ -1,1472 +1,141 @@
-import { Context, h, Logger, noop, Schema, sleep } from "koishi";
-import {} from "koishi-plugin-markdown-to-image-service";
+import { Context, h, Logger, Schema, Session, sleep } from "koishi";
 import {} from "koishi-plugin-puppeteer";
 
-import fs from "fs";
+import fs from "fs/promises";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import crypto from "crypto";
 import * as cheerio from "cheerio";
-
 import * as https from "https";
-import { URL } from "url";
-import { Element } from "domhandler";
+import { URL, URLSearchParams } from "url";
 
+// ========================================================================
+// [Metadata] Crate Metadata
+// ========================================================================
+export const name = "shindan-maker";
 export const inject = {
   required: ["database", "puppeteer"],
-  optional: ["markdownToImage"],
 };
-export const name = "shindan-maker";
-export const usage = `## 使用
 
-1. 安装 \`puppeteer\` 服务。
-2. 设置指令别名。
-3. 发送 \`shindan.列表\` 查看神断指令列表。
-4. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
-5. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
+const logger = new Logger("shindan_maker");
 
-## QQ 群
-
-- 956758505
-`;
-const logger = new Logger(`shindanMaker`);
-
-// pz* pzx*
+// ========================================================================
+// [Config] Configuration Schema
+// ========================================================================
 export interface Config {
   shindanUrl: string;
   maxRetryCount: number;
   defaultMaxDisplayCount: number;
-  defaultShindansBatchCount: number;
-
-  key: string;
   retractDelay: number;
-  customTemplateId: string;
   imageType: "png" | "jpeg" | "webp";
-  isTextToImageConversionEnabled: boolean;
-  shouldPrefixUsernameInMessageSending: boolean;
-  isEnableQQOfficialRobotMarkdownTemplate: boolean;
-
-  numberOfMessageButtonsPerRow: number;
   isRandomDivineCommandVisible: boolean;
-  shouldMiddlewareInterruptAfterDivineDirective: boolean;
   isOfficialShindanSyncEnabled: boolean;
+  itemsPerPage: number;
 }
 
-// config
-export const Config: Schema<Config> = Schema.intersect([
-  Schema.object({
-    isOfficialShindanSyncEnabled: Schema.boolean()
-      .default(true)
-      .description(
-        `是否与插件内置神断保持同步，关闭后，将不会再为你新增任何神断，默认为 \`true\`。`
-      ),
-  }).description("神断同步设置"),
-  Schema.object({
-    shindanUrl: Schema.string()
-      .default("en.shindanmaker")
-      .description(
-        `神断 url，可选前缀有：en, kr, cn, th, 无前缀（en 没被墙）。`
-      ),
-  }).description("神断网 URL"),
-  Schema.object({
-    maxRetryCount: Schema.number()
-      .min(1)
-      .default(3)
-      .description(`最大重试次数。`),
-  }).description("请求设置"),
-  Schema.object({
-    imageType: Schema.union(["png", "jpeg", "webp"])
-      .default("png")
-      .description(`图片类型。`),
-    shouldPrefixUsernameInMessageSending: Schema.boolean()
-      .default(true)
-      .description(`是否在发送消息时加上 @用户名。`),
-    retractDelay: Schema.number()
-      .min(0)
-      .default(0)
-      .description(
-        `自动撤回等待的时间，单位是秒。值为 0 时不启用自动撤回功能。`
-      ),
-    isTextToImageConversionEnabled: Schema.boolean()
-      .default(false)
-      .description(
-        `是否开启将文本转为图片的功能（可选），如需启用，需要启用 \`markdownToImage\` 服务。`
-      ),
-    isEnableQQOfficialRobotMarkdownTemplate: Schema.boolean()
-      .default(false)
-      .description(`是否启用 QQ 官方机器人的 Markdown 模板，带消息按钮。`),
-  }).description("消息发送设置"),
-  Schema.union([
-    Schema.object({
-      isEnableQQOfficialRobotMarkdownTemplate: Schema.const(true).required(),
-      customTemplateId: Schema.string()
-        .default("")
-        .description(`自定义模板 ID。`),
-      key: Schema.string()
-        .default("")
-        .description(
-          `文本内容中特定插值的 key，用于存放文本。如果你的插值为 {{.info}}，那么请在这里填 info。`
-        ),
-      numberOfMessageButtonsPerRow: Schema.number()
-        .min(2)
-        .max(5)
-        .default(2)
-        .description(`每行消息按钮的数量。`),
-    }),
-    Schema.object({}),
-  ]),
+export const Config: Schema<Config> = Schema.object({
+  // 通用配置
+  isOfficialShindanSyncEnabled: Schema.boolean().default(true).description("启动时同步内置预设"),
+  shindanUrl: Schema.string().default("cn.shindanmaker").description("ShindanMaker 主站 URL"),
+  maxRetryCount: Schema.number().min(1).default(3).description("最大网络重试次数"),
 
-  Schema.object({
-    isRandomDivineCommandVisible: Schema.boolean()
-      .default(true)
-      .description(`随机神断的时候是否显示神断指令名，默认为 \`true\`。`),
-  }).description("随机神断设置"),
-  Schema.object({
-    defaultMaxDisplayCount: Schema.number()
-      .min(0)
-      .default(20)
-      .description(`排行榜默认显示的人数，默认值为 \`20\`。`),
-  }).description("排行榜设置"),
-  Schema.object({
-    defaultShindansBatchCount: Schema.number()
-      .min(1)
-      .max(10)
-      .default(4)
-      .description(
-        `（QQ官方机器人请调整至4及以下）发送神断列表默认的批次数，最大值为 \`10\`，默认为 \`4\`。`
-      ),
-  }).description("神断列表设置"),
-  Schema.object({
-    shouldMiddlewareInterruptAfterDivineDirective: Schema.boolean()
-      .default(true)
-      .description(`中间件是否在获取神断指令之后中断，默认为 \`true\`。`),
-  }).description("中间件设置"),
-]) as any;
+  // 消息设置
+  imageType: Schema.union(["png", "jpeg", "webp"]).default("png").description("输出图片格式"),
+  retractDelay: Schema.number().min(0).default(0).description("自动撤回时间（秒），0 为关闭"),
 
+  // 列表配置
+  itemsPerPage: Schema.number().min(10).max(200).default(60).description("列表指令每页显示的数量"),
+
+  // 交互配置
+  isRandomDivineCommandVisible: Schema.boolean().default(true).description("随机神断时是否展示指令名"),
+  defaultMaxDisplayCount: Schema.number().min(1).default(10).description("排行榜显示最大条数"),
+});
+
+// ========================================================================
+// [Types] Type Definitions
+// ========================================================================
 type MakeShindanMode = "image" | "text";
 
-// smb*
+interface ShindanDefinition {
+  shindanId: string;
+  shindanCommand: string;
+  shindanMode: MakeShindanMode;
+  shindanTitle: string;
+}
+
 declare module "koishi" {
   interface Tables {
     shindan_rank: ShindanRank;
   }
 }
 
-// jk*
-export interface ShindanRank {
+interface ShindanRank {
   id: number;
   userId: string;
   username: string;
   shindanCount: number;
 }
 
-// zhs*
-export async function apply(ctx: Context, config: Config) {
-  // tzb*
-  ctx.model.extend(
-    "shindan_rank",
-    {
-      id: "unsigned",
-      userId: "string",
-      username: "string",
-      shindanCount: "integer",
-    },
-    { primary: "id", autoInc: true }
-  );
-
-  // cl*
-  const {
-    shindanUrl,
-    maxRetryCount,
-    imageType,
-    defaultMaxDisplayCount,
-    isRandomDivineCommandVisible,
-    shouldMiddlewareInterruptAfterDivineDirective,
-    isOfficialShindanSyncEnabled,
-    defaultShindansBatchCount,
-  } = config;
-
-  const BROWSER_CIPHERS = [
+// ========================================================================
+// [Utils] Utility Functions
+// ========================================================================
+const Utils = {
+  BROWSER_CIPHERS: [
     "TLS_AES_128_GCM_SHA256",
     "TLS_AES_256_GCM_SHA384",
     "TLS_CHACHA20_POLY1305_SHA256",
     "ECDHE-RSA-AES128-GCM-SHA256",
     "ECDHE-RSA-AES256-GCM-SHA384",
-  ].join(":");
+  ].join(":"),
 
-  const isQQOfficialRobotMarkdownTemplateEnabled =
-    config.isEnableQQOfficialRobotMarkdownTemplate &&
-    config.key !== "" &&
-    config.customTemplateId !== "";
+  randomUserAgent(): string {
+    const version = () => {
+      const buffer = crypto.randomBytes(2);
+      const number = buffer.readUInt16BE();
+      return `${number >> 8}.${number & 0xff}.0.0`;
+    };
+    return `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${version()} Safari/537.36 Edg/${version()}`;
+  },
 
-  interface Shindan {
-    shindanId: string;
-    shindanCommand: string;
-    shindanMode: string;
-    shindanTitle: string;
-  }
+  generateHeaders() {
+    return { "User-Agent": this.randomUserAgent() };
+  },
 
-  async function ensureDirExists(dirPath: string) {
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true });
-    }
-  }
-
-  async function readJSONFile(filePath: string) {
-    if (fs.existsSync(filePath)) {
-      const data = fs.readFileSync(filePath, "utf-8");
-      return JSON.parse(data);
-    }
-    return [];
-  }
-
-  async function writeJSONFile(filePath: string, data: any) {
-    const jsonData = JSON.stringify(data, null, 2);
-    fs.writeFileSync(filePath, jsonData, "utf-8");
-  }
-
-  const filePath = path.join(__dirname, "assets", "shindans.json");
-  const shindansDirPath = path.join(ctx.baseDir, "data", "shindanMaker");
-  const shindansFilePath = path.join(shindansDirPath, "shindans.json");
-
-  await ensureDirExists(shindansDirPath);
-
-  async function ensureFileExists(filePath: string) {
-    if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, "[]", "utf-8");
-    }
-  }
-
-  await ensureFileExists(shindansFilePath);
-
-  async function handleOfficialShindanSync() {
-    if (isOfficialShindanSyncEnabled) {
-      const shindansData = await readJSONFile(filePath);
-      let targetShindansData = await readJSONFile(shindansFilePath);
-
-      const missingShindans = shindansData.filter((shindan: any) => {
-        return !targetShindansData.some(
-          (targetShindan: any) => targetShindan.shindanId === shindan.shindanId
-        );
-      });
-
-      targetShindansData = targetShindansData.concat(missingShindans);
-      await writeJSONFile(shindansFilePath, targetShindansData);
-
-      if (missingShindans.length > 0) {
-        logger.success("添加的 shindan 对象：", missingShindans);
+  async retry<T>(func: () => Promise<T>, maxRetryCount: number, delay = 500): Promise<T> {
+    let lastError: Error;
+    for (let i = 0; i < maxRetryCount; i++) {
+      try {
+        return await func();
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+        await new Promise((resolve) => setTimeout(resolve, delay * 2 ** i));
       }
     }
-  }
-
-  await handleOfficialShindanSync();
-
-  const fileContent = await fs.promises.readFile(shindansFilePath, "utf-8");
-  const shindans: Shindan[] = JSON.parse(fileContent);
-  shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
-
-  // zjj*
-  ctx.middleware(async (session, next) => {
-    let { content } = session;
-    let isText = false;
-    let isImage = false;
-    let modifiedContent = content;
-    if (content.includes("-t")) {
-      isText = true;
-      modifiedContent = content.replace("-t", "");
-    } else if (content.includes("-i")) {
-      isImage = true;
-      modifiedContent = content.replace("-i", "");
-    }
-
-    async function extractCommandAndShindanName(
-      content: string
-    ): Promise<{ command: string; shindanName: string }> {
-      content = await replaceAtTags(session, content);
-
-      const atTagRegex = /<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>/g;
-
-      const frontAtTagRegex =
-        /^<at id=['"][^'"]+['"](?: name=['"][^'"]+['"])?\/>\s*/;
-      content = content.replace(frontAtTagRegex, "");
-
-      const atTags = content.match(atTagRegex);
-
-      let commandAndShindan = content.replace(atTagRegex, "").trim();
-
-      let splitIndex = commandAndShindan.indexOf(" ");
-      let command = commandAndShindan;
-      let shindanName = "";
-
-      if (splitIndex !== -1) {
-        command = commandAndShindan.substring(0, splitIndex);
-        shindanName = commandAndShindan.substring(splitIndex + 1).trim();
-      }
-
-      shindanName =
-        (atTags ? atTags.join(" ") : "") +
-        (shindanName ? " " + shindanName : "");
-
-      if (!shindanName) {
-        shindanName = "nawyjxxjywan";
-      }
-
-      return { command, shindanName };
-    }
-
-    const result = await extractCommandAndShindanName(modifiedContent);
-
-    const { command, shindanName } = result;
-    const shindan = shindans.find((s) => s.shindanCommand === command);
-
-    if (shindan) {
-      let { shindanId, shindanMode } = shindan;
-      if (isText) {
-        shindanMode = "text";
-      } else if (isImage) {
-        shindanMode = "image";
-      }
-      await session.execute(
-        `shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`
-      );
-      return shouldMiddlewareInterruptAfterDivineDirective
-        ? noop()
-        : await next();
-    } else {
-      await next();
-    }
-  });
-
-  // zl*
-  // h* bz*
-  ctx
-    .command("shindan", "查看神断帮助")
-    .usage(`神断资源：${shindanUrl}.com。`)
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }) => {
-      //
-      if (
-        isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq"
-      ) {
-        return await sendMessage(
-          session,
-          `🔮 《神断占卜器》 🔮
-😆 欢迎游玩~ 祝您玩得开心！`,
-          `神断列表 神断次数排行榜 改名 神断统计 随机神断`,
-          2,
-          false
-        );
-      }
-      await session.execute(`shindan -h`);
-      //
-    });
-  //tj*
-  ctx
-    .command("shindan.统计 [targetUser:text]", "查看统计信息")
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, targetUser) => {
-      //
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      const result = await processTargetUser(
-        session,
-        userId,
-        username,
-        targetUser
-      );
-      const targetUserRecord: ShindanRank[] = result.targetUserRecord;
-      const targetUserId: string = result.targetUserId;
-      if (targetUserRecord.length === 0) {
-        return await sendMessage(
-          session,
-          `该统计对象无神断记录。`,
-          `改名 神断统计 随机神断`
-        );
-      }
-      const guildUsers = await ctx.database.get("shindan_rank", {});
-      guildUsers.sort((a, b) => b.shindanCount - a.shindanCount);
-
-      const userIndex = guildUsers.findIndex((user) => user.userId === userId);
-      const userRank = userIndex === -1 ? undefined : userIndex + 1;
-
-      return await sendMessage(
-        session,
-        `统计对象：${targetUserRecord[0].username}
-
-神断次数：${targetUserRecord[0].shindanCount} 次。
-排名：第 ${userRank} 名。`,
-        `改名 神断统计 随机神断`
-      );
-
-      //
-    });
-  // phb* r*
-  ctx
-    .command("shindan.排行榜 [number:number]", "神断次数排行榜")
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, number: number) => {
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      const maxNumber = number || defaultMaxDisplayCount;
-
-      if (typeof maxNumber !== "number" || maxNumber <= 0) {
-        return await sendMessage(
-          session,
-          `参数 number 必须为正整数！`,
-          `改名 神断次数排行榜 随机神断`
-        );
-      }
-
-      const shindanUsers = await ctx.database.get("shindan_rank", {});
-
-      shindanUsers.sort((a, b) => b.shindanCount - a.shindanCount);
-
-      const limitedUsers = shindanUsers.slice(0, maxNumber); // 仅保留排行榜中的前 maxNumber 个用户
-
-      const rankStrings: string[] = limitedUsers.map(
-        (user, index: number) =>
-          `${index + 1}. ${user.username}：${user.shindanCount} 次`
-      );
-
-      return await sendMessage(
-        session,
-        `神断次数排行榜：\n\n${rankStrings.join("\n")}`,
-        `改名 神断次数排行榜 随机神断`
-      );
-    });
-
-  // ck*
-  ctx
-    .command("shindan.查看 <shindanCommand:text>", "查看神断")
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, shindanCommand) => {
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      // 查看：
-      if (!shindanCommand) {
-        return await sendMessage(
-          session,
-          `请提供必要参数 shindanCommand。
-
-指令格式：
-查看神断 [shindanCommand]
-
-指令示例：
-查看神断 今天是什么少女`,
-          `改名 查看神断 随机神断`
-        );
-      }
-      const existingShindan = shindans.find(
-        (shindan) => shindan.shindanCommand === shindanCommand
-      );
-      if (!existingShindan) {
-        return await sendMessage(
-          session,
-          `指定神断不存在。`,
-          `改名 查看神断 随机神断`
-        );
-      }
-      const { shindanId, shindanMode, shindanTitle } = existingShindan;
-      return await sendMessage(
-        session,
-        `神断 '${shindanCommand}' 信息如下：
-
-神断ID：${shindanId}
-神断标题：${shindanTitle}
-神断指令：${shindanCommand}
-神断模式：${shindanMode}`,
-        `改名 查看神断 随机神断`
-      );
-      //
-    });
-  // sj* sjsd*
-  ctx
-    .command("shindan.随机 [shindanName:text]", "随机神断")
-    .userFields(["id", "name", "permissions"])
-    .option("text", "-t 文本模式")
-    .option("image", "-i 图片模式")
-    .action(async ({ session, options }, shindanName) => {
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      //
-      if (!shindanName) {
-        shindanName = username;
-      }
-      shindanName = await replaceAtTags(session, shindanName);
-      // 判断 shindanName 中是否存在 <at id='' name= ''/> 或 <at id=''/> 这样的内容
-      const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
-      let modifiedShindanName = shindanName;
-      let matches: any;
-
-      while ((matches = userIdRegex.exec(shindanName)) !== null) {
-        const [, , name] = matches;
-        if (name) {
-          modifiedShindanName = modifiedShindanName.replace(matches[0], name);
-        }
-      }
-
-      shindanName = modifiedShindanName;
-
-      function getRandomShindan(shindans: Shindan[]): Shindan | null {
-        if (shindans.length === 0) return null;
-        const randomIndex = Math.floor(Math.random() * shindans.length);
-        return shindans[randomIndex];
-      }
-
-      const randomShindan = getRandomShindan(shindans);
-      let { shindanId, shindanMode, shindanCommand } = randomShindan;
-      if (options.text) {
-        shindanMode = "text";
-      } else if (options.image) {
-        shindanMode = "image";
-      }
-      isRandomDivineCommandVisible
-        ? await sendMessage(session, `神断指令：${shindanCommand}`, ``)
-        : noop();
-      await session.execute(
-        `shindan.自定义 ${shindanId} '${shindanName}' ${shindanMode}`
-      );
-      //
-    });
-  // lb*
-  ctx
-    .command("shindan.列表 [batchCount:number]", "神断列表")
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, batchCount = defaultShindansBatchCount) => {
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      if (isNaN(batchCount) || batchCount <= 0) {
-        return await sendMessage(
-          session,
-          `批次数必须是一个大于 0 的数字！`,
-          `改名 神断列表 随机神断`
-        );
-      }
-      if (batchCount > 10)
-        return await sendMessage(
-          session,
-          `批次数超出范围，最大值为 10。`,
-          `改名 神断列表 随机神断`
-        );
-      const totalShindans = shindans.length;
-      const batchSize = Math.floor(totalShindans / batchCount); // 每批处理的数量
-      let serialNumber = 1; // 序号变量
-      let tableRows = [];
-
-      const tableStyle = `
-      <style>
-      body {
-        margin: 0;
-        zoom: 200%;
-      }
-      .list {
-        display: flex;
-        flex-direction: column;
-        width: max-content;
-        overflow: scroll;
-      }
-      table {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-        height: min-content;
-        border: 1px solid #ddd;
-      }
-      th,
-      td {
-        text-align: left;
-        padding-top: 3px;
-        padding-bottom: 3px;
-        padding-right: 5px;
-        display: flex;
-        flex-direction: column;
-        width: max-content;
-      }
-      tr:nth-child(even) {
-        background-color: #f5f5f5;
-      }
-      .line1 {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: max-content;
-      }
-      .line2 {
-        display: flex;
-        flex-direction: row;
-        width: max-content;
-      }
-      .id {
-        color: #444444;
-        font-size: x-small;
-        background-color: #f8f8f8;
-        padding: 1px 3px;
-        border-radius: 5px;
-        border-color: #dee2e6;
-        border-style: solid;
-        border-width: 1px;
-        margin-left: 5px;
-      }
-      .command {
-        color: #444444;
-        margin-left: 5px;
-      }
-      .title {
-        color: #6c757d;
-        font-size: xx-small;
-        margin-left: 10px;
-      }
-      </style>
-    `;
-
-      const generateTable = (rows: any): string => {
-        return `
-        <html lang="zh">
-          <head>
-            ${tableStyle}
-          <title>神断列表</title></head>
-          <body>
-            <div class="list">
-              <table>
-                ${rows.join("\n")}
-              </table>
-            </div>
-          </body>
-        </html>
-      `;
-      };
-
-      const browser = ctx.puppeteer.browser;
-      const page = await browser.newPage();
-      await page.setViewport({ width: 100, height: 100 });
-
-      for (let i = 1; i <= totalShindans; i++) {
-        const shindan = shindans[i - 1];
-        const row = `
-        <tr>
-          <td>
-            <div class="line1">
-              <div class="id">${shindan.shindanId}</div>
-              <div class="command">${serialNumber++}. ${
-          shindan.shindanCommand
-        }</div>
-            </div>
-            <div class="line2">
-              <div class="title">${shindan.shindanTitle}</div>
-            </div>
-          </td>
-        </tr>
-      `;
-        tableRows.push(row);
-
-        if (i % batchSize === 0 || i === totalShindans) {
-          const html = generateTable(tableRows);
-          await page.setContent(html, { waitUntil: "load" });
-          await page.bringToFront();
-          const imgBuffer = await page.screenshot({
-            fullPage: true,
-            type: imageType,
-          });
-          await sendMessage(
-            session,
-            h.image(imgBuffer, `image/${imageType}`),
-            ``,
-            2,
-            false
-          );
-          tableRows = [];
-        }
-      }
-
-      await page.close();
-    });
-
-  // tj*
-  ctx
-    .command(
-      "shindan.添加 <shindanId:string> <shindanCommand:string> [shindanMode:string]",
-      "添加神断"
-    )
-    .action(
-      async (
-        { session },
-        shindanId,
-        shindanCommand,
-        shindanMode: MakeShindanMode = "image"
-      ) => {
-        let { userId, username } = session;
-        username = await getSessionUserName(session);
-        await updateNameInPlayerRecord(session, userId, username);
-        if (!shindanId || !shindanCommand) {
-          await sendMessage(
-            session,
-            `参数缺失，请提供 shindanId 或 shindanCommand。
-
-指令格式：
-添加神断 [shindanId] [shindanCommand] [shindanMode]
-
-使用示例：
-添加神断 1116736 OC生成器 image
-添加神断 1116736 OC生成器 text`,
-            `改名 添加神断 随机神断`
-          );
-          return;
-        }
-
-        if (!isShindanIdValid(shindanId)) {
-          return await sendMessage(
-            session,
-            `shindanId 格式错误，请输入一个有效的 shindanId。`,
-            `改名 添加神断 随机神断`
-          );
-        }
-
-        if (!isMakeShindanMode(shindanMode)) {
-          return await sendMessage(
-            session,
-            `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
-            `改名 添加神断 随机神断`
-          );
-        }
-
-        const existingShindanCommand = shindans.find(
-          (shindan) => shindan.shindanCommand === shindanCommand
-        );
-
-        if (existingShindanCommand) {
-          return await sendMessage(
-            session,
-            `添加失败：神断指令 '${shindanCommand}' 重复。`,
-            `改名 添加神断 随机神断`
-          );
-        }
-
-        const existingShindan = shindans.find(
-          (shindan) => shindan.shindanId === shindanId
-        );
-
-        if (existingShindan) {
-          const { shindanCommand, shindanTitle, shindanMode } = existingShindan;
-          return await sendMessage(
-            session,
-            `神断 '${shindanId}' 已存在。
-
-神断ID：${shindanId}
-神断标题：${shindanTitle}
-神断指令：${shindanCommand}
-神断模式：${shindanMode}`,
-            `改名 添加神断 随机神断`
-          );
-        } else {
-          let shindanTitle: string;
-          try {
-            shindanTitle = await getShindanTitle(shindanId);
-          } catch (error) {
-            if (error.response && error.response.status === 404) {
-              return await sendMessage(
-                session,
-                `添加失败：该 shindanId 页面 404。`,
-                `改名 添加神断 随机神断`
-              );
-            } else {
-              logger.error("发生错误：", error);
-            }
-          }
-
-          const newShindan: Shindan = {
-            shindanId,
-            shindanCommand,
-            shindanMode,
-            shindanTitle,
-          };
-
-          shindans.push(newShindan);
-
-          fs.writeFileSync(
-            shindansFilePath,
-            JSON.stringify(shindans, null, 2),
-            "utf-8"
-          );
-
-          return await sendMessage(
-            session,
-            `神断 '${shindanCommand}' 添加成功。
-
-神断ID：${shindanId}
-神断标题：${shindanTitle}
-神断指令：${shindanCommand}
-神断模式：${shindanMode}`,
-            `改名 添加神断 随机`
-          );
-        }
-        //
-      }
-    );
-  // sc*
-  ctx
-    .command("shindan.删除 <shindanCommand:string>", "删除神断")
-    .userFields(["id", "name", "permissions"])
-    .action(async function ({ session }, shindanCommand) {
-      let { channelId, userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      if (!shindanCommand) {
-        return await sendMessage(
-          session,
-          `请提供有效的 shindanCommand 参数。
-
-指令格式：
-删除神断 [shindanCommand]
-
-指令示例：
-删除神断 抽老婆`,
-          `改名 删除神断 随机神断`
-        );
-      }
-      const index = shindans.findIndex(
-        (shindan) => shindan.shindanCommand === shindanCommand
-      );
-
-      if (index === -1) {
-        return await sendMessage(
-          session,
-          `神断 '${shindanCommand}' 不存在。`,
-          `改名 删除神断 随机神断`
-        );
-      }
-
-      const shindan = shindans[index];
-      const { shindanId, shindanMode } = shindan;
-
-      shindans.splice(index, 1);
-
-      const updatedContent = JSON.stringify(shindans, null, 2);
-      fs.writeFileSync(shindansFilePath, updatedContent, "utf-8");
-
-      return await sendMessage(
-        session,
-        `神断 '${shindanCommand}' 删除成功。
-
-神断ID：${shindanId}
-神断指令：${shindanCommand}
-神断模式：${shindanMode}`,
-        `改名 删除神断 随机神断`
-      );
-    });
-  // xg*
-  ctx
-    .command(
-      "shindan.修改 <shindanCommand:string> <shindanNewCommand:string> [shindanMode:string]",
-      "修改神断"
-    )
-    .userFields(["id", "name", "permissions"])
-    .action(
-      async (
-        { session },
-        shindanCommand,
-        shindanNewCommand,
-        shindanMode: MakeShindanMode
-      ) => {
-        let { channelId, userId, username } = session;
-        username = await getSessionUserName(session);
-        await updateNameInPlayerRecord(session, userId, username);
-        if (!shindanCommand || !shindanNewCommand) {
-          return await sendMessage(
-            session,
-            `缺少参数，请提供 shindanCommand shindanNewCommand。
-
-指令格式：
-修改神断 [shindanCommand] [shindanNewCommand] [shindanMode]
-
-指令示例：
-修改神断 抽老婆 抽妻子 image
-        `,
-            `改名 修改神断 随机神断`
-          );
-        }
-
-        if (shindanMode && !isMakeShindanMode(shindanMode)) {
-          return await sendMessage(
-            session,
-            `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
-            `改名 修改神断 随机神断`
-          );
-        }
-
-        const shindanIndex = shindans.findIndex(
-          (shindan) => shindan.shindanCommand === shindanCommand
-        );
-
-        if (shindanIndex === -1) {
-          await sendMessage(
-            session,
-            `'${shindanCommand}' 不存在！`,
-            `改名 修改神断 随机神断`
-          );
-          return;
-        }
-
-        const shindan = shindans[shindanIndex];
-        shindan.shindanCommand = shindanNewCommand;
-        if (shindanMode !== undefined) {
-          shindan.shindanMode = shindanMode;
-        }
-        const updatedContent = JSON.stringify(shindans, null, 2);
-        fs.writeFileSync(shindansFilePath, updatedContent, "utf-8");
-
-        await sendMessage(
-          session,
-          `'${shindanCommand}' 已成功修改为 '${shindanNewCommand}'。
-
-神断ID：${shindan.shindanId}
-神断标题：${shindan.shindanTitle}
-神断指令：${shindanNewCommand}
-神断模式：${shindanMode ? shindanMode : shindan.shindanMode}`,
-          `改名 修改神断 随机神断`
-        );
-      }
-    );
-  // sz*
-  ctx
-    .command(
-      "shindan.设置 <shindanCommand:string> <shindanMode:string>",
-      "设置神断"
-    )
-    .userFields(["id", "name", "permissions"])
-    .action(
-      async ({ session }, shindanCommand, shindanMode: MakeShindanMode) => {
-        if (!shindanCommand || !shindanMode) {
-          return await sendMessage(
-            session,
-            `缺少参数，请提供 shindanCommand shindanMode
-
-指令格式：
-设置神断 [shindanCommand] [shindanMode]
-
-指令示例：
-设置神断 卖萌 text`,
-            `改名 设置神断 随机神断`
-          );
-        }
-        if (!isMakeShindanMode(shindanMode)) {
-          return await sendMessage(
-            session,
-            `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
-            `改名 设置神断 随机神断`
-          );
-        }
-        const shindanIndex = shindans.findIndex(
-          (shindan) => shindan.shindanCommand === shindanCommand
-        );
-
-        if (shindanIndex === -1) {
-          await sendMessage(
-            session,
-            `'${shindanCommand}' 不存在！`,
-            `改名 设置神断 随机神断`
-          );
-          return;
-        }
-
-        const shindan = shindans[shindanIndex];
-        shindan.shindanMode = shindanMode;
-        const updatedContent = JSON.stringify(shindans, null, 2);
-        fs.writeFileSync(shindansFilePath, updatedContent, "utf-8");
-        return await sendMessage(
-          session,
-          `设置神断 '${shindanCommand}' 成功。
-
-神断ID：${shindan.shindanId}
-神断标题：${shindan.shindanTitle}
-神断指令：${shindanCommand}
-神断模式：${shindanMode}`,
-          `改名 设置神断 随机神断`
-        );
-        //
-      }
-    );
-  // zdy**
-  ctx.command(
-        "shindan.自定义 <shindanId:string> [shindanName:string] [shindanMode:string]",
-        "自定义神断",
-    )
-        .userFields(["id", "name", "permissions"])
-        .action(async ({ session }, shindanId, shindanName?, shindanMode?) => {
-            let { userId, username } = session;
-            username = await getSessionUserName(session);
-
-            // -----------------------------------------------------
-            // 1. 参数校验 (保持原有逻辑 + 按钮菜单)
-            // -----------------------------------------------------
-            if (!shindanId) {
-                return await sendMessage(
-                    session,
-                    `请提供必要的参数 shindanId。
-
-指令格式：
-神断 [shindanId] [shindanName] [shindanMode]
-
-指令示例：
-神断 1116736 小小学 image`,
-                    `改名 自定义神断 随机神断`,
-                );
-            }
-
-            // 简单校验 ID (假设是纯数字)
-            if (!/^\d+$/.test(shindanId)) {
-                return await sendMessage(
-                    session,
-                    `shindanId 格式错误，请输入一个有效的数字 ID。`,
-                    `改名 自定义神断 随机神断`,
-                );
-            }
-
-            if (!shindanName || shindanName === "nawyjxxjywan") {
-                shindanName = username;
-            }
-            if (!shindanMode) {
-                shindanMode = "image";
-            }
-
-            // 处理 @提及 (保持原有)
-            const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
-            let modifiedShindanName = shindanName;
-            let matches: RegExpExecArray | null;
-
-            while ((matches = userIdRegex.exec(shindanName)) !== null) {
-                const [, , name] = matches;
-                if (name) {
-                    modifiedShindanName = modifiedShindanName.replace(
-                        matches[0],
-                        name,
-                    );
-                }
-            }
-            shindanName = modifiedShindanName;
-
-            if (!['image', 'text'].includes(shindanMode)) {
-                return await sendMessage(
-                    session,
-                    `参数 shindanMode 不是有效的类型，请输入 image 或 text 中的一个。`,
-                    `改名 自定义神断 随机神断`,
-                );
-            }
-
-            // -----------------------------------------------------
-            // 2. 请求 ShindanMaker 页面 (获取 Token)
-            // -----------------------------------------------------
-            // 注意：这里尽量复用你原本的 httpsRequest 逻辑，但为了演示完整性，
-            // 我使用 ctx.http，你需要根据你的项目实际情况决定是否换回 httpsRequest
-
-            const url = `https://${shindanUrl}.com/${shindanId}`;
-
-            const baseHeaders = generateHeaders();
-
-            let getResponse;
-            try {
-                getResponse = await retry(() =>
-                    httpsRequest(url, { headers: baseHeaders }),
-                );
-            } catch (error) {
-                logger?.error(`获取神断页面失败: ${error.message}`);
-                return
-            }
-
-            const cookies = getResponse.headers["set-cookie"] || [];
-
-            const $ = cheerio.load(getResponse.data);
-
-            // 提取 CSRF Token (用于 Header)
-            const cookieString = cookies.map((c) => c.split(";")[0]).join("; ");
-            const xsrfCookie = cookies.find((c) => c.startsWith("XSRF-TOKEN="));
-            let xsrfToken = "";
-            if (xsrfCookie) {
-                const encodedToken = xsrfCookie.split(";")[0].split("=")[1];
-                xsrfToken = decodeURIComponent(encodedToken);
-            }
-
-            // -----------------------------------------------------
-            // 3. 提取表单数据 (Rust 逻辑: extract_form_data)
-            // -----------------------------------------------------
-            const form = $("body"); // 有些页面可能没有 form 标签包裹
-
-            // 基础字段
-            const token = form.find('input[name="_token"]').val() as string || "";
-            const randname = form.find('input[name="randname"]').val() as string || "";
-            const type = form.find('input[name="type"]').val() as string || "";
-
-            // 构建 POST 数据
-            const payloadObject: Record<string, string> = {
-                _token: token,
-                randname: randname,
-                type: type,
-                user_input_value_1: shindanName // 名字
-            };
-
-            // [关键更新] Rust逻辑: 处理 input[name^="parts["]
-            // 新版网站有很多动态输入框，必须把名字填入这些 parts 字段
-            form.find('input[name^="parts["]').each((_, el) => {
-                const inputName = $(el).attr('name');
-                if (inputName) {
-                    payloadObject[inputName] = shindanName;
-                }
-            });
-
-            const payload = new URLSearchParams(payloadObject);
-
-            // -----------------------------------------------------
-            // 4. 提交表单 (POST)
-            // -----------------------------------------------------
-            const postHeaders = {
-                ...baseHeaders,
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Cookie": cookieString,
-                "Referer": url,
-                "X-XSRF-TOKEN": xsrfToken,
-            };
-
-            let postResponse;
-            try {
-                postResponse = await retry(() =>
-                    httpsRequest(
-                        url,
-                        {
-                            method: "POST",
-                            headers: postHeaders,
-                        },
-                        payload.toString(),
-                    ),
-                );
-            } catch (error) {
-                logger?.error(`提交神断表单失败: ${error.message}`);
-                return;
-            }
-
-            const $post = cheerio.load(postResponse.data);
-            const shindanTitle = $post('#shindanTitle').attr('data-shindan_title') ||
-                                 $post("h1#shindanResultAbove a.text-decoration-none").text() || "诊断结果";
-
-            // -----------------------------------------------------
-            // 5. 处理结果 - 纯文本模式 (Rust 逻辑: parse_segments)
-            // -----------------------------------------------------
-            if (shindanMode === "text") {
-                let resultText = "";
-                const imageUrls: string[] = [];
-                const resultContainer = $post("#shindanResult");
-
-                // [关键更新] 优先尝试解析 data-blocks JSON (新版逻辑)
-                const dataBlocks = resultContainer.attr('data-blocks');
-                let parsedFromJson = false;
-
-                if (dataBlocks) {
-                    try {
-                        const blocks = JSON.parse(dataBlocks);
-                        parsedFromJson = true;
-                        for (const block of blocks) {
-                            if (block.type === 'text' && block.content) {
-                                resultText += block.content;
-                            } else if (block.type === 'user_input' && block.value) {
-                                resultText += block.value;
-                            } else if (block.type === 'image') {
-                                const src = block.source || block.src || block.url || block.file;
-                                if (src) imageUrls.push(src);
-                            }
-                        }
-                    } catch (e) {
-                        // JSON 解析失败，回退
-                    }
-                }
-
-                // 如果 JSON 解析失败，回退到旧的 DOM 遍历逻辑
-                if (!parsedFromJson) {
-                    // 递归提取文本
-                    const extractNodes = (node: any) => {
-                        $(node).contents().each((_, child: any) => {
-                            if (child.type === 'text') {
-                                resultText += $(child).text().replace(/&nbsp;/g, " ").replace(/\u00a0/g, " ");
-                            } else if (child.type === 'tag') {
-                                if (child.name === 'br') resultText += "\n";
-                                else if (child.name === 'img') {
-                                    const src = $(child).attr('data-src') || $(child).attr('src');
-                                    if (src) imageUrls.push(src);
-                                } else {
-                                    extractNodes(child);
-                                }
-                            }
-                        });
-                    };
-                    extractNodes(resultContainer);
-                }
-
-                return await sendMessage(
-                    session,
-                    `${shindanTitle}\n\n${resultText}\n${imageUrls.length > 0 ? h.image(imageUrls[0]) : ""}`,
-                    `改名 自定义神断 随机神断`
-                );
-            }
-
-            // -----------------------------------------------------
-            // 6. 处理结果 - 图片模式 (Rust 逻辑: construct_html_result)
-            // -----------------------------------------------------
-            else {
-                const titleAndResult = $post("#title_and_result");
-
-                if (!titleAndResult.length) {
-                    logger?.error("无法在页面上找到 'title_and_result' 元素。可能是神断失败。");
-                    return await sendMessage(
-                        session,
-                        "神断失败，无法生成图片。",
-                        "随机神断",
-                    );
-                }
-
-                // [关键更新] 清除特效 (Typing / Shuffle)
-                // Rust: replaces effect span with next sibling noscript content
-                const cleanEffects = (mode: string) => {
-                    titleAndResult.find(`span.shindanEffects[data-mode="${mode}"]`).each((i, el) => {
-                        const $el = $(el);
-                        const $noscript = $el.next('noscript');
-                        if ($noscript.length) {
-                            // 用 noscript 里的纯文本替换掉特效标签
-                            $el.replaceWith($noscript.html() || $noscript.text());
-                            $noscript.remove();
-                        }
-                    });
-                };
-                cleanEffects('ef_typing');
-                cleanEffects('ef_shuffle');
-
-                const titleAndResultString = $.html(titleAndResult);
-
-                // [关键更新] 提取包含当前 ID 的特定脚本
-                // 如果不提取这个，Chart.js 图表就没有数据
-                let specificScript = "";
-                $post("script").each((i, el) => {
-                    const content = $(el).html();
-                    if (content && content.includes(shindanId)) {
-                        specificScript = $.html(el); // 包含 <script> 标签本身
-                        return false; // break
-                    }
-                });
-
-                const hasChart = postResponse.data.includes("chart.js") || postResponse.data.includes("chartType");
-
-                // 资源路径处理
-                // 使用绝对路径以确保 puppeteer 能加载本地文件
-                // const assetsDir = path.resolve(__dirname, "assets").replace(/\\/g, "/");
-                // const assetUrl = `file://${assetsDir}`;
-
-                // [关键更新] 构建 HTML 结构
-                // 必须包含 shindan.js (基础定义)。如果有图表，还需要 app.js 和 chart.js
-                let scriptsHtml = `<script src="./assets/shindan.js"></script>`;
-
-                if (hasChart) {
-                    scriptsHtml += `
-                    <script src="./assets/app.js"></script>
-                    <script src="./assets/chart.js"></script>
-                    ${specificScript}
-                    `;
-                }
-
-                    // <base href="https://${shindanUrl}.com/">
-                const html = `
-<!DOCTYPE html>
-<html lang="zh" style="height:100%">
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" href="./assets/app.css">
-    <title>ShindanMaker Result</title>
-    <style>
-        body { background-color: white; }
-        /* 避免截图时背景透明 */
-    </style>
-</head>
-<body class="" style="position:relative;min-height:100%;top:0">
-    <div id="main-container">
-        <div id="main">
-            ${titleAndResultString}
-        </div>
-    </div>
-    ${scriptsHtml}
-</body>
-</html>`;
-
-                // -----------------------------------------------------
-                // 7. Puppeteer 截图
-                // -----------------------------------------------------
-                const browser = ctx.puppeteer.browser;
-                const page = await browser.newPage();
-
-                try {
-                  const filePath = path
-                      .join(__dirname, "emptyHtml.html")
-                      .replace(/\\/g, "/");
-                  await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36');
-                  await page.goto("file://" + filePath);
-                    // 设置视口
-                    await page.setViewport({
-                        width: 800,
-                        height: 1000,
-                        deviceScaleFactor: 1, // 提高清晰度
-                    });
-
-                    // 加载 HTML
-                    // 如果有图表，使用 networkidle0 等待资源加载和 JS 执行
-                    await page.setContent(html, {
-                        waitUntil: "load"
-                    });
-
-                    if (hasChart) {
-                        // Chart.js 可能有动画，额外等待一下
-                        await sleep(2000);
-                    }
-
-                    // 找到结果元素并截图
-                    const resultElement = await page.$("#title_and_result");
-                    if (!resultElement) throw new Error("Element #title_and_result not found");
-
-                    await page.bringToFront();
-                    const imgBuffer = await resultElement.screenshot({
-                      type: imageType,
-                    });
-
-                    await page.close();
-
-                    // -----------------------------------------------------
-                    // 8. 发送最终结果
-                    // -----------------------------------------------------
-                    await updateShindanRank(userId, username); // 保持你的统计逻辑
-
-                    await sendMessage(
-                        session,
-                        h.image(imgBuffer, `image/jpeg`),
-                        ``, // 这里可能不需要按钮，或者是你想留空
-                        2,
-                        false,
-                    );
-
-                    if (
-                        isQQOfficialRobotMarkdownTemplateEnabled &&
-                        session.platform === "qq"
-                    ) {
-                        await sendMessage(
-                            session,
-                            `🎉 占卜完成！`,
-                            `神断列表 神断次数排行榜 改名 神断统计 随机神断`,
-                        );
-                    }
-
-                } catch (err) {
-                    logger?.error(err);
-                    await page.close();
-                    return await sendMessage(session, "生成图片出错，请重试。", "随机神断");
-                }
-            }
-        });
-
-  // gm*
-  ctx
-    .command("shindan.改名 [newPlayerName:text]", "更改名字")
-    .userFields(["id", "name", "permissions"])
-    .action(async ({ session }, newPlayerName) => {
-      let { userId, username } = session;
-      username = await getSessionUserName(session);
-      await updateNameInPlayerRecord(session, userId, username);
-      newPlayerName = newPlayerName?.trim();
-      if (!newPlayerName) {
-        return await sendMessage(session, `请输入新的名字。`, `改名 随机神断`);
-      }
-      if (
-        !(
-          config.isEnableQQOfficialRobotMarkdownTemplate &&
-          session.platform === "qq" &&
-          config.key !== "" &&
-          config.customTemplateId !== ""
-        )
-      ) {
-        return await sendMessage(
-          session,
-          `不是 QQ 官方机器人的话，不用改名哦~`,
-          `改名 随机神断`
-        );
-      }
-      if (newPlayerName.length > 20) {
-        return await sendMessage(
-          session,
-          `新的名字过长，请重新输入。`,
-          `改名 随机神断`
-        );
-      }
-      const players = await ctx.database.get("shindan_rank", {});
-      for (const player of players) {
-        if (player.username === newPlayerName) {
-          return await sendMessage(
-            session,
-            `新的名字已经存在，请重新输入。`,
-            `改名 随机神断`
-          );
-        }
-      }
-      if (newPlayerName.includes("@everyone")) {
-        return await sendMessage(
-          session,
-          `【@${username}】\n新的玩家名字不合法，请重新输入。`,
-          `改名 随机神断`
-        );
-      }
-      const userRecord = await ctx.database.get("shindan_rank", { userId });
-      if (userRecord.length === 0) {
-        await ctx.database.create("shindan_rank", {
-          userId,
-          username: newPlayerName,
-        });
-      } else {
-        await ctx.database.set(
-          "shindan_rank",
-          { userId },
-          { username: newPlayerName }
-        );
-      }
-      return await sendMessage(
-        session,
-        `名字已更改为：【${newPlayerName}】`,
-        `改名 随机神断`,
-        2
-      );
-    });
-
-  // hs*
-  /**
-   * @description
-   * 配置 TLS 连接选项（如密码套件）来更好地模拟真实浏览器，这有助于通过 Cloudflare 的验证。
-   * Node.js 的 https 模块会自动使用其内置的受信任根证书颁发机构(CA)存储来验证服务器证书，确保连接安全。
-   * @param urlString 请求的完整 URL
-   * @param options https.request 的选项，如 headers
-   * @param postData POST 请求的数据体
-   * @returns Promise，解析为 { data: 响应体字符串, headers: 响应头对象 }
-   */
-  async function httpsRequest(
-    urlString: string,
+    throw lastError!;
+  },
+
+  isNumeric(str: string): boolean {
+    return !isNaN(Number(str));
+  },
+};
+
+// ========================================================================
+// [Service] Network Layer
+// ========================================================================
+class NetworkService {
+  static async request(
+    urlStr: string,
     options: https.RequestOptions = {},
     postData?: string
   ): Promise<{ data: string; headers: any }> {
-    const url = new URL(urlString);
-
+    const url = new URL(urlStr);
     const requestOptions: https.RequestOptions = {
       hostname: url.hostname,
       port: url.port || 443,
       path: url.pathname + url.search,
       method: postData ? "POST" : "GET",
       headers: options.headers || {},
-      // 自定义 TLS 选项以提高兼容性
-      ciphers: BROWSER_CIPHERS,
+      ciphers: Utils.BROWSER_CIPHERS,
       ...options,
     };
 
@@ -1474,551 +143,578 @@ export async function apply(ctx: Context, config: Config) {
       const req = https.request(requestOptions, (res) => {
         let body = "";
         res.setEncoding("utf8");
-        res.on("data", (chunk) => {
-          body += chunk;
-        });
+        res.on("data", (chunk) => (body += chunk));
         res.on("end", () => {
-          // 模拟 axios 的行为，在请求失败时抛出带有 response 属性的错误
-          if (res.statusCode >= 200 && res.statusCode < 400) {
+          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 400) {
             resolve({ data: body, headers: res.headers });
           } else {
-            const error = new Error(
-              `Request Failed. Status Code: ${res.statusCode}`
-            );
-            (error as any).response = {
-              status: res.statusCode,
-              headers: res.headers,
-              data: body,
-            };
-            reject(error);
+            reject(new Error(`Request failed with status code: ${res.statusCode}`));
           }
         });
       });
-
-      req.on("error", (e) => {
-        logger.error(`HTTPS request error for ${urlString}:`, e);
-        reject(e);
-      });
-
-      if (postData) {
-        req.write(postData);
-      }
-
+      req.on("error", (e) => reject(e));
+      if (postData) req.write(postData);
       req.end();
     });
   }
 
-  async function updateShindanRank(userId: string, username: string) {
-    const shindanUser = await ctx.database.get("shindan_rank", { userId });
-    if (shindanUser.length === 0) {
-      await ctx.database.create("shindan_rank", {
-        userId,
-        username,
-        shindanCount: 1,
-      });
-    } else {
-      // 存在就 + 1
-      await ctx.database.set(
-        "shindan_rank",
-        { userId },
-        {
-          username,
-          shindanCount: shindanUser[0].shindanCount + 1,
-        }
-      );
+  static async getShindanTitle(prefix: string, id: string): Promise<string> {
+    const url = `https://${prefix}.com/${id}`;
+    const { data } = await Utils.retry(() => this.request(url, { headers: Utils.generateHeaders() }), 3);
+    const $ = cheerio.load(data);
+    const title = $("#shindanTitle").attr("data-shindan_title") || $(".shindanTitleLink").text();
+    if (!title) throw new Error("Shindan title element not found");
+    return title;
+  }
+}
+
+// ========================================================================
+// [Service] Data Repository
+// ========================================================================
+class ShindanRepository {
+  public shindans: ShindanDefinition[] = [];
+  private readonly shindansFilePath: string;
+  private readonly assetPath: string;
+
+  constructor(private ctx: Context, private config: Config) {
+    this.assetPath = path.join(__dirname, "assets", "shindans.json");
+    const dataDir = path.join(ctx.baseDir, "data", "shindanMaker");
+    this.shindansFilePath = path.join(dataDir, "shindans.json");
+
+    if (!existsSync(dataDir)) mkdirSync(dataDir, { recursive: true });
+    if (!existsSync(this.shindansFilePath)) writeFileSync(this.shindansFilePath, "[]", "utf-8");
+  }
+
+  async init() {
+    if (this.config.isOfficialShindanSyncEnabled) {
+      await this.syncOfficialShindans();
     }
+    this.shindans = await this.readJSONFile(this.shindansFilePath);
+    this.sort();
   }
 
-  function parseMarkdownCommands(markdownCommands: string): string[] {
-    return markdownCommands
-      .split(" ")
-      .filter((command) => command.trim() !== "");
-  }
-
-  async function createButtons(session: any, markdownCommands: string) {
-    const commands = parseMarkdownCommands(markdownCommands);
-
-    const mapCommandToDataValue = (command: string) => {
-      const commandMappings: Record<string, string> = {
-        查看神断: "shindan.查看",
-        神断列表: "shindan.列表",
-        改名: "shindan.改名",
-        神断次数排行榜: "shindan.排行榜",
-        删除神断: "shindan.删除",
-        设置神断: "shindan.设置",
-        随机神断: "shindan.随机",
-        添加神断: "shindan.添加",
-        神断统计: "shindan.统计",
-        修改神断: "shindan.修改",
-        自定义神断: "shindan.自定义",
-      };
-
-      return commandMappings[command];
-    };
-
-    const createButton = async (command: string) => {
-      let dataValue = mapCommandToDataValue(command);
-      if (dataValue === undefined) {
-        dataValue = command;
-      }
-
-      return {
-        render_data: {
-          label: command,
-          visited_label: command,
-          style: 1,
-        },
-        action: {
-          type: 2,
-          permission: { type: 2 },
-          data: `${dataValue}`,
-          enter: ![
-            "改名",
-            "查看神断",
-            "删除神断",
-            "设置神断",
-            "添加神断",
-            "自定义神断",
-          ].includes(command),
-        },
-      };
-    };
-
-    const buttonPromises = commands.map(createButton);
-    return Promise.all(buttonPromises);
-  }
-
-  let sentMessages = [];
-  const msgSeqMap: { [msgId: string]: number } = {};
-
-  async function sendMessage(
-    session: any,
-    message: any,
-    markdownCommands: string,
-    numberOfMessageButtonsPerRow?: number,
-    isAt: boolean = true,
-    isButton: boolean = false
-  ): Promise<void> {
-    numberOfMessageButtonsPerRow =
-      numberOfMessageButtonsPerRow || config.numberOfMessageButtonsPerRow;
-    const { bot, channelId, userId } = session;
-    const username = await getSessionUserName(session);
-
-    let messageId;
-    let isPushMessageId = false;
-    if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq") {
-      const msgSeq = msgSeqMap[session.messageId] || 10;
-      msgSeqMap[session.messageId] = msgSeq + 100;
-      const buttons = await createButtons(session, markdownCommands);
-
-      const rows = [];
-      let row = { buttons: [] };
-      buttons.forEach((button, index) => {
-        row.buttons.push(button);
-        if (
-          row.buttons.length === 5 ||
-          index === buttons.length - 1 ||
-          row.buttons.length === numberOfMessageButtonsPerRow
-        ) {
-          rows.push(row);
-          row = { buttons: [] };
-        }
-      });
-
-      if (!isButton && config.isTextToImageConversionEnabled) {
-        let lines = message.toString().split("\n");
-        const isOnlyImgTag =
-          lines.length === 1 && lines[0].trim().startsWith("<img");
-        if (isOnlyImgTag) {
-          [messageId] = await session.send(message);
-        } else {
-          if (config.shouldPrefixUsernameInMessageSending && isAt) {
-            lines = [`@${username}`, ...lines];
-          }
-          const modifiedMessage = lines
-            .map((line) => {
-              if (line.trim() !== "" && !line.includes("<img")) {
-                return `# ${line}`;
-              } else {
-                return line + "\n";
-              }
-            })
-            .join("\n");
-          const imageBuffer = await ctx.markdownToImage.convertToImage(
-            modifiedMessage
-          );
-          [messageId] = await session.send(
-            h.image(imageBuffer, `image/${config.imageType}`)
-          );
-        }
-        if (config.retractDelay !== 0) {
-          isPushMessageId = true;
-          sentMessages.push(messageId);
-        }
-
-        if (config.isTextToImageConversionEnabled && markdownCommands !== "") {
-          await sendMessage(
-            session,
-            "",
-            markdownCommands,
-            numberOfMessageButtonsPerRow,
-            false,
-            true
-          );
-        }
-      } else if (isButton && config.isTextToImageConversionEnabled) {
-        const result = await session.qq.sendMessage(session.channelId, {
-          msg_type: 2,
-          msg_id: session.messageId,
-          msg_seq: msgSeq,
-          content: "",
-          markdown: {
-            custom_template_id: config.customTemplateId,
-            params: [
-              {
-                key: config.key,
-                values: [`<@${userId}>`],
-              },
-            ],
-          },
-          keyboard: {
-            content: {
-              rows: rows.slice(0, 5),
-            },
-          },
-        });
-        messageId = result.id;
-      } else {
-        if (message.attrs?.src || message.includes("<img")) {
-          [messageId] = await session.send(message);
-        } else {
-          message = message.replace(/\n/g, "\r");
-          if (config.shouldPrefixUsernameInMessageSending && isAt) {
-            message = `<@${userId}>\r${message}`;
-          }
-          const result = await session.qq.sendMessage(session.channelId, {
-            msg_type: 2,
-            msg_id: session.messageId,
-            msg_seq: msgSeq,
-            content: "111",
-            markdown: {
-              custom_template_id: config.customTemplateId,
-              params: [
-                {
-                  key: config.key,
-                  values: [`${message}`],
-                },
-              ],
-            },
-            keyboard: {
-              content: {
-                rows: rows.slice(0, 5),
-              },
-            },
-          });
-
-          messageId = result.id;
-        }
-      }
-    } else {
-      if (config.isTextToImageConversionEnabled) {
-        let lines = message.toString().split("\n");
-        const isOnlyImgTag =
-          lines.length === 1 && lines[0].trim().startsWith("<img");
-        if (isOnlyImgTag) {
-          [messageId] = await session.send(message);
-        } else {
-          if (config.shouldPrefixUsernameInMessageSending && isAt) {
-            lines = [`@${username}`, ...lines];
-          }
-          const modifiedMessage = lines
-            .map((line) => {
-              if (line.trim() !== "" && !line.includes("<img")) {
-                return `# ${line}`;
-              } else {
-                return line + "\n";
-              }
-            })
-            .join("\n");
-          const imageBuffer = await ctx.markdownToImage.convertToImage(
-            modifiedMessage
-          );
-          [messageId] = await session.send(
-            h.image(imageBuffer, `image/${config.imageType}`)
-          );
-        }
-      } else {
-        if (config.shouldPrefixUsernameInMessageSending && isAt) {
-          message = `@${username}\n${message}`;
-        }
-        [messageId] = await session.send(message);
-      }
-    }
-
-    if (config.retractDelay === 0) return;
-    if (!isPushMessageId) {
-      sentMessages.push(messageId);
-    }
-
-    if (sentMessages.length > 1) {
-      const oldestMessageId = sentMessages.shift();
-      setTimeout(async () => {
-        await bot.deleteMessage(channelId, oldestMessageId);
-      }, config.retractDelay * 1000);
-    }
-  }
-
-  async function updateNameInPlayerRecord(
-    session: any,
-    userId: string,
-    username: string
-  ): Promise<void> {
-    const userRecord = await ctx.database.get("shindan_rank", { userId });
-
-    if (userRecord.length === 0) {
-      await ctx.database.create("shindan_rank", {
-        userId,
-        username,
-      });
-      return;
-    }
-
-    const existingRecord = userRecord[0];
-    let isChange = false;
-
-    if (
-      username !== existingRecord.username &&
-      !(isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq")
-    ) {
-      existingRecord.username = username;
-      isChange = true;
-    }
-
-    if (isChange) {
-      await ctx.database.set(
-        "shindan_rank",
-        { userId },
-        {
-          username: existingRecord.username,
-        }
-      );
-    }
-  }
-
-  async function getSessionUserName(session: any): Promise<string> {
-    let sessionUserName = session.user.name || session.username;
-
-    if (isQQOfficialRobotMarkdownTemplateEnabled && session.platform === "qq") {
-      let userRecord = await ctx.database.get("shindan_rank", {
-        userId: session.userId,
-      });
-
-      if (userRecord.length === 0) {
-        await ctx.database.create("shindan_rank", {
-          userId: session.userId,
-          username: sessionUserName,
-        });
-
-        userRecord = await ctx.database.get("shindan_rank", {
-          userId: session.userId,
-        });
-      }
-
-      sessionUserName = session.user.name || userRecord[0].username;
-    }
-
-    return sessionUserName;
-  }
-
-  async function processTargetUser(
-    session: any,
-    userId: string,
-    username: string,
-    targetUser: string
-  ): Promise<{
-    targetUserRecord: ShindanRank[];
-    targetUserId: string;
-  }> {
-    let targetUserRecord = [];
-    let targetUserId: string = userId;
-    let targetUsername = username;
-
-    if (!targetUser) {
-      targetUserRecord = await ctx.database.get("shindan_rank", { userId });
-    } else {
-      targetUser = await replaceAtTags(session, targetUser);
-
-      if (
-        isQQOfficialRobotMarkdownTemplateEnabled &&
-        session.platform === "qq"
-      ) {
-        targetUserRecord = await ctx.database.get("shindan_rank", {
-          username: targetUser,
-        });
-
-        if (targetUserRecord.length === 0) {
-          targetUserRecord = await ctx.database.get("shindan_rank", {
-            userId: targetUser,
-          });
-
-          if (targetUserRecord.length !== 0) {
-            targetUserId = targetUser;
-          }
-        } else {
-          targetUserId = targetUserRecord[0].userId;
-        }
-      } else {
-        const userIdRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/;
-        const match = targetUser.match(userIdRegex);
-        targetUserId = match?.[1] ?? userId;
-        targetUsername = match?.[2] ?? username;
-
-        if (targetUserId === userId) {
-          targetUserRecord = await ctx.database.get("shindan_rank", {
-            userId: targetUser,
-          });
-
-          if (targetUserRecord.length !== 0) {
-            targetUserId = targetUser;
-          }
-        } else {
-          targetUserRecord = await ctx.database.get("shindan_rank", {
-            userId: targetUserId,
-          });
-        }
-      }
-    }
-
-    return { targetUserRecord, targetUserId };
-  }
-
-  async function replaceAtTags(session, content: string): Promise<string> {
-    const atRegex = /<at id="(\d+)"(?: name="([^"]*)")?\/>/g;
-
-    let match;
-    while ((match = atRegex.exec(content)) !== null) {
-      const userId = match[1];
-      const name = match[2];
-
-      if (!name) {
-        if (
-          isQQOfficialRobotMarkdownTemplateEnabled &&
-          session.platform === "qq"
-        ) {
-          const newAtTag = `<at id="${userId}" name="请在神断指令后面加上你的名字吧~ 例如：我爱你 小小神尊"/>`;
-          content = content.replace(match[0], newAtTag);
-        } else {
-          let guildMember;
-          try {
-            guildMember = await session.bot.getGuildMember(
-              session.guildId,
-              userId
-            );
-          } catch (error) {
-            guildMember = {
-              user: {
-                name: "未知用户",
-              },
-            };
-          }
-
-          const newAtTag = `<at id="${userId}" name="${guildMember.user.name}"/>`;
-          content = content.replace(match[0], newAtTag);
-        }
-      }
-    }
-
-    return content;
-  }
-
-  function isShindanIdValid(shindanId: string): boolean {
-    return !isNaN(Number(shindanId));
-  }
-
-  function isMakeShindanMode(
-    shindanMode: unknown
-  ): shindanMode is MakeShindanMode {
-    return shindanMode === "image" || shindanMode === "text";
-  }
-
-  function randomBrowserVersion(): string {
-    const buffer = crypto.randomBytes(2);
-
-    const number = buffer.readUInt16BE();
-
-    const major = number >> 8;
-    const minor = number & 0xff;
-
-    return `${major}.${minor}.0.0`;
-  }
-
-  function randomUserAgent(): string {
-    const base =
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)";
-
-    const chrome = `Chrome/${randomBrowserVersion()}`;
-
-    const edge = `Edg/${randomBrowserVersion()}`;
-
-    return `${base} ${chrome} Safari/537.36 ${edge}`;
-  }
-
-  function generateHeaders() {
-    const userAgent = randomUserAgent();
-
-    return {
-      "User-Agent": userAgent,
-    };
-  }
-
-  async function getShindanTitle(shindanId: string): Promise<string> {
-    const url = `https://${shindanUrl}.com/${shindanId}`;
-    const headers = generateHeaders();
-
-    let getResponse;
+  private async readJSONFile(filePath: string): Promise<ShindanDefinition[]> {
     try {
-        getResponse = await retry(() =>
-            httpsRequest(url, { headers: headers }),
-        );
-    } catch (error) {
-        logger.error(`获取神断标题失败: ${error.message}`);
-        return
-
-    }
-
-    const $ = cheerio.load(getResponse.data);
-
-    const shindanTitleElement = $("#shindanTitle");
-
-    if (shindanTitleElement.length) {
-      const title = shindanTitleElement.attr("data-shindan_title");
-      if (title) {
-        return title;
-      }
-      const titleLink = shindanTitleElement.find("a.shindanTitleLink");
-      if (titleLink.length) {
-        return titleLink.text() || "";
-      }
-      return shindanTitleElement.text() || "";
-    } else {
-      throw new Error("无法找到 shindanTitle。");
+      const data = await fs.readFile(filePath, "utf-8");
+      return JSON.parse(data);
+    } catch {
+      return [];
     }
   }
 
-  async function retry<T>(
-    func: () => Promise<T>,
-    retries = maxRetryCount,
-    delay = 500
-  ): Promise<T> {
-    let lastError: Error;
-    for (let i = 0; i < retries; i++) {
+  private async syncOfficialShindans() {
+    const builtIn = await this.readJSONFile(this.assetPath);
+    const current = await this.readJSONFile(this.shindansFilePath);
+
+    const newItems = builtIn.filter(b => !current.some(c => c.shindanId === b.shindanId));
+    if (newItems.length > 0) {
+      const merged = [...current, ...newItems];
+      await this.save(merged);
+      logger.info(`Synced ${newItems.length} new shindan definitions.`);
+    }
+  }
+
+  private sort() {
+    this.shindans.sort((a, b) => a.shindanCommand.localeCompare(b.shindanCommand));
+  }
+
+  async save(data: ShindanDefinition[] = this.shindans) {
+    await fs.writeFile(this.shindansFilePath, JSON.stringify(data, null, 2), "utf-8");
+    this.shindans = data;
+  }
+
+  find(command: string) {
+    return this.shindans.find(s => s.shindanCommand === command);
+  }
+
+  add(item: ShindanDefinition) {
+    this.shindans.push(item);
+    this.sort();
+    return this.save();
+  }
+
+  remove(command: string) {
+    const index = this.shindans.findIndex(s => s.shindanCommand === command);
+    if (index === -1) return false;
+    this.shindans.splice(index, 1);
+    this.save();
+    return true;
+  }
+
+  // New Method: Update output mode
+  updateMode(command: string, mode: MakeShindanMode) {
+    const item = this.find(command);
+    if (!item) return false;
+    item.shindanMode = mode;
+    this.save();
+    return true;
+  }
+
+  // New Method: Rename command
+  updateCommandName(oldCommand: string, newCommand: string) {
+    const item = this.find(oldCommand);
+    if (!item) return { success: false, error: "指令不存在" };
+
+    const exists = this.find(newCommand);
+    if (exists) return { success: false, error: "目标指令名已被占用" };
+
+    item.shindanCommand = newCommand;
+    this.sort();
+    this.save();
+    return { success: true };
+  }
+}
+
+// ========================================================================
+// [Service] User & Rank Logic
+// ========================================================================
+class UserService {
+  constructor(private ctx: Context) {}
+
+  async ensureUser(userId: string, username: string) {
+    const exists = await this.ctx.database.get("shindan_rank", { userId });
+    if (exists.length === 0) {
+      await this.ctx.database.create("shindan_rank", { userId, username, shindanCount: 0 });
+    }
+    return exists[0];
+  }
+
+  async incrementCount(userId: string, username: string) {
+    const user = await this.ensureUser(userId, username);
+    await this.ctx.database.set(
+      "shindan_rank",
+      { userId },
+      { shindanCount: (user?.shindanCount || 0) + 1, username }
+    );
+  }
+
+  async updateName(userId: string, newName: string) {
+    await this.ensureUser(userId, newName);
+    await this.ctx.database.set("shindan_rank", { userId }, { username: newName });
+  }
+
+  async getEffectiveName(session: Session, config: Config): Promise<string> {
+    const observedUser = await session.observeUser(["name"]) as { name?: string };
+    return session.author.nick || session.username || observedUser.name || session.userId;
+  }
+
+  async getLeaderboard(limit: number): Promise<ShindanRank[]> {
+    return this.ctx.database.select('shindan_rank')
+      .orderBy('shindanCount', 'desc')
+      .limit(limit)
+      .execute();
+  }
+}
+
+// ========================================================================
+// [Service] Core Business Logic
+// ========================================================================
+class ShindanCore {
+  constructor(
+    private ctx: Context,
+    private config: Config,
+    private userService: UserService,
+    private msgHelper: MessageHelper
+  ) {}
+
+  async execute(session: Session, shindanId: string, name: string, mode: MakeShindanMode) {
+    const { shindanUrl, maxRetryCount } = this.config;
+    const targetUrl = `https://${shindanUrl}.com/${shindanId}`;
+    const headers = Utils.generateHeaders();
+
+    try {
+      const { data: pageData, headers: resHeaders } = await Utils.retry(
+        () => NetworkService.request(targetUrl, { headers }), maxRetryCount
+      );
+
+      const $ = cheerio.load(pageData);
+      const cookies = resHeaders["set-cookie"] || [];
+      const cookieStr = cookies.map((c: string) => c.split(";")[0]).join("; ");
+      const xsrfToken = decodeURIComponent(
+        cookies.find((c: string) => c.startsWith("XSRF-TOKEN="))?.split(";")[0].split("=")[1] || ""
+      );
+
+      const token = $('input[name="_token"]').val() as string;
+      const randname = $('input[name="randname"]').val() as string;
+      const type = $('input[name="type"]').val() as string;
+
+      if (!token) throw new Error("CSRF Token Not Found");
+
+      const params = new URLSearchParams();
+      params.append("_token", token);
+      params.append("randname", randname);
+      params.append("type", type);
+      params.append("user_input_value_1", name);
+      $('input[name^="parts["]').each((_, el) => {
+        const key = $(el).attr("name");
+        if (key) params.append(key, name);
+      });
+
+      const { data: resultData } = await Utils.retry(
+        () => NetworkService.request(targetUrl, {
+          method: "POST",
+          headers: {
+            ...headers,
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": cookieStr,
+            "Referer": targetUrl,
+            "X-XSRF-TOKEN": xsrfToken,
+          }
+        }, params.toString()), maxRetryCount
+      );
+
+      if (mode === "text") {
+        await this.processTextResult(session, resultData);
+      } else {
+        await this.processImageResult(session, resultData, shindanId);
+      }
+
+    } catch (err) {
+      logger.error(err);
+      await this.msgHelper.send(session, "执行失败：无法连接到神断服务或解析错误。");
+    }
+  }
+
+  // Render List as Image (for non-OneBot platforms)
+  async renderList(session: Session, allShindans: ShindanDefinition[], page: number) {
+    if (allShindans.length === 0) {
+        return session.send("列表为空。");
+    }
+
+    const pageSize = this.config.itemsPerPage;
+    const totalPages = Math.ceil(allShindans.length / pageSize);
+    const currentPage = Math.max(1, Math.min(page, totalPages));
+    const startIdx = (currentPage - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageItems = allShindans.slice(startIdx, endIdx);
+
+    const css = `
+      body { font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; padding: 20px; margin: 0; }
+      .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; max-width: 1200px; margin: 0 auto; }
+      .header { text-align: center; margin-bottom: 24px; color: #1f2937; }
+      .page-info { font-size: 1.2rem; font-weight: bold; color: #4b5563; }
+      .card { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; flex-direction: column; border-left: 4px solid #3b82f6; }
+      .card.mode-text { border-left-color: #10b981; }
+      .cmd { font-size: 1.2rem; font-weight: 700; color: #111827; margin-bottom: 4px; }
+      .title { font-size: 0.95rem; color: #4b5563; flex-grow: 1; margin-bottom: 8px; line-height: 1.4; }
+      .footer { font-size: 0.8rem; color: #9ca3af; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f3f4f6; }
+      .tag { padding: 2px 6px; border-radius: 4px; background: #e5e7eb; color: #374151; font-weight: 600; font-size: 0.75rem; }
+    `;
+
+    const itemsHtml = pageItems.map(s => `
+      <div class="card mode-${s.shindanMode}">
+        <div class="cmd">${s.shindanCommand}</div>
+        <div class="title">${s.shindanTitle || 'No Title'}</div>
+        <div class="footer">
+          <span class="id">ID: ${s.shindanId}</span>
+          <span class="tag">${s.shindanMode === 'image' ? 'IMG' : 'TXT'}</span>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body>
+        <div class="header"><h1>ShindanMaker Directory</h1><div class="page-info">Page ${currentPage} / ${totalPages}</div></div>
+        <div class="container">${itemsHtml}</div>
+      </body></html>`;
+
+    const pageInst = await this.ctx.puppeteer.page();
+    try {
+      await pageInst.setViewport({ width: 1200, height: 800, deviceScaleFactor: 1.5 });
+      await pageInst.setContent(html, { waitUntil: 'networkidle0' });
+      const body = await pageInst.$('body');
+      const buffer = await body?.screenshot({ type: this.config.imageType});
+
+      if (buffer) {
+        await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
+        if (currentPage < totalPages) {
+           await session.send(`提示: 使用 "shindan.列表 ${currentPage + 1}" 查看下一页`);
+        }
+      } else {
+        await session.send("渲染失败。");
+      }
+    } catch (e) {
+      logger.error("Failed to render list: ", e);
+      await session.send("渲染列表时发生错误。");
+    } finally {
+      await pageInst.close();
+    }
+  }
+
+  private async processTextResult(session: Session, html: string) {
+    const $res = cheerio.load(html);
+    const blockData = $res("#shindanResult").attr("data-blocks");
+    let text = "";
+    let imgUrl = "";
+
+    if (blockData) {
       try {
-        return await func();
-      } catch (error) {
-        lastError = error;
-        await new Promise((resolve) => setTimeout(resolve, delay * 2 ** i));
+        const blocks = JSON.parse(blockData);
+        blocks.forEach((b: any) => {
+          if (b.type === "text") text += b.content;
+          if (b.type === "user_input") text += b.value;
+          if (b.type === "image") imgUrl = b.source || b.src || b.url;
+        });
+      } catch (e) {
+        logger.warn(`Failed to parse block data: ${e}`);
       }
     }
-    throw lastError;
+
+    if (!text) {
+      $res("#shindanResult").find("br").replaceWith("\n");
+      text = $res("#shindanResult").text().trim();
+      imgUrl = $res("#shindanResult img").attr("src") || "";
+    }
+
+    const title = $res("#shindanTitle").attr("data-shindan_title") || "Result";
+    const output = `${title}\n\n${text}${imgUrl ? `\n${h.image(imgUrl)}` : ""}`;
+
+    await this.recordUsage(session);
+    await this.msgHelper.send(session, output);
   }
+
+  private async processImageResult(session: Session, html: string, shindanId: string) {
+    const $ = cheerio.load(html);
+    const titleAndResult = $("#title_and_result");
+    if (!titleAndResult.length) throw new Error("DOM Element Missing: #title_and_result");
+
+    const cleanEffects = (mode: string) => {
+      titleAndResult.find(`span.shindanEffects[data-mode="${mode}"]`).each((i, el) => {
+        const $el = $(el);
+        const $noscript = $el.next('noscript');
+        if ($noscript.length) {
+          $el.replaceWith($noscript.html() || $noscript.text());
+          $noscript.remove();
+        }
+      });
+    };
+    cleanEffects('ef_typing');
+    cleanEffects('ef_shuffle');
+
+    const resultHtml = $.html(titleAndResult);
+
+    const hasChart = html.includes("chart.js") || html.includes("chartType");
+    let scriptHtml = `<script src="./assets/shindan.js"></script>`;
+    if (hasChart) {
+      const specificScript = $("script").toArray().find(el => $(el).html()?.includes(shindanId));
+      scriptHtml += `
+        <script src="./assets/app.js"></script>
+        <script src="./assets/chart.js"></script>
+        ${specificScript ? $.html(specificScript) : ""}
+      `;
+    }
+
+    const fullHtml = `<!DOCTYPE html><html lang="zh"><head>
+        <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="./assets/app.css">
+        <style>body{background:white;margin:0;padding:10px;}</style>
+      </head><body><div id="main-container"><div id="main">${resultHtml}</div></div>${scriptHtml}</body></html>`;
+
+    const page = await this.ctx.puppeteer.page();
+    try {
+      const dummyPath = "file://" + path.join(__dirname, "empty.html");
+      await page.setUserAgent(Utils.randomUserAgent());
+      try { await page.goto(dummyPath); } catch {}
+
+      await page.setViewport({ width: 800, height: 1000, deviceScaleFactor: 1.5 });
+      await page.setContent(fullHtml, { waitUntil: "load" });
+
+      const element = await page.$("#title_and_result");
+      if (!element) throw new Error("Render Failed: Element not found");
+
+      if (hasChart) await sleep(1500);
+
+      const buffer = await element.screenshot({ type: this.config.imageType });
+
+      await this.recordUsage(session);
+      await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
+    } finally {
+      await page.close();
+    }
+  }
+
+  private async recordUsage(session: Session) {
+    const name = await this.userService.getEffectiveName(session, this.config);
+    await this.userService.incrementCount(session.userId, name);
+  }
+}
+
+// ========================================================================
+// [Service] Message Helper
+// ========================================================================
+class MessageHelper {
+  constructor(private ctx: Context, private config: Config) {}
+
+  async send(session: Session, content: string | h.Fragment) {
+    const msgIds = await session.send(content);
+    if (this.config.retractDelay > 0 && msgIds.length > 0) {
+      const id = msgIds[0];
+      setTimeout(() => {
+        try { session.bot.deleteMessage(session.channelId, id); } catch {}
+      }, this.config.retractDelay * 1000);
+    }
+  }
+}
+
+// ========================================================================
+// [Main] Entry Point
+// ========================================================================
+export function apply(ctx: Context, cfg: Config) {
+  ctx.model.extend("shindan_rank", {
+    id: "unsigned",
+    userId: "string",
+    username: "string",
+    shindanCount: "integer",
+  }, { primary: "id", autoInc: true });
+
+  const repo = new ShindanRepository(ctx, cfg);
+  const userSvc = new UserService(ctx);
+  const msgHelper = new MessageHelper(ctx, cfg);
+  const core = new ShindanCore(ctx, cfg, userSvc, msgHelper);
+
+  ctx.on("ready", () => repo.init());
+
+  // Middleware: Shortcut parsing
+  ctx.middleware(async (session, next) => {
+    const text = session.content;
+    if (!text) return next();
+
+    for (const shindan of repo.shindans) {
+      if (text.startsWith(shindan.shindanCommand)) {
+        const rest = text.slice(shindan.shindanCommand.length).trim();
+        let mode: MakeShindanMode = shindan.shindanMode;
+        let name = rest;
+
+        if (rest.includes("-t")) { mode = "text"; name = rest.replace("-t", "").trim(); }
+        if (rest.includes("-i")) { mode = "image"; name = rest.replace("-i", "").trim(); }
+
+        if (!name) name = await userSvc.getEffectiveName(session, cfg);
+
+        const atRegex = /<at id="([^"]+)"(?: name="([^"]+)")?\/>/g;
+        name = name.replace(atRegex, (_, id, n) => n || id).trim();
+
+        return core.execute(session, shindan.shindanId, name, mode);
+      }
+    }
+    return next();
+  });
+
+  // --- Commands ---
+
+  ctx.command("shindan", "神断").usage("直接输入神断列表中的指令名即可")
+
+  ctx.command("shindan.自定义 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
+    .usage("按ID执行任意神断。\n示例: shindan.自定义 1602348 你的名字 image")
+    .action(async ({ session }, id, name, mode) => {
+      if (!id) return session.execute("shindan.自定义 -h");
+      if (!Utils.isNumeric(id)) return session.execute("shindan.自定义 -h");
+
+      const targetName = name || await userSvc.getEffectiveName(session, cfg);
+      const targetMode = (mode === "text" ? "text" : "image") as MakeShindanMode;
+      await core.execute(session, id, targetName, targetMode);
+    });
+
+  ctx.command("shindan.随机", "执行随机已收录神断")
+    .action(async ({ session }) => {
+      if (repo.shindans.length === 0) return session.execute("shindan.随机 -h");
+      const item = repo.shindans[Math.floor(Math.random() * repo.shindans.length)];
+
+      if (cfg.isRandomDivineCommandVisible) {
+        await session.send(`${item.shindanCommand}`);
+      }
+
+      const name = await userSvc.getEffectiveName(session, cfg);
+      await core.execute(session, item.shindanId, name, item.shindanMode);
+    });
+
+  ctx.command("shindan.列表 [page:number]", "查看已收录神断列表")
+    .usage("分页查看所有神断指令。\n示例: shindan.列表 1")
+    .action(async ({ session }, page) => {
+      if (repo.shindans.length === 0) return session.execute("shindan.列表 -h");
+
+      // OneBot: Merge Forward
+      if (session.platform === "onebot") {
+        const pageSize = cfg.itemsPerPage;
+        const totalPages = Math.ceil(repo.shindans.length / pageSize);
+        const nodes = Array.from({ length: totalPages }, (_, i) => {
+          const currentPage = i + 1;
+          const start = i * pageSize;
+          const chunk = repo.shindans.slice(start, start + pageSize);
+          const content = chunk.map(s => `[${s.shindanId}] ${s.shindanCommand} - ${s.shindanTitle}`).join("\n");
+          return h("message", { userId: session.userId }, `=== Page ${currentPage}/${totalPages} ===\n${content}`);
+        });
+        nodes.unshift(h("message", { userId: session.userId }, `神断列表总览\n共 ${repo.shindans.length} 项`));
+
+        try { await session.send(h("figure", {}, nodes)); return; }
+        catch (err) { logger.warn("OneBot转发失败:", err); return "转发失败，请检查日志。"; }
+      }
+
+      // Others: Render Image
+      return core.renderList(session, repo.shindans, page || 1);
+    });
+
+  ctx.command("shindan.改名 <name:string>", "设置神断时使用的昵称")
+    .usage("修改你在神断中使用的默认名字。\n示例: shindan.改名 旅行者")
+    .action(async ({ session }, name) => {
+      if (!name) return session.execute("shindan.改名 -h");
+      await userSvc.updateName(session.userId, name);
+      return `已更新默认昵称为：${name}`;
+    });
+
+  ctx.command("shindan.排行", "查看用户使用神断次数排行榜")
+    .action(async () => {
+      const list = await userSvc.getLeaderboard(cfg.defaultMaxDisplayCount);
+      if (list.length === 0) return "暂无数据。";
+      return `=== 神断排行榜 ===\n${list.map((u, i) => `${i + 1}. ${u.username} (${u.shindanCount}次)`).join("\n")}`;
+    });
+
+  // --- Admin Commands ---
+
+  ctx.command("shindan.添加 <command:string> <id:string> [mode:string]", "添加新的神断", { authority: 1 })
+    .usage("添加神断 <命令> <ID> [模式]\n示例: 添加神断 声优 12345 image")
+    .action(async ({ session }, cmd, id, mode = "image") => {
+      if (!id || !Utils.isNumeric(id)) return session.execute("shindan.添加 -h");
+      if (!cmd) return session.execute("shindan.添加 -h");
+      if (repo.find(cmd)) return `错误：指令 [${cmd}] 已存在。`;
+
+      try {
+        const title = await NetworkService.getShindanTitle(cfg.shindanUrl, id);
+        await repo.add({
+            shindanId: id,
+            shindanCommand: cmd,
+            shindanMode: mode as MakeShindanMode,
+            shindanTitle: title
+        });
+        return `成功添加：${title}\n指令：${cmd} (ID: ${id})`;
+      } catch (e) {
+        return `添加失败：${e.message}`;
+      }
+    });
+
+  ctx.command("shindan.删除 <command:string>", "删除已有的神断定义", { authority: 1 })
+    .usage("删除神断 <命令>\n示例: 删除神断 声优")
+    .action(async ({ session }, cmd) => {
+      if (!cmd) return session.execute("shindan.删除 -h");
+      if (repo.remove(cmd)) return `已删除指令 [${cmd}]。`;
+      return `错误：未找到指令 [${cmd}]。`;
+    });
+
+  ctx.command("shindan.设置模式 <command:string> <mode:string>", "修改神断输出模式", { authority: 1 })
+    .usage("设置神断模式 <命令> <image/text>\n示例: 设置神断模式 声优 text")
+    .action(async ({ session }, cmd, mode) => {
+      if (!cmd || !mode) return session.execute("shindan.设置模式 -h");
+      if (mode !== "image" && mode !== "text") return session.execute("shindan.设置模式 -h");
+
+      if (repo.updateMode(cmd, mode as MakeShindanMode)) return `指令 [${cmd}] 模式已更新为 [${mode}]。`;
+      return `错误：未找到指令 [${cmd}]。`;
+    });
+
+  ctx.command("shindan.修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", { authority: 1 })
+    .usage("修改神断指令 <旧命令> <新命令>\n示例: 修改神断指令 卖萌 撒娇")
+    .action(async ({ session }, oldCmd, newCmd) => {
+      if (!oldCmd || !newCmd) return session.execute("shindan.修改 -h");
+
+      const result = repo.updateCommandName(oldCmd, newCmd);
+      if (result.success) return `指令已重命名：[${oldCmd}] -> [${newCmd}]。`;
+      return `操作失败：${result.error}`;
+    });
 }
