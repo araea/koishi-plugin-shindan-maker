@@ -16,6 +16,17 @@ export const name = "shindan-maker";
 export const inject = {
   required: ["database", "puppeteer"],
 };
+export const usage = `## 使用
+
+1. 安装 \`puppeteer\` 服务。
+2. 设置指令别名。
+3. 发送 \`shindan.列表\` 查看神断指令列表。
+4. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
+5. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
+
+## QQ 群
+
+* 956758505`
 
 const logger = new Logger("shindan_maker");
 
