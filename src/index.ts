@@ -35,7 +35,7 @@ const logger = new Logger("shindan_maker");
 // ========================================================================
 export interface Config {
   shindanUrl: string;
-  commandPrefix: string; // 新增字段
+  commandPrefix: string;
   maxRetryCount: number;
   defaultMaxDisplayCount: number;
   retractDelay: number;
@@ -48,7 +48,7 @@ export interface Config {
 export const Config: Schema<Config> = Schema.intersect([
   Schema.object({
     isOfficialShindanSyncEnabled: Schema.boolean().default(true).description("启动时同步内置预设"),
-    commandPrefix: Schema.string().default("").description("神断指令前缀。留空则尝试使用全局配置，若全局配置也为空则保持原样（无需前缀）。"), // 新增配置项
+    commandPrefix: Schema.string().default("").description("神断指令前缀。留空则尝试使用全局配置，若全局配置也为空则保持原样（无需前缀）。"),
     shindanUrl: Schema.union([
       Schema.const("https://shindanmaker.com/").description("日语 (JP)"),
       Schema.const("https://en.shindanmaker.com/").description("英语 (EN)"),
@@ -59,7 +59,6 @@ export const Config: Schema<Config> = Schema.intersect([
     maxRetryCount: Schema.number().min(1).default(3).description("最大网络重试次数"),
   }).description("通用配置"),
 
-  // ... existing schema objects
   Schema.object({
     imageType: Schema.union(["png", "jpeg", "webp"]).default("png").description("输出图片格式"),
     retractDelay: Schema.number().min(0).default(0).description("自动撤回时间（秒），0 为关闭"),
@@ -283,7 +282,6 @@ class ShindanRepository {
     return true;
   }
 
-  // New Method: Update output mode
   updateMode(command: string, mode: MakeShindanMode) {
     const item = this.find(command);
     if (!item) return false;
@@ -292,7 +290,6 @@ class ShindanRepository {
     return true;
   }
 
-  // New Method: Rename command
   updateCommandName(oldCommand: string, newCommand: string) {
     const item = this.find(oldCommand);
     if (!item) return { success: false, error: "指令不存在" };
@@ -620,14 +617,11 @@ export function apply(ctx: Context, cfg: Config) {
     const text = session.content;
     if (!text) return next();
 
-    // 1. 确定有效的前缀列表
      let prefixes: string[] = [];
 
      if (cfg.commandPrefix) {
-       // 插件配置优先
        prefixes = [cfg.commandPrefix];
      } else {
-       // 尝试获取全局前缀
        const globalPrefix = ctx.root.config.prefix;
        if (Array.isArray(globalPrefix)) {
          prefixes = globalPrefix;
@@ -637,21 +631,18 @@ export function apply(ctx: Context, cfg: Config) {
        // 如果没有配置前缀，prefixes 为空数组 []
      }
 
-     // 2. 检查并剥离前缀
      let contentToParse = text;
 
-     // 只有当存在前缀限制时才执行匹配逻辑
      if (prefixes.length > 0) {
        const matchedPrefix = prefixes.find(p => text.startsWith(p));
 
        if (matchedPrefix === undefined) {
-         return next(); // 消息不符合任何前缀，跳过
+         return next();
        }
 
        contentToParse = text.slice(matchedPrefix.length);
      }
 
-    // 3. 匹配神断指令
     for (const shindan of repo.shindans) {
       if (contentToParse.startsWith(shindan.shindanCommand)) {
         const rest = contentToParse.slice(shindan.shindanCommand.length).trim();
