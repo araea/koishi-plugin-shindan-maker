@@ -512,64 +512,84 @@ class ShindanCore {
   }
 
   private async processImageResult(session: Session, html: string, shindanId: string) {
-    const $ = cheerio.load(html);
-    const titleAndResult = $("#title_and_result");
-    if (!titleAndResult.length) throw new Error("DOM Element Missing: #title_and_result");
+      const $ = cheerio.load(html);
+      const titleAndResult = $("#title_and_result");
+      if (!titleAndResult.length) throw new Error("DOM Element Missing: #title_and_result");
 
-    const cleanEffects = (mode: string) => {
-      titleAndResult.find(`span.shindanEffects[data-mode="${mode}"]`).each((i, el) => {
+      const cleanEffects = (mode: string) => {
+        titleAndResult.find(`span.shindanEffects[data-mode="${mode}"]`).each((i, el) => {
+          const $el = $(el);
+          const $noscript = $el.next('noscript');
+          if ($noscript.length) {
+            $el.replaceWith($noscript.html() || $noscript.text());
+            $noscript.remove();
+          }
+        });
+      };
+      cleanEffects('ef_typing');
+      cleanEffects('ef_shuffle');
+
+      // 处理 v1-merged-image (图片未正确渲染的问题)
+      // 提取 data-image-urls 并转换为标准的 img 标签
+      titleAndResult.find("span.v1-merged-image").each((_, el) => {
         const $el = $(el);
-        const $noscript = $el.next('noscript');
-        if ($noscript.length) {
-          $el.replaceWith($noscript.html() || $noscript.text());
-          $noscript.remove();
+        const urlsJson = $el.attr("data-image-urls");
+        if (urlsJson) {
+          try {
+            const urls = JSON.parse(urlsJson);
+            if (Array.isArray(urls)) {
+              const imgs = urls.map((url: string) =>
+                `<img src="${url}" class="shindanResult_image" style="max-width: 100%; height: auto; display: inline-block;">`
+              ).join("");
+              $el.replaceWith(imgs);
+            }
+          } catch (e) {
+            logger.warn(`Failed to parse v1-merged-image data: ${e}`);
+          }
         }
       });
-    };
-    cleanEffects('ef_typing');
-    cleanEffects('ef_shuffle');
 
-    const resultHtml = $.html(titleAndResult);
+      const resultHtml = $.html(titleAndResult);
 
-    const hasChart = html.includes("chart.js") || html.includes("chartType");
-    let scriptHtml = `<script src="./assets/shindan.js"></script>`;
-    if (hasChart) {
-      const specificScript = $("script").toArray().find(el => $(el).html()?.includes(shindanId));
-      scriptHtml += `
-        <script src="./assets/app.js"></script>
-        <script src="./assets/chart.js"></script>
-        ${specificScript ? $.html(specificScript) : ""}
-      `;
+      const hasChart = html.includes("chart.js") || html.includes("chartType");
+      let scriptHtml = `<script src="./assets/shindan.js"></script>`;
+      if (hasChart) {
+        const specificScript = $("script").toArray().find(el => $(el).html()?.includes(shindanId));
+        scriptHtml += `
+          <script src="./assets/app.js"></script>
+          <script src="./assets/chart.js"></script>
+          ${specificScript ? $.html(specificScript) : ""}
+        `;
+      }
+
+      const fullHtml = `<!DOCTYPE html><html lang="zh"><head>
+          <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+          <link rel="stylesheet" href="./assets/app.css">
+          <style>body{background:white;margin:0;padding:10px;}</style>
+        </head><body><div id="main-container"><div id="main">${resultHtml}</div></div>${scriptHtml}</body></html>`;
+
+      const page = await this.ctx.puppeteer.page();
+      try {
+        const dummyPath = "file://" + path.join(__dirname, "empty.html");
+        await page.setUserAgent(Utils.randomUserAgent());
+        try { await page.goto(dummyPath); } catch {}
+
+        await page.setViewport({ width: 800, height: 1000, deviceScaleFactor: 1.5 });
+        await page.setContent(fullHtml, { waitUntil: "load" });
+
+        const element = await page.$("#title_and_result");
+        if (!element) throw new Error("Render Failed: Element not found");
+
+        if (hasChart) await sleep(2000);
+
+        const buffer = await element.screenshot({ type: this.config.imageType });
+
+        await this.recordUsage(session);
+        await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
+      } finally {
+        await page.close();
+      }
     }
-
-    const fullHtml = `<!DOCTYPE html><html lang="zh"><head>
-        <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="./assets/app.css">
-        <style>body{background:white;margin:0;padding:10px;}</style>
-      </head><body><div id="main-container"><div id="main">${resultHtml}</div></div>${scriptHtml}</body></html>`;
-
-    const page = await this.ctx.puppeteer.page();
-    try {
-      const dummyPath = "file://" + path.join(__dirname, "empty.html");
-      await page.setUserAgent(Utils.randomUserAgent());
-      try { await page.goto(dummyPath); } catch {}
-
-      await page.setViewport({ width: 800, height: 1000, deviceScaleFactor: 1.5 });
-      await page.setContent(fullHtml, { waitUntil: "load" });
-
-      const element = await page.$("#title_and_result");
-      if (!element) throw new Error("Render Failed: Element not found");
-
-      if (hasChart) await sleep(2000);
-
-      const buffer = await element.screenshot({ type: this.config.imageType });
-
-      await this.recordUsage(session);
-      await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
-    } finally {
-      await page.close();
-    }
-  }
 
   private async recordUsage(session: Session) {
     const name = await this.userService.getEffectiveName(session, this.config);
