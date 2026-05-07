@@ -21,9 +21,24 @@ export const usage = `## 使用
 
 1. 安装 \`puppeteer\` 服务（可选，文本模式不依赖）。
 2. 设置指令别名。
-3. 发送 \`shindan.列表\` 查看神断指令列表。
+3. 发送 \`神断列表\` 查看神断指令列表。
 4. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
 5. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
+
+## 指令一览
+
+| 指令 | 说明 |
+|------|------|
+| 神断帮助 | 显示所有神断指令帮助 |
+| 神断列表 [页码] | 查看已收录神断列表 |
+| 随机神断 | 随机执行一个神断 |
+| 神断改名 <昵称> | 设置神断时使用的昵称 |
+| 神断排行 | 查看使用次数排行榜 |
+| 自定义神断 <ID> [名字] [模式] | 按ID执行任意神断 |
+| 神断添加 <指令> <ID> [模式] | 添加新的神断（管理员） |
+| 神断删除 <指令> | 删除已有的神断（管理员） |
+| 神断设置模式 <指令> <模式> | 修改神断输出模式（管理员） |
+| 神断修改 <旧指令> <新指令> | 修改神断指令名称（管理员） |
 
 ## QQ 群
 
@@ -776,7 +791,7 @@ class ShindanCore {
       if (buffer) {
         await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
         if (currentPage < totalPages) {
-          await session.send(`提示: 使用 "shindan.列表 ${currentPage + 1}" 查看下一页`);
+          await session.send(`提示: 使用 "神断列表 ${currentPage + 1}" 查看下一页`);
         }
       } else {
         await session.send("渲染失败。");
@@ -894,10 +909,28 @@ export function apply(ctx: Context, cfg: Config) {
 
   // ----- User-facing Commands -----
 
-  ctx.command("shindan", "神断").usage("直接输入神断列表中的指令名即可");
+  const HELP_TEXT = `=== 神断帮助 ===
+直接发送神断列表中的指令名即可触发对应神断。
+参数 -t 切换文本模式，-i 切换图片模式。
 
-  ctx.command("shindan.自定义 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
-    .usage("按ID执行任意神断（不建议使用）\n示例: shindan.自定义 1602348 你的名字 image")
+【普通指令】
+• 神断列表 [页码]       查看已收录神断列表
+• 随机神断              随机执行一个神断
+• 神断改名 <昵称>       设置神断时使用的昵称
+• 神断排行              查看使用次数排行榜
+• 自定义神断 <ID> [名字] [模式]  按ID执行任意神断
+
+【管理指令】
+• 神断添加 <指令> <ID> [模式]    添加新的神断
+• 神断删除 <指令>               删除已有的神断
+• 神断设置模式 <指令> <模式>     修改神断输出模式
+• 神断修改 <旧指令> <新指令>     修改神断指令名称`;
+
+  ctx.command("神断帮助", "显示神断插件所有指令帮助")
+    .action(() => HELP_TEXT);
+
+  ctx.command("自定义神断 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
+    .usage("按ID执行任意神断（不建议使用）\n示例: 自定义神断 1602348 你的名字 image")
     .action(async ({ session }, id, name, mode) => {
       if (!id) return "请提供神断 ID。";
       if (!Utils.isShindanId(id)) return "ID 必须为纯数字。";
@@ -909,7 +942,7 @@ export function apply(ctx: Context, cfg: Config) {
       await core.execute(session, id, targetName, targetMode);
     });
 
-  ctx.command("shindan.随机", "执行随机已收录神断")
+  ctx.command("随机神断", "执行随机已收录神断")
     .action(async ({ session }) => {
       if (repo.shindans.length === 0) return "暂无任何神断条目。";
       const item = repo.shindans[Math.floor(Math.random() * repo.shindans.length)];
@@ -921,8 +954,8 @@ export function apply(ctx: Context, cfg: Config) {
       await core.execute(session, item.shindanId, name, item.shindanMode);
     });
 
-  ctx.command("shindan.列表 [page:number]", "查看已收录神断列表")
-    .usage("分页查看所有神断指令。\n示例: shindan.列表 1")
+  ctx.command("神断列表 [page:number]", "查看已收录神断列表")
+    .usage("分页查看所有神断指令。\n示例: 神断列表 1")
     .action(async ({ session }, page) => {
       if (repo.shindans.length === 0) return "列表为空。";
 
@@ -959,15 +992,15 @@ export function apply(ctx: Context, cfg: Config) {
       await core.renderList(session, repo.shindans, page || 1);
     });
 
-  ctx.command("shindan.改名 <name:string>", "设置神断时使用的昵称")
-    .usage("修改你在神断中使用的默认名字。\n示例: shindan.改名 旅行者")
+  ctx.command("神断改名 <name:string>", "设置神断时使用的昵称")
+    .usage("修改你在神断中使用的默认名字。\n示例: 神断改名 旅行者")
     .action(async ({ session }, name) => {
       if (!name) return "请输入新的昵称。";
       await userSvc.updateName(session.userId, name);
       return `已更新默认昵称为：${name}`;
     });
 
-  ctx.command("shindan.排行", "查看用户使用神断次数排行榜")
+  ctx.command("神断排行", "查看用户使用神断次数排行榜")
     .action(async () => {
       const list = await userSvc.getLeaderboard(cfg.defaultMaxDisplayCount);
       if (list.length === 0) return "暂无数据。";
@@ -979,10 +1012,10 @@ export function apply(ctx: Context, cfg: Config) {
   // ----- Admin Commands (need authority) -----
 
   ctx
-    .command("shindan.添加 <command:string> <id:string> [mode:string]", "添加新的神断", {
+    .command("神断添加 <command:string> <id:string> [mode:string]", "添加新的神断", {
       authority: cfg.adminAuthority,
     })
-    .usage("shindan.添加 <命令> <ID> [模式]\n示例: shindan.添加 声优 12345 image")
+    .usage("神断添加 <命令> <ID> [模式]\n示例: 神断添加 声优 12345 image")
     .action(async (_, cmd, id, mode = "image") => {
       if (!cmd) return "请提供指令名。";
       if (!id || !Utils.isShindanId(id)) return "ID 必须为纯数字。";
@@ -1004,8 +1037,8 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   ctx
-    .command("shindan.删除 <command:string>", "删除已有的神断", { authority: cfg.adminAuthority })
-    .usage("shindan.删除 <命令>\n示例: shindan.删除 声优")
+    .command("神断删除 <command:string>", "删除已有的神断", { authority: cfg.adminAuthority })
+    .usage("神断删除 <命令>\n示例: 神断删除 声优")
     .action(async (_, cmd) => {
       if (!cmd) return "请提供要删除的指令名。";
       const ok = await repo.remove(cmd);
@@ -1013,10 +1046,10 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   ctx
-    .command("shindan.设置模式 <command:string> <mode:string>", "修改神断输出模式", {
+    .command("神断设置模式 <command:string> <mode:string>", "修改神断输出模式", {
       authority: cfg.adminAuthority,
     })
-    .usage("shindan.设置模式 <命令> <image/text>\n示例: shindan.设置模式 声优 text")
+    .usage("神断设置模式 <命令> <image/text>\n示例: 神断设置模式 声优 text")
     .action(async (_, cmd, mode) => {
       if (!cmd || !mode) return "参数不完整。";
       if (!isShindanMode(mode)) return `模式只能是 ${SHINDAN_MODES.join(" / ")}。`;
@@ -1025,10 +1058,10 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   ctx
-    .command("shindan.修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", {
+    .command("神断修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", {
       authority: cfg.adminAuthority,
     })
-    .usage("shindan.修改 <旧命令> <新命令>\n示例: shindan.修改 卖萌 撒娇")
+    .usage("神断修改 <旧命令> <新命令>\n示例: 神断修改 卖萌 撒娇")
     .action(async (_, oldCmd, newCmd) => {
       if (!oldCmd || !newCmd) return "参数不完整。";
       const result = await repo.updateCommandName(oldCmd, newCmd);
