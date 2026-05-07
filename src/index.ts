@@ -258,7 +258,7 @@ class ShindanRepository {
   private readonly assetPath: string;
 
   constructor(private ctx: Context, private config: Config) {
-    this.assetPath = path.join(__dirname, "assets", "shindans.json");
+    this.assetPath = path.join(__dirname, "..", "res", "shindans.json");
     const dataDir = path.join(ctx.baseDir, "data", "shindanMaker");
     this.shindansFilePath = path.join(dataDir, "shindans.json");
 
@@ -648,7 +648,7 @@ class ShindanCore {
 
     const readAsset = async (filename: string): Promise<string> => {
       try {
-        return await fs.readFile(path.join(__dirname, "assets", filename), "utf-8");
+        return await fs.readFile(path.join(__dirname, "..", "res", filename), "utf-8");
       } catch (e) {
         logger.warn(`Failed to read asset ${filename}: ${e}`);
         return "";
