@@ -20,27 +20,27 @@ export const inject = {
 export const usage = `## 使用
 
 1. 安装 \`puppeteer\` 服务（可选，文本模式不依赖）。
-2. 发送 \`神断帮助.列表\` 查看神断指令列表。
+2. 发送 \`神断列表\` 查看神断指令列表。
 3. 发送神断指令，如 \`抽老婆\`，即可生成对应的神断结果。
 4. 参数 \`-t\` 或 \`-i\` 指定生成的神断结果是文本模式还是图片模式。
 5. 发送 \`神断帮助\` 查看完整指令列表。
 
 ## 指令一览（层级式）
 
-所有子指令均归属于 \`神断帮助\`，使用 \`神断帮助.xxx\` 调用。
+所有子指令均挂载于 \`神断帮助\` 之下（在 \`help\` 中分组显示），但作为层级式子指令保留独立中文名称，可直接调用。
 
 | 指令 | 说明 |
 |------|------|
 | 神断帮助 | 显示所有神断指令帮助 |
-| 神断帮助.列表 [页码] | 查看已收录神断列表 |
-| 神断帮助.随机 | 随机执行一个神断 |
-| 神断帮助.改名 <昵称> | 设置神断时使用的昵称 |
-| 神断帮助.排行 | 查看使用次数排行榜 |
-| 神断帮助.自定义 <ID> [名字] [模式] | 按ID执行任意神断 |
-| 神断帮助.添加 <指令> <ID> [模式] | 添加新的神断（管理员） |
-| 神断帮助.删除 <指令> | 删除已有的神断（管理员） |
-| 神断帮助.设置模式 <指令> <模式> | 修改神断输出模式（管理员） |
-| 神断帮助.修改 <旧指令> <新指令> | 修改神断指令名称（管理员） |
+| 神断列表 [页码] | 查看已收录神断列表 |
+| 随机神断 | 随机执行一个神断 |
+| 神断改名 <昵称> | 设置神断时使用的昵称 |
+| 神断排行 | 查看使用次数排行榜 |
+| 自定义神断 <ID> [名字] [模式] | 按ID执行任意神断 |
+| 神断添加 <指令> <ID> [模式] | 添加新的神断（管理员） |
+| 神断删除 <指令> | 删除已有的神断（管理员） |
+| 神断设置模式 <指令> <模式> | 修改神断输出模式（管理员） |
+| 神断修改 <旧指令> <新指令> | 修改神断指令名称（管理员） |
 
 ## QQ 群
 
@@ -909,24 +909,24 @@ export function apply(ctx: Context, cfg: Config) {
     return next();
   });
 
-  // ----- Commands (Hierarchical, all rooted under 神断帮助) -----
+  // ----- Commands (Hierarchical subcommands grouped under 神断帮助) -----
 
   const HELP_TEXT = `=== 神断帮助 ===
 直接发送神断列表中的指令名即可触发对应神断。
 参数 -t 切换文本模式，-i 切换图片模式。
 
 【普通指令】
-• 神断帮助.列表 [页码]      查看已收录神断列表
-• 神断帮助.随机             随机执行一个神断
-• 神断帮助.改名 <昵称>      设置神断时使用的昵称
-• 神断帮助.排行             查看使用次数排行榜
-• 神断帮助.自定义 <ID> [名字] [模式]  按ID执行任意神断
+• 神断列表 [页码]              查看已收录神断列表
+• 随机神断                     随机执行一个神断
+• 神断改名 <昵称>              设置神断时使用的昵称
+• 神断排行                     查看使用次数排行榜
+• 自定义神断 <ID> [名字] [模式]  按ID执行任意神断
 
 【管理指令】
-• 神断帮助.添加 <指令> <ID> [模式]    添加新的神断
-• 神断帮助.删除 <指令>               删除已有的神断
-• 神断帮助.设置模式 <指令> <模式>     修改神断输出模式
-• 神断帮助.修改 <旧指令> <新指令>     修改神断指令名称`;
+• 神断添加 <指令> <ID> [模式]    添加新的神断
+• 神断删除 <指令>               删除已有的神断
+• 神断设置模式 <指令> <模式>     修改神断输出模式
+• 神断修改 <旧指令> <新指令>     修改神断指令名称`;
 
   const root = ctx
     .command("神断帮助", "神断插件帮助")
@@ -934,8 +934,8 @@ export function apply(ctx: Context, cfg: Config) {
     .action(() => HELP_TEXT);
 
   root
-    .subcommand(".列表 [page:number]", "查看已收录神断列表")
-    .usage("分页查看所有神断指令。\n示例: 神断帮助.列表 1")
+    .subcommand("神断列表 [page:number]", "查看已收录神断列表")
+    .usage("分页查看所有神断指令。\n示例: 神断列表 1")
     .action(async ({ session }, page) => {
       if (repo.shindans.length === 0) return "列表为空。";
 
@@ -973,7 +973,7 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".随机", "执行随机已收录神断")
+    .subcommand("随机神断", "执行随机已收录神断")
     .action(async ({ session }) => {
       if (repo.shindans.length === 0) return "暂无任何神断条目。";
       const item = repo.shindans[Math.floor(Math.random() * repo.shindans.length)];
@@ -986,8 +986,8 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".改名 <name:string>", "设置神断时使用的昵称")
-    .usage("修改你在神断中使用的默认名字。\n示例: 神断帮助.改名 旅行者")
+    .subcommand("神断改名 <name:string>", "设置神断时使用的昵称")
+    .usage("修改你在神断中使用的默认名字。\n示例: 神断改名 旅行者")
     .action(async ({ session }, name) => {
       if (!name) return "请输入新的昵称。";
       await userSvc.updateName(session.userId, name);
@@ -995,7 +995,7 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".排行", "查看用户使用神断次数排行榜")
+    .subcommand("神断排行", "查看用户使用神断次数排行榜")
     .action(async () => {
       const list = await userSvc.getLeaderboard(cfg.defaultMaxDisplayCount);
       if (list.length === 0) return "暂无数据。";
@@ -1005,8 +1005,8 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".自定义 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
-    .usage("按ID执行任意神断（不建议使用）\n示例: 神断帮助.自定义 1602348 你的名字 image")
+    .subcommand("自定义神断 <id:string> [name:string] [mode:string]", "执行指定ID的神断")
+    .usage("按ID执行任意神断（不建议使用）\n示例: 自定义神断 1602348 你的名字 image")
     .action(async ({ session }, id, name, mode) => {
       if (!id) return "请提供神断 ID。";
       if (!Utils.isShindanId(id)) return "ID 必须为纯数字。";
@@ -1021,10 +1021,10 @@ export function apply(ctx: Context, cfg: Config) {
   // ----- Admin Subcommands (need authority) -----
 
   root
-    .subcommand(".添加 <command:string> <id:string> [mode:string]", "添加新的神断", {
+    .subcommand("神断添加 <command:string> <id:string> [mode:string]", "添加新的神断", {
       authority: cfg.adminAuthority,
     })
-    .usage("神断帮助.添加 <命令> <ID> [模式]\n示例: 神断帮助.添加 声优 12345 image")
+    .usage("神断添加 <命令> <ID> [模式]\n示例: 神断添加 声优 12345 image")
     .action(async (_, cmd, id, mode = "image") => {
       if (!cmd) return "请提供指令名。";
       if (!id || !Utils.isShindanId(id)) return "ID 必须为纯数字。";
@@ -1046,10 +1046,10 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".删除 <command:string>", "删除已有的神断", {
+    .subcommand("神断删除 <command:string>", "删除已有的神断", {
       authority: cfg.adminAuthority,
     })
-    .usage("神断帮助.删除 <命令>\n示例: 神断帮助.删除 声优")
+    .usage("神断删除 <命令>\n示例: 神断删除 声优")
     .action(async (_, cmd) => {
       if (!cmd) return "请提供要删除的指令名。";
       const ok = await repo.remove(cmd);
@@ -1057,10 +1057,10 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".设置模式 <command:string> <mode:string>", "修改神断输出模式", {
+    .subcommand("神断设置模式 <command:string> <mode:string>", "修改神断输出模式", {
       authority: cfg.adminAuthority,
     })
-    .usage("神断帮助.设置模式 <命令> <image/text>\n示例: 神断帮助.设置模式 声优 text")
+    .usage("神断设置模式 <命令> <image/text>\n示例: 神断设置模式 声优 text")
     .action(async (_, cmd, mode) => {
       if (!cmd || !mode) return "参数不完整。";
       if (!isShindanMode(mode)) return `模式只能是 ${SHINDAN_MODES.join(" / ")}。`;
@@ -1069,10 +1069,10 @@ export function apply(ctx: Context, cfg: Config) {
     });
 
   root
-    .subcommand(".修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", {
+    .subcommand("神断修改 <oldCommand:string> <newCommand:string>", "修改神断指令名称", {
       authority: cfg.adminAuthority,
     })
-    .usage("神断帮助.修改 <旧命令> <新命令>\n示例: 神断帮助.修改 卖萌 撒娇")
+    .usage("神断修改 <旧命令> <新命令>\n示例: 神断修改 卖萌 撒娇")
     .action(async (_, oldCmd, newCmd) => {
       if (!oldCmd || !newCmd) return "参数不完整。";
       const result = await repo.updateCommandName(oldCmd, newCmd);
