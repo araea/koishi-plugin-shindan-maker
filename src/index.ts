@@ -793,7 +793,7 @@ class ShindanCore {
       if (buffer) {
         await this.msgHelper.send(session, h.image(buffer, `image/${this.config.imageType}`));
         if (currentPage < totalPages) {
-          await session.send(`提示: 使用 "神断帮助.列表 ${currentPage + 1}" 查看下一页`);
+          await session.send(`提示: 使用 "神断列表 ${currentPage + 1}" 查看下一页`);
         }
       } else {
         await session.send("渲染失败。");
