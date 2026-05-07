@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-shindan-maker",
   "description": "Koishi 的 ShindanMaker 占卜插件。内置 690+ 占卜项。",
-  "version": "2.3.13",
+  "version": "2.3.15",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -11,16 +11,15 @@
   "koishi": {
     "service": {
       "required": [
-        "puppeteer",
         "database"
       ],
       "optional": [
-        "markdownToImage"
+        "puppeteer"
       ]
     }
   },
   "license": "MIT OR Apache-2.0",
-  "author": "Nawyjx <3373167460@qq.com>",
+  "author": "nawyjx <3373167460@qq.com>",
   "homepage": "https://www.npmjs.com/package/koishi-plugin-shindan-maker?activeTab=readme",
   "repository": {
     "type": "git",

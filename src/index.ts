@@ -8,7 +8,6 @@ import crypto from "crypto";
 import * as cheerio from "cheerio";
 import * as https from "https";
 import { URL, URLSearchParams } from "url";
-import { pathToFileURL } from "url";
 
 // ========================================================================
 // [Metadata] Crate Metadata
@@ -645,26 +644,44 @@ class ShindanCore {
     });
 
     const resultHtml = $.html(titleAndResult);
-    const hasChart = html.includes("chart.js") || html.includes("chartType");
+    const hasChart = html.includes("canvas_block");
 
-    let scriptHtml = `<script src="./assets/shindan.js"></script>`;
+    const readAsset = async (filename: string): Promise<string> => {
+      try {
+        return await fs.readFile(path.join(__dirname, "assets", filename), "utf-8");
+      } catch (e) {
+        logger.warn(`Failed to read asset ${filename}: ${e}`);
+        return "";
+      }
+    };
+    // 防止内联内容里出现 </style> / </script> 提前闭合标签
+    const sealStyle = (s: string) => s.replace(/<\/style>/gi, "<\\/style>");
+    const sealScript = (s: string) => s.replace(/<\/script>/gi, "<\\/script>");
+
+    const [appCss, shindanJs] = await Promise.all([
+      readAsset("app.css"),
+      readAsset("shindan.js"),
+    ]);
+
+    let scriptHtml = `<script>${sealScript(shindanJs)}</script>`;
     if (hasChart) {
+      const [appJs, chartJs] = await Promise.all([
+        readAsset("app.js"),
+        readAsset("chart.js"),
+      ]);
       const specificScript = $("script")
         .toArray()
         .find((el) => $(el).html()?.includes(shindanId));
       scriptHtml += `
-        <script src="./assets/app.js"></script>
-        <script src="./assets/chart.js"></script>
+        <script>${sealScript(appJs)}</script>
+        <script>${sealScript(chartJs)}</script>
         ${specificScript ? $.html(specificScript) : ""}
       `;
     }
 
-    // 通过 <base href> 让相对路径的资源能正确加载
-    const baseUrl = pathToFileURL(__dirname + "/").href;
     const fullHtml = `<!DOCTYPE html><html lang="zh"><head>
-      <base href="${baseUrl}">
       <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-      <link rel="stylesheet" href="./assets/app.css">
+      <style>${sealStyle(appCss)}</style>
       <style>body{background:white;margin:0;padding:10px;}</style>
     </head><body><div id="main-container"><div id="main">${resultHtml}</div></div>${scriptHtml}</body></html>`;
 
